@@ -1,2 +1,3 @@
-{{--основные страницы кроме главной--}}
-<h1>{{ $data->title  }}</h1>
+<x-layouts.main title="{{ $data->title }}">
+    {!! $data->page_text !!}
+</x-layouts.main>
