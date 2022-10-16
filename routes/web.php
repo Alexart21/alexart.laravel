@@ -6,6 +6,7 @@ use App\Http\Controllers\ContentController;
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // все остальные страницы кроме главной
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing']);
+Route::post('/content', [ ContentController::class, 'store' ])->name('content.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

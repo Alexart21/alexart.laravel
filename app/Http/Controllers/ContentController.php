@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Post;
 
 class ContentController extends Controller
 {
@@ -28,5 +29,19 @@ class ContentController extends Controller
         });*/
         $data = Content::where('page', $this->page)->firstOrFail();
         return view('content.page', compact('data'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:2|max:128',
+            'email' => 'required|email|unique:posts',
+//            'tel' => 'min:6|max:15',
+            'body' => 'required|min:2|max:10000',
+        ]);
+
+        $data = $request->all();
+        Post::create($data);
+        return redirect()->route('content.index');
     }
 }

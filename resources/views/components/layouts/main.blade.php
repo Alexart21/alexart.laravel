@@ -21,8 +21,9 @@
     <link href="{{ asset('css/animate.min.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/animate.min.css')  }}" rel="stylesheet">
     <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
-{{--    <link href="{{ asset('fontawesome/css/brands.min.css')  }}" rel="stylesheet">--}}
-    <script>var inputmask_0d647024 = {"mask":"+7 (999) - 999 - 99 - 99"};</script>    <body>
+{{--    <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>--}}
+    <script>var inputmask_0d647024 = {"mask": "+7 (999) - 999 - 99 - 99"};</script>
+<body>
 <!-- loader -->
 <div id="container_loading">
     <i class="fab fa-osi fa-spin"></i>
@@ -71,7 +72,7 @@
                 <header id="top" class="gradient3" itemscope="" itemtype="http://schema.org/LocalBusiness">
 
                     <h1 id="top_h">
-                        Создание и продвижение сайтов в Чебоксарах                                                    </h1>
+                        Создание и продвижение сайтов в Чебоксарах </h1>
 
                     <a href="/">
                         <div id="logo" title="Алекс-арт21 создание и продвижение сайтов">
@@ -95,11 +96,13 @@
                                     Пн - Пт 9<sup>00</sup> - 18<sup>00</sup>
                                 </li>
                             </ul>
-                            <div id="p1" data-pjax-container="" data-pjax-timeout="20000">                                <div class="call-btn"
-                                                                                                                               title="заказать обратный звонок">
+                            <div id="p1" data-pjax-container="" data-pjax-timeout="20000">
+                                <div class="call-btn"
+                                     title="заказать обратный звонок">
                                     <a rel="nofollow" class="call pulse-button" href="/call">обратный звонок</a>
                                 </div>
-                            </div>                            </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="center">
                         <div>
@@ -119,7 +122,8 @@
                     <!--/noindex-->
                 </header>
             </div>
-            <div id="p2" data-pjax-container="" data-pjax-push-state data-pjax-timeout="20000">                <div id="menu_outer">
+            <div id="p2" data-pjax-container="" data-pjax-push-state data-pjax-timeout="20000">
+                <div id="menu_outer">
                     <div id="top_menu">
                         <div class="menu_shadow main-menu">
                             <nav class="resp">
@@ -144,7 +148,8 @@
                         </div>
                     </div>
                 </div>
-            </div>                <div id="block">
+            </div>
+            <div id="block">
                 <!-- начало левый блок -->
                 <div id="left">
                     <!-- начало "мобильное" левое меню -->
@@ -240,7 +245,7 @@
     <!--noindex-->
     <div style="width:100%;height:10px"></div>
     <footer class="innerShadow gradient3">
-        <strong class="company">Alex-art21</strong><sup>&copy;</sup> web developer group 2009&mdash;2022            тел. <b
+        <strong class="company">Alex-art21</strong><sup>&copy;</sup> web developer group 2009&mdash;2022 тел. <b
             class="corpid">+7(987) 668-04-84</b><br/>
         <strong>Создание и продвижение сайтов в Чебоксарах</strong><br/>
         <span>Ваши персональные данные могут обрабатывается только в соответствии с
@@ -252,33 +257,24 @@
         </small>
         <br>
         <div class="d-flex justify-content-center user-block">
-            <div><div class="no-avatar"></div></div>&nbsp;&nbsp;&nbsp;
+            <div>
+                <div class="no-avatar"></div>
+            </div>&nbsp;&nbsp;&nbsp;
             <div><a class="text-dark" href="/user/login">вход</a></div>&nbsp;&nbsp;
             <div><a class="text-dark" href="/user/signup">регистрация</a></div>
         </div>
     </footer>
     <!--/noindex-->
 </div>
-{{--      <script src="//www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>--}}
 <script src="{{ asset('assets/9e6dad0b/jquery.js') }}"></script>
 <script src="{{ asset('assets/3a690616/jquery.inputmask.bundle.js')  }}"></script>
-<script src="{{ asset('assets/d2b31a4e/jquery.pjax.js') }}"></script>
 <script src="{{ asset('assets/a9bedd54/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('js/wow.min.js') }}"></script>
 <script src="{{ asset('js/velocity.min.js') }}"></script>
 <script src="{{ asset('js/velocity.ui.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
-<script>jQuery(function ($) {
-        jQuery("#indexform-tel").inputmask(inputmask_0d647024);
-        "use strict";
-        /*grecaptcha.ready(function() {
-            grecaptcha.execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {action: "index"}).then(function(token) {
-                jQuery("#" + "indexform-recaptcha").val(token);
-                const jsCallback = "";
-                if (jsCallback) {
-                    eval("(" + jsCallback + ")(token)");
-                }
-            });
-        });*/
+<script>
+    jQuery("#indexform-tel").inputmask(inputmask_0d647024);
+</script>
 </body>
 </html>
