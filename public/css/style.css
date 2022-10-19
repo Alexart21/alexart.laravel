@@ -1031,7 +1031,7 @@ ul.highlightTextIn li a:before {
 /* анимация AJAX загрузки */
 
 #container_loading {
-    position: absolute;
+    position: fixed;
     z-index: 10000000000;
     left: calc(100%/2 - 30px);
     top: calc(100%/2 - 30px);

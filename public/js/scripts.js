@@ -132,14 +132,17 @@ function readCookie(name) {
 /////////////
 /* Далее в обертке window.onload */
 window.onload = () => {
+    // console.log('here');
+    $("#tel").mask('+7 (999)-999-99-99');
+    $("#call-tel").mask("+7(999) 999-99-99");
     // модалка с оповещением что выслано письмо
-    const mailInfo = document.querySelector('#success-modal');
+    /*const mailInfo = document.querySelector('#success-modal');
     if (mailInfo) {
         $('#success-modal').modal();
-        /*setTimeout(function() {
+        setTimeout(function() {
             $('#success-modal').modal('hide');
-        }, 4000);*/
-    }
+        }, 4000);
+    }*/
     // анимация в шапке
     const shtorka = document.querySelector('.shtorka');
     shtorka.classList.add('shtorka-animate');
@@ -223,6 +226,8 @@ window.onload = () => {
             msgBlock.setAttribute('data-closed', '');
         }
     });
+    //
+
     //
     $(document).on('pjax:beforeSend', () => {
         document.body.style.cursor = 'progress';
@@ -368,3 +373,16 @@ if (leftMenu) {
     };
 }
 /******/
+const callBtn = document.getElementById('call');
+callBtn.onclick = () => {
+        $('#callback').modal('show');
+        $('.modal-content').velocity('transition.bounceIn');
+}
+//
+function startLoader(){
+    document.getElementById('container_loading').style.display = 'block';
+}
+
+function stopLoader(){
+    document.getElementById('container_loading').style.display = 'none';
+}

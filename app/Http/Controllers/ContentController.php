@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexFormRequest;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Post;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class ContentController extends Controller
 {
@@ -13,12 +16,15 @@ class ContentController extends Controller
 
     public function index()
     {
-        /*$data = Cache::remember('index', 600, function () {
+        $data = Cache::remember('index', 600, function () {
             return Content::where('page', 'index')->firstOrFail();
-        });*/
-        $data = Content::where('page', 'index')->firstOrFail();
-        view()->share(['title' => $data->title]);
-        return view('content.index', compact('data'));
+        });
+//        $data = Content::where('page', 'index')->firstOrFail();
+        view()->share(['data' => $data]);
+//        return view('content.index', compact('data'));
+        return response()
+            ->view('content.index', compact('data'))
+            ->header('Last-Modified:', gmdate("D, d M Y H:i:s \G\M\T", $data['last_mod']));
     }
 
     public function page($page)
@@ -28,20 +34,41 @@ class ContentController extends Controller
             return Content::where('page', $this->page)->firstOrFail();
         });*/
         $data = Content::where('page', $this->page)->firstOrFail();
-        return view('content.page', compact('data'));
+        view()->share(['data' => $data]);
+//        return view('content.page', compact('data'));
+        return response()
+            ->view('content.page', compact('data'))
+            ->header('Last-Modified:', gmdate("D, d M Y H:i:s \G\M\T", $data['last_mod']));
     }
+
+    /*public function store(IndexFormRequest $request)
+    {
+        $data = $request->validated();
+        Post::create($data);
+        return redirect()->route('content.index');
+    }*/
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|min:2|max:128',
-            'email' => 'required|email|unique:posts',
-//            'tel' => 'min:6|max:15',
+            'email' => 'email',
+            'tel' => 'min:6|max:18',
             'body' => 'required|min:2|max:10000',
         ]);
 
-        $data = $request->all();
-        Post::create($data);
-        return redirect()->route('content.index');
+        if ($validator->fails()) // не прошла валидация
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }else{ // успех
+            $data = $request->all();
+            Post::create($data);
+            return response()->json([
+                'success' => true,
+            ]);
+        }
     }
 }
