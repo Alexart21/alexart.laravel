@@ -18,6 +18,8 @@
                     <input type="text" id="call-tel" class="form-control" name="tel">
                     <div id="tel-err-call" class="call-err-msg text-danger"></div>
                 </div>
+                {{-- инициализация ReCaptcha в шаблоне main.blade.php --}}
+                {!!  GoogleReCaptchaV3::renderField('call_form_id','call') !!}
                 <div class="form-group">
                     <button id="callSubmit" type="submit" class="btn success-button button-anim">жду звонка!</button>
                 </div>
@@ -68,7 +70,17 @@
         if (response.ok) {
             stopLoader();
             // loader.style.display = 'none';
-            if (result.success) { // успешно
+            if (result.success) { // успешно провалидировано
+                if(!result.db){ // почемуто не записалось в базу
+                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
+                    $('#successModal').modal('show');
+                    $('#successModal .modal-content').velocity('transition.bounceIn');
+                    setTimeout(() => {
+                        msg.innerHTML = '';
+                        $('#successModal').modal('hide');
+                    }, 8000);
+                    return;
+                }
                 console.log('form submitted');
                 callForm.reset();
                 msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';

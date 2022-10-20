@@ -28,10 +28,18 @@ class CallsController extends Controller
             ]);
         }else{ // успех
             $data = $request->all();
-            Call::create($data);
-            return response()->json([
-                'success' => true,
-            ]);
+            $db_result = Call::create($data);
+            if($db_result){
+                return response()->json([
+                    'success' => true,
+                    'db' => true
+                ]);
+            }else{
+                return response()->json([
+                    'success' => true,
+                    'db' => false
+                ]);
+            }
         }
     }
 }

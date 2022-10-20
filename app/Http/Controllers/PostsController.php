@@ -30,11 +30,18 @@ class PostsController extends Controller
             ]);
         }else{ // успех
             $data = $request->all();
-            $res = Post::create($data);
-            return response()->json([
-                'success' => true,
-                'db' => $res
-            ]);
+            $db_result = Post::create($data);
+            if($db_result){
+                return response()->json([
+                    'success' => true,
+                    'db' => true
+                ]);
+            }else{
+                return response()->json([
+                    'success' => true,
+                    'db' => false
+                ]);
+            }
         }
     }
 }

@@ -16,10 +16,10 @@ class ContentController extends Controller
 
     public function index()
     {
-        $data = Cache::remember('index', 600, function () {
+        /*$data = Cache::remember('index', 600, function () {
             return Content::where('page', 'index')->firstOrFail();
-        });
-//        $data = Content::where('page', 'index')->firstOrFail();
+        });*/
+        $data = Content::where('page', 'index')->firstOrFail();
         view()->share(['data' => $data]);
 //        return view('content.index', compact('data'));
         return response()

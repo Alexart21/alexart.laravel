@@ -43,11 +43,8 @@
             <div id="body-err-index" class="index-err-msg text-danger"></div>
         </div>
     </div>
-    {{--    <input type="hidden" id="indexform-recaptcha" class="form-control" name="IndexForm[reCaptcha]">--}}
-    {{--<div id="indexform-recaptcha-recaptcha-index-form" class="g-recaptcha"
-         data-sitekey="6LfvSV0aAAAAAE9HX1TvZ9FRLPVPn_d1TeJNGxE5" data-input-id="indexform-recaptcha"
-         data-form-id="index-form">
-    </div>--}}
+    {{-- инициализация ReCaptcha в шаблоне main.blade.php --}}
+    {!!  GoogleReCaptchaV3::renderField('index_form_id','post') !!}
     <div class="form-group">
         <button type="submit" class="btn success-button animated bounceInDown wow" data-wow-delay="0.1s">Отправить
         </button>
@@ -93,7 +90,17 @@
         // result = JSON.parse(result);
         if (response.ok) {
             stopLoader();
-            if (result.success) { // успешно
+            if (result.success) { // успешно провалидировано
+                if(!result.db){ // почемуто не записалось в базу
+                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
+                    $('#successModal').modal('show');
+                    $('#successModal .modal-content').velocity('transition.bounceIn');
+                    setTimeout(() => {
+                        msg.innerHTML = '';
+                        $('#successModal').modal('hide');
+                    }, 8000);
+                    return;
+                }
                 console.log('form submitted');
                 msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
                 $('#successModal').modal('show');
@@ -129,17 +136,4 @@
             i++;
         }
     }
-//
-    /* "use strict";
-
-     grecaptcha.ready(function() {
-         grecaptcha.execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {action: "index"}).then(function(token) {
-             jQuery("#" + "indexform-recaptcha").val(token);
-
-             const jsCallback = "";
-             if (jsCallback) {
-                 eval("(" + jsCallback + ")(token)");
-             }
-         });
-     });*/
 </script>

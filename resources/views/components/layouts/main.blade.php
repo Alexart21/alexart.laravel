@@ -82,5 +82,6 @@
 <script src="{{ asset('js/velocity.min.js') }}"></script>
 <script src="{{ asset('js/velocity.ui.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
+{!!  GoogleReCaptchaV3::init() !!}
 </body>
 </html>

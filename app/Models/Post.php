@@ -11,5 +11,11 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = [];
+//    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'tel',
+        'body'
+    ];
 }

@@ -11,5 +11,9 @@ class Call extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = [];
+//    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'tel',
+    ];
 }
