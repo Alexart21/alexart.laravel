@@ -10,9 +10,14 @@ Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // все остальные страницы кроме главной
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing']);
 
-Route::post('/post', [ PostsController::class, 'store' ])->name('post.store');
+//Route::post('/post', [ PostsController::class, 'store' ])->name('post.store');
+//Route::post('/call', [ CallsController::class, 'store' ])->name('call.store');
 
-Route::post('/call', [ CallsController::class, 'store' ])->name('call.store');
+// ограничения описаны в app/Providers/AppServiceProvider.php
+Route::middleware(['throttle:formsLimit'])->group(function () {
+    Route::post('/post', [ PostsController::class, 'store' ])->name('post.store');
+    Route::post('/call', [ CallsController::class, 'store' ])->name('call.store');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

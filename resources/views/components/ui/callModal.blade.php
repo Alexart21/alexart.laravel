@@ -1,5 +1,8 @@
+@php
+    $rateLimit = env('FORMS_RATE_LIMIT');
+@endphp
 <div id="callback" class="modal" style="padding-right: 17px;>
-    <div class="modal-dialog" role="document">
+    <div class=" modal-dialog" role="document">
 <div class="modal-content" style="opacity: 1; display: block; transform: scaleX(1) scaleY(1);">
     <div class="modal-header">
         <h3>УкажитеW Ваш номер телефона и мы перезвоним Вам</h3>
@@ -43,9 +46,6 @@
             msgs[i].innerHTML = '';
             i++;
         }
-        //
-        // let loader = document.getElementById('container_loading');
-        // loader.style.display = 'block';
         let formData = new FormData(callForm);
         let response = await fetch("{{ route('call.store') }}", {
             method: 'POST',
@@ -53,10 +53,12 @@
         });
         let msg = document.getElementById('modal-msg');
         // let result = await response.text();
-        if(!response.ok){ // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
             stopLoader();
             console.log(response);
-            msg.innerHTML = `<span style="color: red">Ошибка ${response.status} ${response.statusText}</span>`;
+            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
+            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
+            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
             $('#successModal').modal('show');
             $('#successModal .modal-content').velocity('transition.bounceIn');
             setTimeout(() => {
@@ -65,13 +67,13 @@
             }, 8000);
             return;
         }
-        let result =  await response.json();
+        let result = await response.json();
         // result = JSON.parse(result);
         if (response.ok) {
             stopLoader();
             // loader.style.display = 'none';
             if (result.success) { // успешно провалидировано
-                if(!result.db){ // почемуто не записалось в базу
+                if (!result.db) { // почемуто не записалось в базу
                     msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
                     $('#successModal').modal('show');
                     $('#successModal .modal-content').velocity('transition.bounceIn');

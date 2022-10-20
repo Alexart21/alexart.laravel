@@ -1,3 +1,6 @@
+@php
+    $rateLimit = env('FORMS_RATE_LIMIT');
+@endphp
 <div id="contacts" class="anchors"></div>
 <div class="h1 text-center">Возникли вопросы ?</div>
 <div class="h2 text-center">Напишите нам и получите исчерпывающую консультацию.</div>
@@ -74,24 +77,26 @@
         });
         let msg = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
         // let result = await response.text();
-            if(!response.ok){ // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
-                stopLoader();
-                console.log(response);
-                msg.innerHTML = `<span style="color: red">Ошибка ${response.status} ${response.statusText}</span>`;
-                $('#successModal').modal('show');
-                $('#successModal .modal-content').velocity('transition.bounceIn');
-                setTimeout(() => {
-                    msg.innerHTML = '';
-                    $('#successModal').modal('hide');
-                }, 8000);
-                return;
-            }
+        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+            stopLoader();
+            console.log(response);
+            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
+            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
+            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
+            $('#successModal').modal('show');
+            $('#successModal .modal-content').velocity('transition.bounceIn');
+            setTimeout(() => {
+                msg.innerHTML = '';
+                $('#successModal').modal('hide');
+            }, 8000);
+            return;
+        }
         let result = await response.json();
         // result = JSON.parse(result);
         if (response.ok) {
             stopLoader();
             if (result.success) { // успешно провалидировано
-                if(!result.db){ // почемуто не записалось в базу
+                if (!result.db) { // почемуто не записалось в базу
                     msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
                     $('#successModal').modal('show');
                     $('#successModal .modal-content').velocity('transition.bounceIn');
@@ -127,6 +132,7 @@
             stopLoader();
         }
     }
+
     // очистка сообщений об ошибках
     function clearErrMsg() {
         msgs = document.getElementsByClassName('index-err-msg');

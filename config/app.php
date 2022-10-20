@@ -198,7 +198,6 @@ return [
         TimeHunter\LaravelGoogleReCaptchaV3\Providers\GoogleReCaptchaV3ServiceProvider::class,
 
         App\Providers\JetstreamServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 
