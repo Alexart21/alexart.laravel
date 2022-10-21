@@ -18,7 +18,7 @@
     <title>{{ $data->title_seo }}</title>
     <link rel="canonical" href="https://alexart.s-solo.ru"/>
     <link rel="icon" type="image/png" href="{{ asset('icons/512x512.png')  }}"/>
-    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>
+{{--    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>--}}
     <meta name="msapplication-config" content="{{ asset('browserconfig.xml')  }}"/>
     <meta name="referrer" content="origin"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -30,7 +30,7 @@
     <link href="{{ asset('css/animate.min.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/animate.min.css')  }}" rel="stylesheet">
     <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
-{{--    <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>--}}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 <body>
 <x-ui.loader />
 <output id="my-modal"></output>
@@ -82,6 +82,5 @@
 <script src="{{ asset('js/velocity.min.js') }}"></script>
 <script src="{{ asset('js/velocity.ui.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
-{!!  GoogleReCaptchaV3::init() !!}
 </body>
 </html>

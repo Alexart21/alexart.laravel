@@ -5,7 +5,7 @@
     <div class=" modal-dialog" role="document">
 <div class="modal-content" style="opacity: 1; display: block; transform: scaleX(1) scaleY(1);">
     <div class="modal-header">
-        <h3>УкажитеW Ваш номер телефона и мы перезвоним Вам</h3>
+        <h3>Укажите Ваш номер телефона и мы перезвоним Вам</h3>
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
@@ -21,8 +21,7 @@
                     <input type="text" id="call-tel" class="form-control" name="tel">
                     <div id="tel-err-call" class="call-err-msg text-danger"></div>
                 </div>
-                {{-- инициализация ReCaptcha в шаблоне main.blade.php --}}
-                {!!  GoogleReCaptchaV3::renderField('call_form_id','call') !!}
+                <input type="hidden" id="callform-recaptcha" name="reCaptcha"/>
                 <div class="form-group">
                     <button id="callSubmit" type="submit" class="btn success-button button-anim">жду звонка!</button>
                 </div>
@@ -45,6 +44,21 @@
         while (msgs[i]) {
             msgs[i].innerHTML = '';
             i++;
+        }
+        try {
+            grecaptcha.ready(function () {
+                // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
+                grecaptcha
+                    .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+                        action: "call",
+                    })
+                    .then(function (token) {
+                        let inp = document.getElementById("callform-recaptcha");
+                        inp.value = token;
+                    });
+            });
+        } catch (error) {
+            console.log(error);
         }
         let formData = new FormData(callForm);
         let response = await fetch("{{ route('call.store') }}", {

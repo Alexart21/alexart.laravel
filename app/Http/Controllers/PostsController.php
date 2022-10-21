@@ -21,12 +21,28 @@ class PostsController extends Controller
             'tel' => 'min:6|max:18',
             'body' => 'required|min:2|max:10000',
         ]);
-
-        if ($validator->fails()) // не прошла валидация
+        /* ReCaptcha */
+        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+        $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
+        $recaptcha_response = $_POST['reCaptcha'];
+        // Отправляем POST запрос и декодируем результаты ответа
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+        $recaptcha = json_decode($recaptcha);
+        // Принимаем меры в зависимости от полученного результата
+        if ($recaptcha->score >= 0.2) {
+            // Проверка пройдена
+            $recaptcha = true;
+        } else {
+            // Проверка не пройдена
+            $recaptcha = false;
+        }
+        /**/
+        if ($validator->fails() ||  !$recaptcha) // не прошла валидация или recaptcha
         {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
+                'errors' => $validator->getMessageBag()->toArray(),
+                'recaptcha' => $recaptcha,
             ]);
         }else{ // успех
             $data = $request->all();
@@ -34,12 +50,14 @@ class PostsController extends Controller
             if($db_result){
                 return response()->json([
                     'success' => true,
-                    'db' => true
+                    'db' => true,
+                    'recaptcha' => $recaptcha,
                 ]);
             }else{
                 return response()->json([
                     'success' => true,
-                    'db' => false
+                    'db' => false,
+                    'recaptcha' => $recaptcha,
                 ]);
             }
         }

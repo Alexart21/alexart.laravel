@@ -46,8 +46,7 @@
             <div id="body-err-index" class="index-err-msg text-danger"></div>
         </div>
     </div>
-    {{-- инициализация ReCaptcha в шаблоне main.blade.php --}}
-    {!!  GoogleReCaptchaV3::renderField('index_form_id','post') !!}
+    <input type="hidden" id="indexform-recaptcha" name="reCaptcha"/>
     <div class="form-group">
         <button type="submit" class="btn success-button animated bounceInDown wow" data-wow-delay="0.1s">Отправить
         </button>
@@ -67,9 +66,25 @@
     let indexForm = document.getElementById('index-form');
 
     indexForm.onsubmit = async (e) => {
-        clearErrMsg();
         e.preventDefault();
+        clearErrMsg();
         startLoader();
+        try {
+         await grecaptcha.ready(function () {
+                // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
+               grecaptcha
+                    .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+                        action: "post",
+                    })
+                    .then(function (token) {
+                        let inp = document.getElementById("indexform-recaptcha");
+                        inp.value = token;
+
+                    });
+            });
+        } catch (error) {
+            console.log(error);
+        }
         let formData = new FormData(indexForm);
         let response = await fetch("{{ route('post.store') }}", {
             method: 'POST',
