@@ -28,21 +28,23 @@ class PostsController extends Controller
         // Отправляем POST запрос и декодируем результаты ответа
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
         $recaptcha = json_decode($recaptcha);
+        $score = $recaptcha->score;
         // Принимаем меры в зависимости от полученного результата
-        if ($recaptcha->score >= 0.2) {
+        if ($score >= 0.5) {
             // Проверка пройдена
-            $recaptcha = true;
+            $res = true;
         } else {
             // Проверка не пройдена
-            $recaptcha = false;
+            $res = false;
         }
         /**/
-        if ($validator->fails() ||  !$recaptcha) // не прошла валидация или recaptcha
+        if ($validator->fails() ||  !$res) // не прошла валидация или recaptcha
         {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->getMessageBag()->toArray(),
-                'recaptcha' => $recaptcha,
+                'recaptcha' => $res,
+                'score' => $score,
             ]);
         }else{ // успех
             $data = $request->all();
@@ -51,13 +53,15 @@ class PostsController extends Controller
                 return response()->json([
                     'success' => true,
                     'db' => true,
-                    'recaptcha' => $recaptcha,
+                    'recaptcha' => $res,
+                    'score' => $score,
                 ]);
             }else{
                 return response()->json([
                     'success' => true,
                     'db' => false,
-                    'recaptcha' => $recaptcha,
+                    'recaptcha' => $res,
+                    'score' => $score,
                 ]);
             }
         }
