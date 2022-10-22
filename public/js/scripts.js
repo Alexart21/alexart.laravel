@@ -384,3 +384,13 @@ function startLoader(){
 function stopLoader(){
     document.getElementById('container_loading').style.display = 'none';
 }
+// очистка сообщений об ошибках
+function clearErrMsgs(errClass){
+    let msgs = document.getElementsByClassName(errClass);
+    let i = 0;
+    while (msgs[i]) {
+        msgs[i].innerHTML = '';
+        i++;
+    }
+}
+

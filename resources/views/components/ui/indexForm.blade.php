@@ -67,13 +67,7 @@
 
     indexForm.onsubmit = (e) => {
         e.preventDefault();
-        // очистка сообщений об ошибках
-        msgs = document.getElementsByClassName('index-err-msg');
-        let i = 0;
-        while (msgs[i]) {
-            msgs[i].innerHTML = '';
-            i++;
-        }
+        clearErrMsgs('index-err-msg');
         startLoader();
         try { // обертка в try/catch не обязательна. Это лишь что бы при локальной работе не было ошибок с reCaptcha
             grecaptcha.ready(function () {

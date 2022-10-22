@@ -37,14 +37,8 @@
 
     callForm.onsubmit = (e) => {
         e.preventDefault();
-        startLoader()
-        // очистка сообщений об ошибках
-        msgs = document.getElementsByClassName('call-err-msg');
-        let i = 0;
-        while (msgs[i]) {
-            msgs[i].innerHTML = '';
-            i++;
-        }
+        startLoader();
+        clearErrMsgs('call-err-msg');
         try { // обертка в try/catch не обязательна. Это лишь что бы при локальной работе не было ошибок с reCaptcha
             grecaptcha.ready(function () {
                 // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
