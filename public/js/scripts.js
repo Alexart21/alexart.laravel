@@ -394,3 +394,34 @@ function clearErrMsgs(errClass){
     }
 }
 
+function showSuccess(msgBlock, form){
+    msgBlock.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
+    $('#successModal').modal('show');
+    $('#successModal .modal-content').velocity('transition.bounceIn');
+    form.reset();
+    setTimeout(() => {
+        msgBlock.innerHTML = '';
+        $('#successModal').modal('hide');
+    }, 4000)
+}
+
+function showServerError(msgBlock, status, statusText, rateLimit) {
+    let errMsg = status == 429 ? 'Лимит исчерпан. Не более ' + rateLimit + ' запросов в минуту' : `Ошибка ${status} ${statusText}`;
+    msgBlock.innerHTML = '<span style="color: red">' + errMsg + '</span>';
+    $('#successModal').modal('show');
+    $('#successModal .modal-content').velocity('transition.bounceIn');
+    setTimeout(() => {
+        msg.innerHTML = '';
+        $('#successModal').modal('hide');
+    }, 8000);
+}
+
+function showDbError(msgBlock){
+    msgBlock.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
+    $('#successModal').modal('show');
+    $('#successModal .modal-content').velocity('transition.bounceIn');
+    setTimeout(() => {
+        msgBlock.innerHTML = '';
+        $('#successModal').modal('hide');
+    }, 8000);
+}

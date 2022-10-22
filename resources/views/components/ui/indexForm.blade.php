@@ -85,47 +85,27 @@
                             method: 'POST',
                             body: formData
                         });
-                        let msg = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
-                        // let result = await response.text();
+                        let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
                         if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
                             stopLoader();
                             console.log(response);
                             // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
-                            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
-                            $('#successModal').modal('show');
-                            $('#successModal .modal-content').velocity('transition.bounceIn');
-                            setTimeout(() => {
-                                msg.innerHTML = '';
-                                $('#successModal').modal('hide');
-                            }, 8000);
+                            let rateLimit = {{ $rateLimit }};
+                            showServerError(msgBlock, response.status, response.statusText, rateLimit);
                             return;
                         }
                         let result = await response.json();
-                        // result = JSON.parse(result);
                         if (response.ok) {
                             stopLoader();
                             if (result.success) { // успешно провалидировано
                                 if (!result.db) { // почему то не записалось в базу
-                                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
-                                    $('#successModal').modal('show');
-                                    $('#successModal .modal-content').velocity('transition.bounceIn');
-                                    setTimeout(() => {
-                                        msg.innerHTML = '';
-                                        $('#successModal').modal('hide');
-                                    }, 8000);
+                                    showDbError(msgBlock);
                                     return;
                                 }
                                 console.log('form submitted');
-                                msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
-                                $('#successModal').modal('show');
-                                $('#successModal .modal-content').velocity('transition.bounceIn');
-                                indexForm.reset();
-                                setTimeout(() => {
-                                    msg.innerHTML = '';
-                                    $('#successModal').modal('hide');
-                                }, 4000)
+                                showSuccess(msgBlock, indexForm);
                             } else { // ошибки валидации
+                                console.log('validate errors');
                                 let errors = result.errors;
                                 for (let key in errors) {
                                     try {
@@ -137,7 +117,6 @@
                                 }
                             }
                         } else {
-                            console.log('here');
                             console.log(response);
                             stopLoader();
                         }

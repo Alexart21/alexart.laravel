@@ -55,20 +55,14 @@
                             method: 'POST',
                             body: formData
                         });
-                        let msg = document.getElementById('modal-msg');
+                        let msgBlock = document.getElementById('modal-msg');
                         // let result = await response.text();
                         if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
                             stopLoader();
                             console.log(response);
                             // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
-                            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
-                            $('#successModal').modal('show');
-                            $('#successModal .modal-content').velocity('transition.bounceIn');
-                            setTimeout(() => {
-                                msg.innerHTML = '';
-                                $('#successModal').modal('hide');
-                            }, 8000);
+                            let rateLimit = {{ $rateLimit }};
+                            showServerError(msgBlock, response.status, response.statusText, rateLimit);
                             return;
                         }
                         let result = await response.json();
@@ -78,26 +72,13 @@
                             // loader.style.display = 'none';
                             if (result.success) { // успешно провалидировано
                                 if (!result.db) { // почемуто не записалось в базу
-                                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
-                                    $('#successModal').modal('show');
-                                    $('#successModal .modal-content').velocity('transition.bounceIn');
-                                    setTimeout(() => {
-                                        msg.innerHTML = '';
-                                        $('#successModal').modal('hide');
-                                    }, 8000);
+                                    showDbError(msgBlock);
                                     return;
                                 }
                                 console.log('form submitted');
-                                callForm.reset();
-                                msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
-                                $('#callback').modal('hide');
-                                $('#successModal').modal('show');
-                                setTimeout(() => {
-                                    msg.innerHTML = '';
-                                    $('#successModal').modal('hide');
-                                }, 4000);
+                                showSuccess(msgBlock, callForm);
                             } else { // ошибки валидации
-                                console.log('errors');
+                                console.log('validate errors');
                                 let errors = result.errors;
                                 for (let key in errors) {
                                     try {
