@@ -65,96 +65,93 @@
     // FETCH отправка формы
     let indexForm = document.getElementById('index-form');
 
-    indexForm.onsubmit = async (e) => {
+    indexForm.onsubmit = (e) => {
         e.preventDefault();
-        clearErrMsg();
-        startLoader();
-        try {
-         await grecaptcha.ready(function () {
-                // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
-               grecaptcha
-                    .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
-                        action: "post",
-                    })
-                    .then(function (token) {
-                        let inp = document.getElementById("indexform-recaptcha");
-                        inp.value = token;
-
-                    });
-            });
-        } catch (error) {
-            console.log(error);
-        }
-        let formData = new FormData(indexForm);
-        let response = await fetch("{{ route('post.store') }}", {
-            method: 'POST',
-            body: formData
-        });
-        let msg = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
-        // let result = await response.text();
-        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
-            stopLoader();
-            console.log(response);
-            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
-            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
-            $('#successModal').modal('show');
-            $('#successModal .modal-content').velocity('transition.bounceIn');
-            setTimeout(() => {
-                msg.innerHTML = '';
-                $('#successModal').modal('hide');
-            }, 8000);
-            return;
-        }
-        let result = await response.json();
-        // result = JSON.parse(result);
-        if (response.ok) {
-            stopLoader();
-            if (result.success) { // успешно провалидировано
-                if (!result.db) { // почемуто не записалось в базу
-                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
-                    $('#successModal').modal('show');
-                    $('#successModal .modal-content').velocity('transition.bounceIn');
-                    setTimeout(() => {
-                        msg.innerHTML = '';
-                        $('#successModal').modal('hide');
-                    }, 8000);
-                    return;
-                }
-                console.log('form submitted');
-                msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
-                $('#successModal').modal('show');
-                $('#successModal .modal-content').velocity('transition.bounceIn');
-                indexForm.reset();
-                setTimeout(() => {
-                    msg.innerHTML = '';
-                    $('#successModal').modal('hide');
-                }, 4000)
-            } else { // ошибки валидации
-                let errors = result.errors;
-                for (let key in errors) {
-                    try {
-                        let errBlock = document.getElementById(key + '-err-index');
-                        errBlock.innerText = errors[key][0];
-                    } catch (e) {
-                        continue;
-                    }
-                }
-            }
-        } else {
-            console.log('here');
-            console.log(response);
-            stopLoader();
-        }
-    }
-
-    // очистка сообщений об ошибках
-    function clearErrMsg() {
+        // очистка сообщений об ошибках
         msgs = document.getElementsByClassName('index-err-msg');
         let i = 0;
         while (msgs[i]) {
             msgs[i].innerHTML = '';
             i++;
+        }
+        startLoader();
+        try { // обертка в try/catch не обязательна. Это лишь что бы при локальной работе не было ошибок с reCaptcha
+            grecaptcha.ready(function () {
+                // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
+                grecaptcha
+                    .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+                        action: "post",
+                    })
+                    .then(async function (token) {
+                        /* Все дальнейшие операции только после получения reCaptcha токена !!! */
+                        let inp = document.getElementById("indexform-recaptcha");
+                        inp.value = token;
+                        let formData = new FormData(indexForm);
+                        let response = await fetch("{{ route('post.store') }}", {
+                            method: 'POST',
+                            body: formData
+                        });
+                        let msg = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
+                        // let result = await response.text();
+                        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                            stopLoader();
+                            console.log(response);
+                            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
+                            let errMsg = response.status == 429 ? 'Лимит исчерпан. Не более ' + {{ $rateLimit }} + ' запросов в минуту' : `Ошибка ${response.status} ${response.statusText}`;
+                            msg.innerHTML = '<span style="color: red">' + errMsg + '</span>';
+                            $('#successModal').modal('show');
+                            $('#successModal .modal-content').velocity('transition.bounceIn');
+                            setTimeout(() => {
+                                msg.innerHTML = '';
+                                $('#successModal').modal('hide');
+                            }, 8000);
+                            return;
+                        }
+                        let result = await response.json();
+                        // result = JSON.parse(result);
+                        if (response.ok) {
+                            stopLoader();
+                            if (result.success) { // успешно провалидировано
+                                if (!result.db) { // почему то не записалось в базу
+                                    msg.innerHTML = '<span style="color: red">Ошибка базы данных!</span>';
+                                    $('#successModal').modal('show');
+                                    $('#successModal .modal-content').velocity('transition.bounceIn');
+                                    setTimeout(() => {
+                                        msg.innerHTML = '';
+                                        $('#successModal').modal('hide');
+                                    }, 8000);
+                                    return;
+                                }
+                                console.log('form submitted');
+                                msg.innerHTML = '<span style="color: green">Спасибо, сообщение отправлено!</span>';
+                                $('#successModal').modal('show');
+                                $('#successModal .modal-content').velocity('transition.bounceIn');
+                                indexForm.reset();
+                                setTimeout(() => {
+                                    msg.innerHTML = '';
+                                    $('#successModal').modal('hide');
+                                }, 4000)
+                            } else { // ошибки валидации
+                                let errors = result.errors;
+                                for (let key in errors) {
+                                    try {
+                                        let errBlock = document.getElementById(key + '-err-index');
+                                        errBlock.innerText = errors[key][0];
+                                    } catch (e) {
+                                        continue;
+                                    }
+                                }
+                            }
+                        } else {
+                            console.log('here');
+                            console.log(response);
+                            stopLoader();
+                        }
+                        /**/
+                    });
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 </script>

@@ -381,7 +381,6 @@ callBtn.onclick = () => {
 function startLoader(){
     document.getElementById('container_loading').style.display = 'block';
 }
-
 function stopLoader(){
     document.getElementById('container_loading').style.display = 'none';
 }
