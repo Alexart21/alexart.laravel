@@ -8,28 +8,19 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class GoogleController extends Controller
+class VkontakteController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function redirectToGoogle()
+    public function redirectToVk()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('vkontakte')->redirect();
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function handleGoogleCallback()
+    public function handleVkCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
-            $finduser = User::where('google_id', $user->id)->first();
+            $user = Socialite::driver('vkontakte')->user();
+//            dd($user);
+            $finduser = User::where('vkontakte_id', $user->id)->first();
             if($finduser){
                 Auth::login($finduser);
                 return redirect()->intended('dashboard');
@@ -37,8 +28,8 @@ class GoogleController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'google_id'=> $user->id,
-                    'password' => encrypt('jhsdsyg53442789287')
+                    'vkontakte_id'=> $user->id,
+                    'password' => encrypt('hjjdfgcpu')
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -47,5 +38,4 @@ class GoogleController extends Controller
             dd($e->getMessage());
         }
     }
-
 }

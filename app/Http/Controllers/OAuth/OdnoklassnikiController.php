@@ -8,37 +8,29 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class GoogleController extends Controller
+
+class OdnoklassnikiController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function redirectToGoogle()
+    public function redirectToOk()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('odnoklassniki')->redirect();
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function handleGoogleCallback()
+    public function handleOkCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
-            $finduser = User::where('google_id', $user->id)->first();
+            $user = Socialite::driver('odnoklassniki')->user();
+//            dd($user);
+            $finduser = User::where('odnoklassniki_id', $user->id)->first();
             if($finduser){
                 Auth::login($finduser);
                 return redirect()->intended('dashboard');
             }else{
                 $newUser = User::create([
                     'name' => $user->name,
-                    'email' => $user->email,
-                    'google_id'=> $user->id,
-                    'password' => encrypt('jhsdsyg53442789287')
+                    'email' => 'ok_dummy_email' . time() . '@aa.aa',
+                    'odnoklassniki_id'=> $user->id,
+                    'password' => encrypt('hjhf3kr@87tgvalu')
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -47,5 +39,4 @@ class GoogleController extends Controller
             dd($e->getMessage());
         }
     }
-
 }

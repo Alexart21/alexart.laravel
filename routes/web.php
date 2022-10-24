@@ -5,6 +5,11 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\CallsController;
 use App\Http\Controllers\OAuth\GoogleController;
+use App\Http\Controllers\OAuth\GithubController;
+use App\Http\Controllers\OAuth\MailruController;
+use App\Http\Controllers\OAuth\VkontakteController;
+use App\Http\Controllers\OAuth\OdnoklassnikiController;
+use App\Http\Controllers\OAuth\YandexController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // все остальные страницы кроме главной
@@ -25,5 +30,20 @@ Route::get('/dashboard', function () {
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+Route::get('auth/github', [GithubController::class, 'redirectToGithub']);
+Route::get('auth/github/callback', [GithubController::class, 'handleGithubCallback']);
+
+Route::get('auth/yandex', [YandexController::class, 'redirectToYandex']);
+Route::get('auth/yandex/callback', [YandexController::class, 'handleYandexCallback']);
+
+Route::get('auth/mailru', [MailruController::class, 'redirectToMailru']);
+Route::get('auth/mailru/callback', [MailruController::class, 'handleMailruCallback']);
+
+Route::get('auth/odnoklassniki', [OdnoklassnikiController::class, 'redirectToOk']);
+Route::get('auth/odnoklassniki/callback', [OdnoklassnikiController::class, 'handleOkCallback']);
+
+Route::get('auth/vkontakte', [VkontakteController::class, 'redirectToVk']);
+Route::get('auth/vkontakte/callback', [VkontakteController::class, 'handleVkCallback']);
 
 require __DIR__.'/auth.php';

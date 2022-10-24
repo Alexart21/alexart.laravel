@@ -8,28 +8,20 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class GoogleController extends Controller
+
+class MailruController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function redirectToGoogle()
+    public function redirectToMailru()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('mailru')->redirect();
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function handleGoogleCallback()
+    public function handleMailruCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
-            $finduser = User::where('google_id', $user->id)->first();
+            $user = Socialite::driver('mailru')->user();
+            dd($user);
+            $finduser = User::where('mailru_id', $user->id)->first();
             if($finduser){
                 Auth::login($finduser);
                 return redirect()->intended('dashboard');
@@ -37,8 +29,8 @@ class GoogleController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'google_id'=> $user->id,
-                    'password' => encrypt('jhsdsyg53442789287')
+                    'mailru_id'=> $user->id,
+                    'password' => encrypt('hjjjkr@87tgvalu')
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -47,5 +39,4 @@ class GoogleController extends Controller
             dd($e->getMessage());
         }
     }
-
 }
