@@ -41,18 +41,14 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
-
                 <x-jet-button class="ml-4">
                     {{ __('Log in') }}
                 </x-jet-button>
 
-                <div class="flex items-center justify-end mt-4">
-                    <a href="{{ url('auth/google') }}">
-                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
-                             style="margin-left: 3em;">
-                    </a>
-                </div>
             </div>
         </form>
+        <br>
+        <h3>Войти с помощью:</h3>
+       @include('auth.oauth-icons')
     </x-jet-authentication-card>
 </x-guest-layout>

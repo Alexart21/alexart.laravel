@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ContentController extends Controller
 {

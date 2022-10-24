@@ -30,20 +30,26 @@ Route::get('/dashboard', function () {
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::delete('auth/google/destroy/{id}', [GoogleController::class, 'destroy'])->whereNumber(['id'])->name('google.destroy');
 
 Route::get('auth/github', [GithubController::class, 'redirectToGithub']);
 Route::get('auth/github/callback', [GithubController::class, 'handleGithubCallback']);
+Route::delete('auth/github/destroy/{id}', [GithubController::class, 'destroy'])->whereNumber(['id'])->name('github.destroy');
 
 Route::get('auth/yandex', [YandexController::class, 'redirectToYandex']);
 Route::get('auth/yandex/callback', [YandexController::class, 'handleYandexCallback']);
+Route::delete('auth/yandex/destroy/{id}', [YandexController::class, 'destroy'])->whereNumber(['id'])->name('yandex.destroy');
 
 Route::get('auth/mailru', [MailruController::class, 'redirectToMailru']);
 Route::get('auth/mailru/callback', [MailruController::class, 'handleMailruCallback']);
+Route::delete('auth/mailru/destroy/{id}', [MailruController::class, 'destroy'])->whereNumber(['id'])->name('mailru.destroy');
 
 Route::get('auth/odnoklassniki', [OdnoklassnikiController::class, 'redirectToOk']);
 Route::get('auth/odnoklassniki/callback', [OdnoklassnikiController::class, 'handleOkCallback']);
+Route::delete('auth/odnoklassniki/destroy/{id}', [OdnoklassnikiController::class, 'destroy'])->whereNumber(['id'])->name('odnoklassniki.destroy');
 
 Route::get('auth/vkontakte', [VkontakteController::class, 'redirectToVk']);
 Route::get('auth/vkontakte/callback', [VkontakteController::class, 'handleVkCallback']);
+Route::delete('auth/vkontakte/destroy/{id}', [VkontakteController::class, 'destroy'])->whereNumber(['id'])->name('vkontakte.destroy');
 
 require __DIR__.'/auth.php';
