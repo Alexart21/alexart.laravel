@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Call;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Feedback;
 
 class CallsController extends Controller
 {
@@ -47,6 +49,15 @@ class CallsController extends Controller
         }else{ // успех
             $data = $request->all();
             $db_result = Call::create($data);
+            // отправка почты
+            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
+                'name' => $data['name'],
+                'tel' => $data['tel'],
+                'body' => 'Просьба перезвонить',
+                'email' => null,
+            ];
+            Mail::to('iskander.m.211@gmail.com')->send(new Feedback($params));
+            //
             if($db_result){
                 return response()->json([
                     'success' => true,
