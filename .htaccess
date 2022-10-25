@@ -7,11 +7,11 @@
 
 RewriteEngine on
 # redirect from https://
-#RewriteCond %{HTTPS} off
-#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # redirect с www на без www
-#RewriteCond %{HTTP_HOST} ^www\.(.*)$
-#RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.(.*)$
+RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
 
 RewriteRule (.*) /public/$1
