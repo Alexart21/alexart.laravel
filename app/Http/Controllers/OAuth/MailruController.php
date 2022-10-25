@@ -8,10 +8,9 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 
-class MailruController extends Controller
+class MailruController extends  AppOauthController
 {
     public function redirectToMailru()
     {
@@ -20,6 +19,13 @@ class MailruController extends Controller
 
     public function handleMailruCallback()
     {
+        // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
+        // для OAuth это не нужно
+        // как при обычной регистрации
+        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
+        // сразу редиректим на главную без всяких напоминаний о подтверждении email
+        session(['is_oauth' => true]);
+
         $user = Socialite::driver('mailru')->user();
         dd($user);
         try {
@@ -34,6 +40,7 @@ class MailruController extends Controller
                     'oauth_client' => 'mailru',
                     'mailru_id' => $user->id,
                     'password' => Str::random(8),
+                    'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -54,10 +61,4 @@ class MailruController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect('/login');
-    }
 }

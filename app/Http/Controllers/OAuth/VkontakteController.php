@@ -8,9 +8,8 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
-class VkontakteController extends Controller
+class VkontakteController extends  AppOauthController
 {
     public function redirectToVk()
     {
@@ -19,6 +18,13 @@ class VkontakteController extends Controller
 
     public function handleVkCallback()
     {
+        // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
+        // для OAuth это не нужно
+        // как при обычной регистрации
+        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
+        // сразу редиректим на главную без всяких напоминаний о подтверждении email
+        session(['is_oauth' => true]);
+
         $user = Socialite::driver('vkontakte')->user();
         //            dd($user);
         try {
@@ -34,6 +40,7 @@ class VkontakteController extends Controller
                     'oauth_client' => 'vkontakte',
                     'vkontakte_id' => $user->id,
                     'password' => Str::random(8),
+                    'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -54,10 +61,4 @@ class VkontakteController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect('/login');
-    }
 }

@@ -9,7 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 
+
+// когда имплементируем MustVerifyEmail то при OAuth при удачной авторизации перебрасывает на страницу с сообщением
+// о необходимости верифицировать email
+// что не есть god надо найти этот редирект и как то пофиксить
+
 class User extends Authenticatable implements MustVerifyEmail
+//class User extends Authenticatable
 {
     use HasFactory;
     use HasProfilePhoto;

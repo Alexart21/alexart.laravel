@@ -8,9 +8,8 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
-class GoogleController extends Controller
+class GoogleController extends AppOauthController
 {
     /**
      * Create a new controller instance.
@@ -29,6 +28,12 @@ class GoogleController extends Controller
      */
     public function handleGoogleCallback()
     {
+        // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
+        // для OAuth это не нужно
+        // как при обычной регистрации
+        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
+        // сразу редиректим на главную без всяких напоминаний о подтверждении email
+        session(['is_oauth' => true]);
         $user = Socialite::driver('google')->user();
         try {
             $finduser = User::where('google_id', $user->id)->first();
@@ -42,6 +47,7 @@ class GoogleController extends Controller
                     'oauth_client' => 'google',
                     'google_id' => $user->id,
                     'password' => Str::random(8),
+                    'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -60,13 +66,6 @@ class GoogleController extends Controller
             // другая ошибка
             dd($e->getMessage());
         }
-    }
-
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect('/login');
     }
 
 }

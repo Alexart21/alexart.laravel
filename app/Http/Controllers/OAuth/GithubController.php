@@ -7,11 +7,10 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 
-class GithubController extends Controller
+class GithubController extends  AppOauthController
 {
 
     public function redirectToGithub()
@@ -21,6 +20,13 @@ class GithubController extends Controller
 
     public function handleGithubCallback()
     {
+        // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
+        // для OAuth это не нужно
+        // как при обычной регистрации
+        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
+        // сразу редиректим на главную без всяких напоминаний о подтверждении email
+        session(['is_oauth' => true]);
+
         $user = Socialite::driver('github')->user();
         //            dd($user);
         try {
@@ -35,6 +41,7 @@ class GithubController extends Controller
                     'oauth_client' => 'github',
                     'github_id' => $user->id,
                     'password' => Str::random(8),
+                    'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
@@ -53,12 +60,5 @@ class GithubController extends Controller
             // другая ошибка
             dd($e->getMessage());
         }
-    }
-
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect('/login');
     }
 }
