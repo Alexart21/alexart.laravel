@@ -51,15 +51,7 @@ class PostsController extends Controller
         }else{ // успех
             $data = $request->all();
             $db_result = Post::create($data);
-            // отправка почты
-            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
-                'email' => $data['email'],
-                'tel' => $data['tel'],
-                'body' => $data['body'],
-                'name' => $data['name'],
-            ];
-            Mail::to('iskander.m.211@gmail.com')->send(new Feedback($params));
-            //
+            $this->sendEmail($data);
             if($db_result){
                 return response()->json([
                     'success' => true,
@@ -77,4 +69,20 @@ class PostsController extends Controller
             }
         }
     }
+
+    private function sendEmail($data)
+    {
+        try {
+            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
+                'email' => $data['email'],
+                'tel' => $data['tel'],
+                'body' => $data['body'],
+                'name' => $data['name'],
+            ];
+            Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
+        }catch (\Exception $e){
+            dd($e->getMessage());
+        }
+    }
 }
+

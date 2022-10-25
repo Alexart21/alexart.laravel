@@ -49,15 +49,7 @@ class CallsController extends Controller
         }else{ // успех
             $data = $request->all();
             $db_result = Call::create($data);
-            // отправка почты
-            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
-                'name' => $data['name'],
-                'tel' => $data['tel'],
-                'body' => 'Просьба перезвонить',
-                'email' => null,
-            ];
-            Mail::to('iskander.m.211@gmail.com')->send(new Feedback($params));
-            //
+            $this->sendEmail($data);
             if($db_result){
                 return response()->json([
                     'success' => true,
@@ -75,4 +67,20 @@ class CallsController extends Controller
             }
         }
     }
+
+    private function sendEmail($data)
+    {
+        try {
+            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
+                'tel' => $data['tel'],
+                'body' => 'Просьба перезвонить',
+                'name' => $data['name'],
+                'email' => null,
+            ];
+            Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
+        }catch (\Exception $e){
+            dd($e->getMessage());
+        }
+    }
+
 }
