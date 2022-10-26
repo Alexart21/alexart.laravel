@@ -10,17 +10,19 @@
     header('Permissions-Policy: camera=(), display-capture=(), geolocation=(), microphone=()');
     header('Referrer-Policy: origin-when-cross-origin');
     header('Strict-Transport-Security: max-age=31536000');
+
+    $title = $data->title_seo ?? $data->title;
 @endphp
 <!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{{ $data->title_seo }}</title>
+    <title>{{ $title }}</title>
     <link rel="canonical" href="https://alexart.s-solo.ru"/>
     <link rel="icon" type="image/png" href="{{ asset('icons/512x512.png')  }}"/>
 {{--    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>--}}
     <meta name="msapplication-config" content="{{ asset('browserconfig.xml')  }}"/>
-    <meta name="referrer" content="origin"/>
+    <!-- <meta name="referrer" content="origin"/> -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="HandheldFriendly" content="true">
     <meta name="keywords" content="">

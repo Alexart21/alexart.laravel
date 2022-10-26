@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\OAuth;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-
-class OdnoklassnikiController extends  AppOauthController
+class OauthController
 {
-    public function redirectToOk()
+
+    public function redirectToService($service)
     {
-        return Socialite::driver('odnoklassniki')->redirect();
+        return Socialite::driver($service)->redirect();
     }
 
-    public function handleOkCallback()
+    public function handleCallback($service)
     {
         // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
         // для OAuth это не нужно
@@ -25,20 +25,28 @@ class OdnoklassnikiController extends  AppOauthController
         // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
         // сразу редиректим на главную без всяких напоминаний о подтверждении email
         session(['is_oauth' => true]);
-
-        $user = Socialite::driver('odnoklassniki')->user();
-//            dd($user);
+        $user = Socialite::driver($service)->user();
+        if ($service == 'yandex') {
+            $name = $user->nickname;
+            $email = $user->nickname . '@yandex.ru'; // вот такая дичь
+        } elseif ($service == 'odnoklassniki') {
+            $name = $user->name;
+            $email = 'ok_dummy_email' . time() . '@aa.aa'; // пока затык email там не дает
+        } else {
+            $name = $user->name;
+            $email = $user->email;
+        }
         try {
-            $finduser = User::where('odnoklassniki_id', $user->id)->first();
-            if ($finduser) {
+            $finduser = User::where($service . '_id', $user->id)->first();
+            if ($finduser) { //уже заходил
                 Auth::login($finduser);
                 return redirect()->intended('dashboard');
-            } else {
+            } else { // впервые
                 $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => 'ok_dummy_email' . time() . '@aa.aa',
-                    'oauth_client' => 'odnoklassniki',
-                    'odnoklassniki_id' => $user->id,
+                    'name' => $name,
+                    'email' => $email,
+                    'oauth_client' => $service,
+                    $service . '_id' => $user->id,
                     'password' => Str::random(8),
                     'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
@@ -53,11 +61,24 @@ class OdnoklassnikiController extends  AppOauthController
                     'id' => $findOldLogin->id,
                     'email' => $findOldLogin->email,
                     'oauth_client' => $findOldLogin->oauth_client,
-                    'destroyUrl' => 'odnoklassniki.destroy',
                 ]);
             }
             // другая ошибка
             dd($e->getMessage());
         }
+
     }
+
+    public function destroy($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return redirect('/login');
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+
+    }
+
 }

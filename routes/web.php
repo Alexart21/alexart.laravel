@@ -10,10 +10,15 @@ use App\Http\Controllers\OAuth\MailruController;
 use App\Http\Controllers\OAuth\VkontakteController;
 use App\Http\Controllers\OAuth\OdnoklassnikiController;
 use App\Http\Controllers\OAuth\YandexController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\OAuth\OauthController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // все остальные страницы кроме главной
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing']);
+
+Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
+Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
 
 //Route::post('/post', [ PostsController::class, 'store' ])->name('post.store');
 //Route::post('/call', [ CallsController::class, 'store' ])->name('call.store');
@@ -28,7 +33,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/{service}', [OauthController::class, 'redirectToService'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
+Route::get('auth/{service}/callback', [OauthController::class, 'handleCallback'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
+Route::delete('auth/destroy/{id}', [OauthController::class, 'destroy'])->whereNumber(['id'])->name('oauth.destroy');
+
+/*Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 Route::delete('auth/google/destroy/{id}', [GoogleController::class, 'destroy'])->whereNumber(['id'])->name('google.destroy');
 
@@ -50,6 +59,6 @@ Route::delete('auth/odnoklassniki/destroy/{id}', [OdnoklassnikiController::class
 
 Route::get('auth/vkontakte', [VkontakteController::class, 'redirectToVk']);
 Route::get('auth/vkontakte/callback', [VkontakteController::class, 'handleVkCallback']);
-Route::delete('auth/vkontakte/destroy/{id}', [VkontakteController::class, 'destroy'])->whereNumber(['id'])->name('vkontakte.destroy');
+Route::delete('auth/vkontakte/destroy/{id}', [VkontakteController::class, 'destroy'])->whereNumber(['id'])->name('vkontakte.destroy');*/
 
 require __DIR__.'/auth.php';

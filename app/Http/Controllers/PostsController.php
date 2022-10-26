@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Feedback;
+use App\Http\Requests\IndexFormRequest;
 
 class PostsController extends Controller
 {
@@ -15,8 +16,10 @@ class PostsController extends Controller
         return 'Only POST method';
     }
 
+//    public function store(IndexFormRequest $request)
     public function store(Request $request)
     {
+//        $data = $request->validated();
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:2|max:128',
             'email' => 'email',
@@ -31,7 +34,6 @@ class PostsController extends Controller
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
         $recaptcha = json_decode($recaptcha);
         $score = $recaptcha->score;
-        // Принимаем меры в зависимости от полученного результата
         if ($score >= 0.5) {
             // Проверка пройдена
             $res = true;
