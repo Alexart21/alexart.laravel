@@ -59,6 +59,7 @@ return [
         'client_id' => env('ODNOKLASSNIKI_CLIENT_ID'),
         'client_public' => env('ODNOKLASSNIKI_CLIENT_PUBLIC'),
         'client_secret' => env('ODNOKLASSNIKI_CLIENT_SECRET'),
+//        'scope' => 'GET_EMAIL',
         'redirect' => env('ODNOKLASSNIKI_REDIRECT_URI')
     ],
 

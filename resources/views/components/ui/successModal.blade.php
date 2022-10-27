@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 id="modal-msg">Спасибо, сообщение отправлено!</h4>
+                <h4 id="modal-msg"></h4>
             </div>
         </div>
     </div>

@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +32,17 @@ class AppServiceProvider extends ServiceProvider
     {
 
         RateLimiter::for('formsLimit', function (Request $request) {
-            return Limit::perMinute(env('FORMS_RATE_LIMIT', 5))->by($request->ip());
+            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip());
         });
+
+        RateLimiter::for('loginLimit', function (Request $request) {
+            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip())->response(function() {
+                throw new TooManyRequestsHttpException();
+            });
+        });
+
+        /*RateLimiter::for('loginLimit', function (Request $request) {
+            return Limit::perMinute(env('AUTH_FORMS_RATE_LIMIT', 5))->by($request->ip());
+        });*/
     }
 }

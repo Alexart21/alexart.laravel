@@ -20,21 +20,36 @@ class OauthController
     public function handleCallback($service)
     {
         // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
-        // для OAuth это не нужно
-        // как при обычной регистрации
-        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем если true то
+        // для OAuth это не нужно в отличии от обычной регистрации
+        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем значение сессии если true то
         // сразу редиректим на главную без всяких напоминаний о подтверждении email
         session(['is_oauth' => true]);
         $user = Socialite::driver($service)->user();
+//        dd($user->user);
         if ($service == 'yandex') {
             $name = $user->nickname;
             $email = $user->nickname . '@yandex.ru'; // вот такая дичь
-        } elseif ($service == 'odnoklassniki') {
-            $name = $user->name;
-            $email = 'ok_dummy_email' . time() . '@aa.aa'; // пока затык email там не дает
-        } else {
+            $avatar = null;
+        } elseif($service == 'google') {
             $name = $user->name;
             $email = $user->email;
+            $avatar = $user->user['picture'] ?? null;
+        }elseif($service == 'vkontakte'){
+            $name = $user->name;
+            $email = $user->email;
+            $avatar = $user->user['photo_200'] ?? null;
+        }elseif($service == 'odnoklassniki'){
+            $name = $user->name;
+            $email = $user->email;
+            $avatar = $user->user['pic_1'];
+        }elseif($service == 'gitgub'){
+            $name = $user->name;
+            $email = $user->email;
+            $avatar = $user->user['avatar_url'];
+        }else{
+            $name = $user->name;
+            $email = $user->email;
+            $avatar = null;
         }
         try {
             $finduser = User::where($service . '_id', $user->id)->first();
@@ -45,8 +60,9 @@ class OauthController
                 $newUser = User::create([
                     'name' => $name,
                     'email' => $email,
+                    'avatar' => $avatar,
                     'oauth_client' => $service,
-                    $service . '_id' => $user->id,
+                    $service . '_id' => $user->id, // в базе поля вида google_id yandex_id ...
                     'password' => Str::random(8),
                     'email_verified_at' => date("Y-m-d H:i:s"),
                 ]);
