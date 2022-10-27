@@ -1,5 +1,5 @@
 @php
-    $rateLimit = env('FORMS_RATE_LIMIT');
+    $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
 @endphp
 <div id="callback" class="modal" style="padding-right: 17px;>
     <div class=" modal-dialog" role="document">

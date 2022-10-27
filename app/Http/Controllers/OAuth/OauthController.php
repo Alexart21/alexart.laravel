@@ -8,12 +8,14 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class OauthController
 {
 
-    public function redirectToService($service)
+    public function redirectToService($service, Request $request)
     {
+        session(['ip' => $request->ip()]);
         return Socialite::driver($service)->redirect();
     }
 
@@ -65,6 +67,7 @@ class OauthController
                     $service . '_id' => $user->id, // в базе поля вида google_id yandex_id ...
                     'password' => Str::random(8),
                     'email_verified_at' => date("Y-m-d H:i:s"),
+                    'ip' => session('ip'),
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');

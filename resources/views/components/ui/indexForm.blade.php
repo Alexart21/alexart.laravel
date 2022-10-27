@@ -1,5 +1,5 @@
 @php
-    $rateLimit = env('FORMS_RATE_LIMIT');
+    $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
 @endphp
 <div id="contacts" class="anchors"></div>
 <div class="h1 text-center">Возникли вопросы ?</div>

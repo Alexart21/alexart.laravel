@@ -17,10 +17,13 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
-                ->name('login');
+        ->name('login');
 
     // ограничения описаны в app/Providers/AppServiceProvider.php
-    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:loginLimit']);
+//    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:loginLimit']);
+    // вариант попроще
+//    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:3,1');
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:' . env('All_FORMS_RATE_LIMIT') .  ',1');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');
