@@ -20,17 +20,19 @@ class Feedback extends Mailable
      */
     public $params;
 
+    public $subject;
+
     public function __construct($params)
     {
         $this->params = $params;
+        $this->subject = $params['subject'];
     }
 
     public function build()
     {
-        $from_email = $this->params['email'] ?? env('MAIL_FROM_ADDRESS');
-        return $this->from($from_email)->subject('Письмо с сайта Alexart21')->markdown('emails.feedback')->with($this->params);
-        // прикрепить файл легко
-        // ->attach(__DIR__ . '/../../composer.json');
+//        $from_email = $this->params['email'] ?? env('MAIL_FROM_ADDRESS');
+        return $this->markdown('emails.feedback')->with($this->params);
+//        return $this->from($from_email)->markdown('emails.feedback')->with($this->params);
     }
 
     /**
@@ -41,7 +43,7 @@ class Feedback extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Feedback',
+            subject: $this->subject ??  'Письмо с сайта',
         );
     }
 

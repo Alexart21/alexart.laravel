@@ -76,6 +76,7 @@ class CallsController extends Controller
                 'body' => 'Просьба перезвонить',
                 'name' => $data['name'],
                 'email' => null,
+                'subject' => 'Просьба перезвонить',
             ];
             Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
         }catch (\Exception $e){
