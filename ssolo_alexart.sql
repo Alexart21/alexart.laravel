@@ -114,7 +114,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,8 +123,35 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2022_10_07_152355_create_content_table',2),(6,'2016_06_01_000001_create_oauth_auth_codes_table',3),(7,'2016_06_01_000002_create_oauth_access_tokens_table',3),(8,'2016_06_01_000003_create_oauth_refresh_tokens_table',3),(9,'2016_06_01_000004_create_oauth_clients_table',3),(10,'2016_06_01_000005_create_oauth_personal_access_clients_table',3),(11,'2014_10_12_200000_add_two_factor_columns_to_users_table',4),(12,'2022_10_19_172925_create_sessions_table',4),(13,'2022_10_19_193015_add_google_id_column',4);
+INSERT INTO `migrations` VALUES (15,'2019_12_14_000001_create_personal_access_tokens_table',1),(19,'2022_10_30_161449_create_oauth_table',2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oauth`
+--
+
+DROP TABLE IF EXISTS `oauth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `source` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `source_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_user_id_foreign` (`user_id`),
+  CONSTRAINT `oauth_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oauth`
+--
+
+LOCK TABLES `oauth` WRITE;
+/*!40000 ALTER TABLE `oauth` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -268,13 +295,6 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `oauth_client` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `github_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `yandex_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mailru_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vkontakte_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odnoklassniki_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -286,7 +306,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (170,'Vasya','aa@aa.aa',NULL,NULL,'profile-photos/sXhFugY3nWnrvZw7gm0sHvmmLEthe1J8Vk7Mu22d.jpg','2022-10-27 07:21:09','$2y$10$75F4wwHilBcunD6MJtNxae11IjV.dDBsmOM/weVFEdE436OoMwBUq',NULL,NULL,NULL,NULL,'2022-10-26 16:37:29','2022-10-27 15:50:23',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `users` VALUES (170,'Vasya','aa@aa.aa',NULL,NULL,'profile-photos/sXhFugY3nWnrvZw7gm0sHvmmLEthe1J8Vk7Mu22d.jpg','2022-10-27 07:21:09','$2y$10$75F4wwHilBcunD6MJtNxae11IjV.dDBsmOM/weVFEdE436OoMwBUq',NULL,NULL,NULL,NULL,'2022-10-26 16:37:29','2022-10-27 15:50:23');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,4 +323,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-27 19:40:57
+-- Dump completed on 2022-10-31 10:53:04

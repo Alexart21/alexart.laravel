@@ -7,8 +7,10 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
+use App\Models\Oauth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OauthController
 {
@@ -32,59 +34,69 @@ class OauthController
             $name = $user->nickname;
             $email = $user->nickname . '@yandex.ru'; // вот такая дичь
             $avatar = null;
-        } elseif($service == 'google') {
+        } elseif ($service == 'google') {
             $name = $user->name;
             $email = $user->email;
             $avatar = $user->user['picture'] ?? null;
-        }elseif($service == 'vkontakte'){
+        } elseif ($service == 'vkontakte') {
             $name = $user->name;
             $email = $user->email;
             $avatar = $user->user['photo_200'] ?? null;
-        }elseif($service == 'odnoklassniki'){
+        } elseif ($service == 'odnoklassniki') {
             $name = $user->name;
             $email = $user->email;
             $avatar = $user->user['pic_1'];
-        }elseif($service == 'gitgub'){
+        } elseif ($service == 'gitgub') {
             $name = $user->name;
             $email = $user->email;
             $avatar = $user->user['avatar_url'];
-        }else{
+        } else {
             $name = $user->name;
             $email = $user->email;
             $avatar = null;
         }
-        try {
-            $finduser = User::where($service . '_id', $user->id)->first();
-            if ($finduser) { //уже заходил
-                Auth::login($finduser);
-                return redirect()->intended('dashboard');
-            } else { // впервые
+        //
+        $_user = Oauth::where('source_id', $user->id)->first();
+        if ($_user) { //уже заходил
+            $finduser = User::findOrFail($_user->user_id);
+            Auth::login($finduser);
+            return redirect()->intended('dashboard');
+        } else { // впервые
+            try {
+                DB::beginTransaction();
                 $newUser = User::create([
                     'name' => $name,
                     'email' => $email,
                     'avatar' => $avatar,
-                    'oauth_client' => $service,
-                    $service . '_id' => $user->id, // в базе поля вида google_id yandex_id ...
                     'password' => Str::random(8),
                     'email_verified_at' => date("Y-m-d H:i:s"),
                     'ip' => session('ip'),
                 ]);
+                Oauth::create([
+                    'user_id' => $newUser->id,
+                    'source' => $service,
+                    'source_id' => $user->id,
+                ]);
+                DB::commit();
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
+            } catch (Exception $e) {
+                DB::rollBack();
+                // поскольку поле email у нас unique возможны ошибки MYSQL
+                $findOldLogin = User::where('email', $user->email)->first();
+                $oauth = Oauth::where('user_id', $findOldLogin->id)->first();
+                if ($findOldLogin) { // юзер уже логинился через какой то сервис с таким же email
+                    return view('auth.oauth-except', [
+                        'id' => $findOldLogin->id,
+                        'email' => $findOldLogin->email,
+                        'oauth_client' => $oauth->source,
+                    ]);
+                }
+                // другая ошибка
+                dd($e->getMessage());
             }
-        } catch (Exception $e) {
-            // поскольку поле email у нас unique возможны ошибки MYSQL
-            $findOldLogin = User::where('email', $user->email)->first();
-            if ($findOldLogin->oauth_client) { // юзер уже логинился через какой то сервис с таким же email
-                return view('auth.oauth-except', [
-                    'id' => $findOldLogin->id,
-                    'email' => $findOldLogin->email,
-                    'oauth_client' => $findOldLogin->oauth_client,
-                ]);
-            }
-            // другая ошибка
-            dd($e->getMessage());
         }
+
 
     }
 
