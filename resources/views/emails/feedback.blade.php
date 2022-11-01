@@ -1,7 +1,7 @@
 <x-mail::message>
     <h2>{{ $name }}</h2> пишет:<br>
 
-{{ $body }}
+{!! $body !!}
     <br>
     @if($tel)
         <br>

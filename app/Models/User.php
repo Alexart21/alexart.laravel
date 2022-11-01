@@ -36,6 +36,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_id',
     ];*/
 
+    public function oauth()
+    {
+        // реализация связи один к одному
+        // в таблице куда ссылается hasOne(а это у нас oauth) должно быть поле user_id
+        return $this->hasOne(Oauth::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

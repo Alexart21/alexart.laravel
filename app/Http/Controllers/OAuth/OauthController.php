@@ -58,9 +58,12 @@ class OauthController
         //
         $_user = Oauth::where('source_id', $user->id)->first();
         if ($_user) { //уже заходил
-            $finduser = User::findOrFail($_user->user_id);
+            // реализована связь один к одному
+            // этл аналогично этому $finduser = User::findOrFail($_user->user_id)
+            $finduser = $_user->user;
             Auth::login($finduser);
             return redirect()->intended('dashboard');
+//            return redirect()->intended('/');
         } else { // впервые
             try {
                 DB::beginTransaction();
@@ -72,7 +75,7 @@ class OauthController
                     'email_verified_at' => date("Y-m-d H:i:s"),
                     'ip' => session('ip'),
                 ]);
-                Oauth::create([
+                $_newUser = Oauth::create([
                     'user_id' => $newUser->id,
                     'source' => $service,
                     'source_id' => $user->id,
@@ -80,6 +83,7 @@ class OauthController
                 DB::commit();
                 Auth::login($newUser);
                 return redirect()->intended('dashboard');
+//                return redirect()->intended('/');
             } catch (Exception $e) {
                 DB::rollBack();
                 // поскольку поле email у нас unique возможны ошибки MYSQL
@@ -89,7 +93,7 @@ class OauthController
                     return view('auth.oauth-except', [
                         'id' => $findOldLogin->id,
                         'email' => $findOldLogin->email,
-                        'oauth_client' => $oauth->source,
+                        'service' => $oauth->source,
                     ]);
                 }
                 // другая ошибка

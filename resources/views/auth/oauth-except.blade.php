@@ -1,11 +1,11 @@
-<h3>Вы уже исрользовали email <b>{{ $email }} </b> когда регистрировались через <b>{{ $oauth_client }} </b></h3>.
+<div style="font-size: 150%">Вы уже использовали email <b style="color:blue">{{ $email }} </b> когда авторизовались через <b style="color:blue">{{ $service }} </b></div>.
 <br>
 <h3>Вы можете:</h3>
 <ol>
-    <li>Снова войти с помощью <b>{{ $oauth_client }}</b> (рекомендуется!)</li>
+    <li>Снова войти с помощью <b>{{ $service }}</b> (рекомендуется!)</li>
     <li>Войти через другой сервис где у Вас в профиле email отличный от <b>{{ $email }} </b></li>
     <li><a href="/register">Зарегистрироваться</a> обычным способом указав email отличный от <b>{{ $email }}</b></li>
-    <li> Отменить предидущую авторизацию через <b>{{ $oauth_client }}</b> и войти заново любым доступным способом.
+    <li> Отменить предидущую авторизацию через <b>{{ $service }}</b> и войти заново любым доступным способом.
         <form method="post" action="{{ route('oauth.destroy', [$id]) }}" style="display: inline-block">
             @csrf
             @method('DELETE')

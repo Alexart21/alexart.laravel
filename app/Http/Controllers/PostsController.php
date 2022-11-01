@@ -78,7 +78,7 @@ class PostsController extends Controller
             $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
                 'email' => $data['email'],
                 'tel' => $data['tel'],
-                'body' => $data['body'],
+                'body' => nl2br(htmlspecialchars($data['body'])),
                 'name' => $data['name'],
                 'subject' => 'Письмо с сайта',
             ];
