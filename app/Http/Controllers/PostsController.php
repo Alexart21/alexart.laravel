@@ -17,15 +17,8 @@ class PostsController extends Controller
     }
 
 //    public function store(IndexFormRequest $request)
-    public function store(Request $request)
+    public function store(IndexFormRequest $request)
     {
-//        $data = $request->validated();
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:2|max:128',
-            'email' => 'email',
-            'tel' => 'min:6|max:18',
-            'body' => 'required|min:2|max:10000',
-        ]);
         /* ReCaptcha */
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
         $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
@@ -41,17 +34,18 @@ class PostsController extends Controller
             // Проверка не пройдена
             $res = false;
         }
-        /**/
-        if ($validator->fails() ||  !$res) // не прошла валидация или recaptcha
+        /* end ReCaptcha */
+        if (!$res) // не прошла recaptcha
         {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->getMessageBag()->toArray(),
                 'recaptcha' => $res,
                 'score' => $score,
             ]);
-        }else{ // успех
-            $data = $request->all();
+        }else{ // recaptCha успешно
+            $data = $request->validated();
+            // если не провалидировано то уходит {success:false, errors:....}
+            // это в методе failedValidation в файле app/Http/Requests/IndexFormRequest.php
             $db_result = Post::create($data);
             $this->sendEmail($data);
             if($db_result){
@@ -61,7 +55,7 @@ class PostsController extends Controller
                     'recaptcha' => $res,
                     'score' => $score,
                 ]);
-            }else{
+            }else{ // почемуто не записалось в базу
                 return response()->json([
                     'success' => true,
                     'db' => false,

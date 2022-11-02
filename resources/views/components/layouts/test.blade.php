@@ -23,5 +23,6 @@
 </div>
 <!-- конец основной контент -->
 {{--<script src="{{ asset('assets/a9bedd54/js/bootstrap.bundle.js') }}"></script>--}}
+<script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

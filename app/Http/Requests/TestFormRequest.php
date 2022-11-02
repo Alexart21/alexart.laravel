@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class TestFormRequest extends FormRequest
 {
@@ -29,6 +31,15 @@ class TestFormRequest extends FormRequest
             'phone' => 'min:6|max:20',
             'body' => 'required|min:2|max:10000',
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $response = response()
+            ->json([ 'result' => false, 'errors' => $validator->errors()], 422);
+
+        throw (new ValidationException($validator, $response))
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl());
     }
 
     public function attributes()

@@ -86,25 +86,12 @@
                             body: formData
                         });
                         let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
-                        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                        let result;
+                        if (!response.ok) {
                             stopLoader();
                             console.log(response);
-                            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                            let rateLimit = {{ $rateLimit }};
-                            showServerError(msgBlock, response.status, response.statusText, rateLimit);
-                            return;
-                        }
-                        let result = await response.json();
-                        if (response.ok) {
-                            stopLoader();
-                            if (result.success) { // успешно провалидировано
-                                if (!result.db) { // почему то не записалось в базу
-                                    showDbError(msgBlock);
-                                    return;
-                                }
-                                console.log('form submitted');
-                                showSuccess(msgBlock, indexForm);
-                            } else { // ошибки валидации
+                            if(response.status == 422) { // ошибки валидации
+                                result = await response.json();
                                 console.log('validate errors');
                                 let errors = result.errors;
                                 for (let key in errors) {
@@ -115,12 +102,29 @@
                                         continue;
                                     }
                                 }
+                            }else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                                // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
+                                let rateLimit = {{ $rateLimit }};
+                                showServerError(msgBlock, response.status, response.statusText, rateLimit);
                             }
-                        } else {
-                            console.log(response);
+                            return;
+                        }else{ // статус 200
                             stopLoader();
+                            result = await response.json();
+                            if (result.success) { // успешно провалидировано
+                                if (!result.db) { // почему то не записалось в базу
+                                    showDbError(msgBlock);
+                                    return;
+                                }
+                                console.log('form submitted');
+                                showSuccess(msgBlock, indexForm);
+                            }else{ // фиг знает че за ошибка
+                                if(!result.recaptcha){
+                                    console.log('recaptcha error')
+                                }
+                                console.log(response);
+                            }
                         }
-                        /**/
                     });
             });
         } catch (error) {

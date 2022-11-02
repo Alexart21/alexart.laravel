@@ -44,7 +44,7 @@
                 // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
                 grecaptcha
                     .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
-                        action: "call",
+                        action: "post",
                     })
                     .then(async function (token) {
                         /* Все дальнейшие операции только после получения reCaptcha токена !!! */
@@ -55,29 +55,13 @@
                             method: 'POST',
                             body: formData
                         });
-                        let msgBlock = document.getElementById('modal-msg');
-                        // let result = await response.text();
-                        if (!response.ok) { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                        let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
+                        let result;
+                        if (!response.ok) {
                             stopLoader();
                             console.log(response);
-                            // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                            let rateLimit = {{ $rateLimit }};
-                            showServerError(msgBlock, response.status, response.statusText, rateLimit);
-                            return;
-                        }
-                        let result = await response.json();
-                        // result = JSON.parse(result);
-                        if (response.ok) {
-                            stopLoader();
-                            // loader.style.display = 'none';
-                            if (result.success) { // успешно провалидировано
-                                if (!result.db) { // почемуто не записалось в базу
-                                    showDbError(msgBlock);
-                                    return;
-                                }
-                                console.log('form submitted');
-                                showSuccess(msgBlock, callForm);
-                            } else { // ошибки валидации
+                            if(response.status == 422) { // ошибки валидации
+                                result = await response.json();
                                 console.log('validate errors');
                                 let errors = result.errors;
                                 for (let key in errors) {
@@ -88,10 +72,28 @@
                                         continue;
                                     }
                                 }
+                            }else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                                // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
+                                let rateLimit = {{ $rateLimit }};
+                                showServerError(msgBlock, response.status, response.statusText, rateLimit);
                             }
-                        } else {
+                            return;
+                        }else{ // статус 200
                             stopLoader();
-                            console.log(response);
+                            result = await response.json();
+                            if (result.success) { // успешно провалидировано
+                                if (!result.db) { // почему то не записалось в базу
+                                    showDbError(msgBlock);
+                                    return;
+                                }
+                                console.log('form submitted');
+                                showSuccess(msgBlock, indexForm);
+                            }else{ // фиг знает че за ошибка
+                                if(!result.recaptcha){
+                                    console.log('recaptcha error')
+                                }
+                                console.log(response);
+                            }
                         }
                     });
             });

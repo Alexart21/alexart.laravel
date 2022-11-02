@@ -30,41 +30,47 @@ class OauthController
         session(['is_oauth' => true]);
         $user = Socialite::driver($service)->user();
 //        dd($user->user);
-        if ($service == 'yandex') {
-            $name = $user->nickname;
-            $email = $user->nickname . '@yandex.ru'; // вот такая дичь
-            $avatar = null;
-        } elseif ($service == 'google') {
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = $user->user['picture'] ?? null;
-        } elseif ($service == 'vkontakte') {
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = $user->user['photo_200'] ?? null;
-        } elseif ($service == 'odnoklassniki') {
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = $user->user['pic_1'];
-        } elseif ($service == 'gitgub') {
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = $user->user['avatar_url'];
-        } else {
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = null;
-        }
-        //
         $_user = Oauth::where('source_id', $user->id)->first();
         if ($_user) { //уже заходил
-            // реализована связь один к одному
-            // этл аналогично этому $finduser = User::findOrFail($_user->user_id)
+            // реализована связь один к одному hasOne в модели User и соответственно belongsTo в модели Oauth
+            // это аналогично этому $finduser = User::find($_user->user_id)
             $finduser = $_user->user;
             Auth::login($finduser);
             return redirect()->intended('dashboard');
 //            return redirect()->intended('/');
         } else { // впервые
+            // поля могут быть разные в зависимомти от сервиса
+            switch ($service) {
+                case 'yandex' :
+                    $name = $user->nickname;
+                    $email = $user->nickname . '@yandex.ru';
+                    $avatar = null; // вот такая дичь
+                    break;
+                case 'google' :
+                    $name = $user->name;
+                    $email = $user->email;
+                    $avatar = $user->user['picture'] ?? null;;
+                    break;
+                case 'vkontakte' :
+                    $name = $user->name;
+                    $email = $user->email;
+                    $avatar = $user->user['photo_200'] ?? null;
+                    break;
+                case 'odnoklassniki' :
+                    $name = $user->name;
+                    $email = $user->email;
+                    $avatar = $user->user['pic_1'];
+                    break;
+                case 'gitgub' :
+                    $name = $user->name;
+                    $email = $user->email;
+                    $avatar = $user->user['avatar_url'];
+                    break;
+                default:
+                    $name = $user->name;
+                    $email = $user->email;
+                    $avatar = null;
+            }
             try {
                 DB::beginTransaction();
                 $newUser = User::create([
@@ -75,7 +81,7 @@ class OauthController
                     'email_verified_at' => date("Y-m-d H:i:s"),
                     'ip' => session('ip'),
                 ]);
-                $_newUser = Oauth::create([
+                Oauth::create([
                     'user_id' => $newUser->id,
                     'source' => $service,
                     'source_id' => $user->id,
