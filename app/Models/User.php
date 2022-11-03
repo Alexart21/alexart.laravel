@@ -43,6 +43,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Oauth::class);
     }
 
+    /*public function sendEmailVerificationNotification()
+    {
+//        die('kjkjkjkj');
+    }*/
+
     /**
      * The attributes that should be hidden for serialization.
      *

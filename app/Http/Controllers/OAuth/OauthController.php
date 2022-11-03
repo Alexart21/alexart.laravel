@@ -36,8 +36,8 @@ class OauthController
             // это аналогично этому $finduser = User::find($_user->user_id)
             $finduser = $_user->user;
             Auth::login($finduser);
-            return redirect()->intended('dashboard');
-//            return redirect()->intended('/');
+//            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         } else { // впервые
             // поля могут быть разные в зависимомти от сервиса
             switch ($service) {
@@ -88,19 +88,34 @@ class OauthController
                 ]);
                 DB::commit();
                 Auth::login($newUser);
-                return redirect()->intended('dashboard');
-//                return redirect()->intended('/');
+//                return redirect()->intended('dashboard');
+                return redirect()->intended('/');
             } catch (Exception $e) {
                 DB::rollBack();
                 // поскольку поле email у нас unique возможны ошибки MYSQL
-                $findOldLogin = User::where('email', $user->email)->first();
-                $oauth = Oauth::where('user_id', $findOldLogin->id)->first();
-                if ($findOldLogin) { // юзер уже логинился через какой то сервис с таким же email
-                    return view('auth.oauth-except', [
-                        'id' => $findOldLogin->id,
-                        'email' => $findOldLogin->email,
-                        'service' => $oauth->source,
-                    ]);
+                // при попытке дублировать email Duplicate entry....  код ошибки 23000
+                $oldUser = User::where('email', $user->email)->first();
+                $oauth = Oauth::where('user_id', $oldUser->id)->first();
+                // if (($e->getCode() == 23000) && ($oldUser && $oauth)) {
+                if ($oldUser && $oauth) { // юзер уже логинился через какой то сервис с таким же email
+                    try {
+                        DB::beginTransaction();
+                        // оставляем email прежним и перезапишем имя и др. от ноаого сервиса
+                        $oldUser->name = $name;
+                        $oldUser->avatar = $avatar;
+                        $oldUser->ip = session('ip');
+                        $oldUser->save();
+
+                        $oauth->source = $service;
+                        $oauth->source_id = $user->id;
+                        $oauth->save();
+                        DB::commit();
+                        Auth::login($oldUser);
+                        return redirect()->intended('/');
+                    } catch (Exception $e) {
+                        DB::rollBack();
+                        dd($e->getMessage());
+                    }
                 }
                 // другая ошибка
                 dd($e->getMessage());
