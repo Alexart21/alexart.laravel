@@ -17,7 +17,17 @@ class CallFormRequest  extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:128',
-            'tel' => 'min:6|max:20',
+            'tel' => 'required|min:6|max:20',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Укажите имя',
+            'name.min' => '2 буквы хотя бы...',
+            'tel.required' => 'Укажите номер',
+            'tel.min' => '6 цифр хотя бы...'
         ];
     }
 

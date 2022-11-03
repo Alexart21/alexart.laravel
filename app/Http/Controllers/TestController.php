@@ -13,7 +13,6 @@ class TestController extends Controller
     public ?int $x;
     public function index()
     {
-        $data = [];
         return view('test.index', compact('data'));
     }
 

@@ -1,5 +1,6 @@
 @php
     $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
+    $siteKey = env('RECAPTCHA_V3_SITE_KEY');
 @endphp
 <div id="callback" class="modal" style="padding-right: 17px;>
     <div class=" modal-dialog" role="document">
@@ -43,7 +44,7 @@
             grecaptcha.ready(function () {
                 // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
                 grecaptcha
-                    .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+                    .execute("{{ $siteKey }}", {
                         action: "post",
                     })
                     .then(async function (token) {
@@ -60,7 +61,7 @@
                         if (!response.ok) {
                             stopLoader();
                             console.log(response);
-                            if(response.status == 422) { // ошибки валидации
+                            if (response.status == 422) { // ошибки валидации
                                 result = await response.json();
                                 console.log('validate errors');
                                 let errors = result.errors;
@@ -72,25 +73,27 @@
                                         continue;
                                     }
                                 }
-                            }else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
+                            } else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
                                 // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
                                 let rateLimit = {{ $rateLimit }};
                                 showServerError(msgBlock, response.status, response.statusText, rateLimit);
+                                console.log(response);
                             }
                             return;
-                        }else{ // статус 200
+                        } else { // статус 200
                             stopLoader();
                             result = await response.json();
-                            if (result.success) { // успешно провалидировано
-                                if (!result.db) { // почему то не записалось в базу
-                                    showDbError(msgBlock);
-                                    return;
-                                }
+                            if (result.success) { // успешно
                                 console.log('form submitted');
-                                showSuccess(msgBlock, indexForm);
-                            }else{ // фиг знает че за ошибка
-                                if(!result.recaptcha){
-                                    console.log('recaptcha error')
+                                showSuccess(msgBlock, callForm);
+                            } else { // фиг знает че за ошибка
+                                if (!result.recaptcha) {
+                                    console.log('recaptcha error');
+                                } else if (!result.db) {
+                                    showDbError(msgBlock);
+                                    console.log('db error');
+                                } else if (!result.mail) {
+                                    console.log('email send error')
                                 }
                                 console.log(response);
                             }

@@ -19,50 +19,32 @@ class PostsController extends Controller
 //    public function store(IndexFormRequest $request)
     public function store(IndexFormRequest $request)
     {
-        /* ReCaptcha */
-        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-        $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
-        $recaptcha_response = $_POST['reCaptcha'];
-        // Отправляем POST запрос и декодируем результаты ответа
-        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-        $recaptcha = json_decode($recaptcha);
-        $score = $recaptcha->score;
-        if ($score >= 0.5) {
-            // Проверка пройдена
-            $res = true;
-        } else {
-            // Проверка не пройдена
-            $res = false;
-        }
-        /* end ReCaptcha */
-        if (!$res) // не прошла recaptcha
+        $data = $request->validated();
+        // если не провалидировано то уходит {success:false, errors:....}
+        // это в методе failedValidation в файле app/Http/Requests/IndexFormRequest.php
+
+        $score = $this->checkReCaptcha();
+        if (!$score || $score < 0.5) // не прошла recaptcha
         {
             return response()->json([
                 'success' => false,
-                'recaptcha' => $res,
+                'recaptcha' => false,
                 'score' => $score,
             ]);
-        }else{ // recaptCha успешно
-            $data = $request->validated();
-            // если не провалидировано то уходит {success:false, errors:....}
-            // это в методе failedValidation в файле app/Http/Requests/IndexFormRequest.php
-            $db_result = Post::create($data);
-            $this->sendEmail($data);
-            if($db_result){
-                return response()->json([
-                    'success' => true,
-                    'db' => true,
-                    'recaptcha' => $res,
-                    'score' => $score,
-                ]);
-            }else{ // почемуто не записалось в базу
-                return response()->json([
-                    'success' => true,
-                    'db' => false,
-                    'recaptcha' => $res,
-                    'score' => $score,
-                ]);
-            }
+        }
+        $db = Post::create($data) ? true : false;
+        $mail = $this->sendEmail($data);
+        if ($db && $mail) {
+            return response()->json([
+                'success' => true,
+            ]);
+        } else { // почемуто не записалось в базу или не отправилась почта
+            return response()->json([
+                'success' => false,
+                'db' => $db,
+                'mail' => $mail,
+                'score' => $score,
+            ]);
         }
     }
 
@@ -76,10 +58,26 @@ class PostsController extends Controller
                 'name' => $data['name'],
                 'subject' => 'Письмо с сайта',
             ];
-           Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
-        }catch (\Exception $e){
+            Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
+            return true;
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    private function checkReCaptcha()
+    {
+        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+        $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
+        $recaptcha_response = $_POST['reCaptcha'];
+        if (!$recaptcha_response) {
+            return false;
+        }
+        // Отправляем POST запрос и декодируем результаты ответа
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+        $recaptcha = json_decode($recaptcha);
+        $score = $recaptcha->score;
+        return $score ?? false;
     }
 }
 

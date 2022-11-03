@@ -27,9 +27,22 @@ class IndexFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:128',
-            'email' => 'email',
+            'email' => 'required|email',
             'tel' => 'min:6|max:20',
             'body' => 'required|min:2|max:10000',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Укажите имя',
+            'name.min' => '2 буквы хотя бы...',
+            'tel.min' => '6 цифр хотя бы...',
+            'tel.max' => 'много цифр...',
+            'body.required' => 'Напишите что нибудь :)',
+            'body.min' => '2 буквы хотя бы...',
+            'body.max' => 'не более 10000 символов',
         ];
     }
 
