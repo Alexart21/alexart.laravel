@@ -4,12 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\CallsController;
-use App\Http\Controllers\OAuth\GoogleController;
-use App\Http\Controllers\OAuth\GithubController;
-use App\Http\Controllers\OAuth\MailruController;
-use App\Http\Controllers\OAuth\VkontakteController;
-use App\Http\Controllers\OAuth\OdnoklassnikiController;
-use App\Http\Controllers\OAuth\YandexController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\OAuth\OauthController;
 
@@ -38,3 +32,5 @@ Route::get('auth/{service}/callback', [OauthController::class, 'handleCallback']
 Route::delete('auth/destroy/{id}', [OauthController::class, 'destroy'])->whereNumber(['id'])->name('oauth.destroy');
 
 require __DIR__.'/auth.php';
+
+require __DIR__.'/admin.php';

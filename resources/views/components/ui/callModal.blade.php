@@ -2,8 +2,8 @@
     $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
     $siteKey = env('RECAPTCHA_V3_SITE_KEY');
 @endphp
-<div id="callback" class="modal" style="padding-right: 17px;>
-    <div class=" modal-dialog" role="document">
+<div id="callback" class="modal" data-backdrop="static" style="padding-right: 17px;>
+    <div class="modal-dialog=true" role="document">
 <div class="modal-content" style="opacity: 1; display: block; transform: scaleX(1) scaleY(1);">
     <div class="modal-header">
         <h3>Укажите Ваш номер телефона и мы перезвоним Вам</h3>

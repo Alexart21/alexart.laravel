@@ -33,6 +33,16 @@ class IndexFormRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'name' => 'Имя',
+            'email' => 'email',
+            'tel' => 'Номер телефона',
+            'body' => 'Сообщение',
+        ];
+    }
+
     public function messages()
     {
         return [

@@ -3,6 +3,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class CallFormRequest  extends FormRequest
@@ -21,6 +23,14 @@ class CallFormRequest  extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'name' => 'Имя',
+            'tel' => 'Номер мобильного телефона',
+        ];
+    }
+
     public function messages()
     {
         return [
@@ -31,14 +41,6 @@ class CallFormRequest  extends FormRequest
         ];
     }
 
-    // возвращает JSON !
-    protected function failedValidation(Validator $validator) {
-        $response = response()
-            ->json([ 'success' => false, 'errors' => $validator->errors()], 422);
 
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
-    }
 
 }

@@ -18,8 +18,9 @@ class TestController extends Controller
         //     $user = $_user->user;
         //     dd($user);
         // }
-        $_user = Oauth::where('source_id', 'zzz')->with('user')->first()->user;
-        dd($_user);
+//        $_user = Oauth::where('source_id', 'zzz')->with('user')->first()->user;
+//        dd($_user);
+        $data =[];
         return view('test.index', compact('data'));
     }
 

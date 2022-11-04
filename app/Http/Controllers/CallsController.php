@@ -11,7 +11,7 @@ class CallsController extends AppFormsController
 {
     public function index()
     {
-        return view('call.index');
+        return 'Only POST method';
     }
 
     public function store(CallFormRequest $request)
