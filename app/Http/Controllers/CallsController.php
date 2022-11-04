@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Call;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Feedback;
 use App\Http\Requests\CallFormRequest;
 
-class CallsController extends Controller
+class CallsController extends AppFormsController
 {
     public function index()
     {
@@ -62,21 +60,6 @@ class CallsController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-    }
-
-    private function checkReCaptcha()
-    {
-        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-        $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
-        $recaptcha_response = $_POST['reCaptcha'];
-        if (!$recaptcha_response) {
-            return false;
-        }
-        // Отправляем POST запрос и декодируем результаты ответа
-        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-        $recaptcha = json_decode($recaptcha);
-        $score = $recaptcha->score;
-        return $score ?? false;
     }
 
 }

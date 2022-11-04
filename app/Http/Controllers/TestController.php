@@ -13,6 +13,13 @@ class TestController extends Controller
     public ?int $x;
     public function index()
     {
+        // $_user = Oauth::where('source_id', 'zzz')->first();
+        // if ($_user) { //уже заходил с этим сервисом
+        //     $user = $_user->user;
+        //     dd($user);
+        // }
+        $_user = Oauth::where('source_id', 'zzz')->with('user')->first()->user;
+        dd($_user);
         return view('test.index', compact('data'));
     }
 

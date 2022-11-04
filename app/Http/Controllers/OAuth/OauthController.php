@@ -31,7 +31,7 @@ class OauthController
         $user = Socialite::driver($service)->user();
 //        dd($user->user);
         $_user = Oauth::where('source_id', $user->id)->first();
-        if ($_user) { //уже заходил
+        if ($_user) { //уже заходил с этим сервисом
             // реализована связь один к одному hasOne в модели User и соответственно belongsTo в модели Oauth
             // это аналогично этому $finduser = User::find($_user->user_id)
             $finduser = $_user->user;
@@ -121,20 +121,5 @@ class OauthController
                 dd($e->getMessage());
             }
         }
-
-
     }
-
-    public function destroy($id)
-    {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
-            return redirect('/login');
-        } catch (Exception $e) {
-            dd($e->getMessage());
-        }
-
-    }
-
 }
