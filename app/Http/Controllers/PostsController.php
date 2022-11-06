@@ -15,7 +15,6 @@ class PostsController extends AppFormsController
         return 'Only POST method';
     }
 
-//    public function store(IndexFormRequest $request)
     public function store(IndexFormRequest $request)
     {
         $data = $request->validated();

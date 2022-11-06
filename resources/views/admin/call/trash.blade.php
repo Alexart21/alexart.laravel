@@ -1,5 +1,14 @@
 <x-layouts.admin title="Админка">
     <h1>Корзина</h1>
+    <div>
+        <form action="{{ route('call.clear') }}" method="post" >
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger">
+                Очистить
+            </button>
+        </form>
+    </div>
     <table class="table-bordered table-hover">
         <tr>
             <th>id</th>

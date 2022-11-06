@@ -6,7 +6,7 @@
 <div class="h1 text-center">Возникли вопросы ?</div>
 <div class="h2 text-center">Напишите нам и получите исчерпывающую консультацию.</div>
 <br>
-<form id="index-form" action="{{ route('post.store') }}" method="post">
+<form id="index-form" action="{{ route('mail.store') }}" method="post">
     @csrf
     <div class="field name-box animated bounceInDown wow" data-wow-delay="0.9s">
         <div class="form-group field-indexform-name required">
@@ -82,7 +82,7 @@
                         let inp = document.getElementById("indexform-recaptcha");
                         inp.value = token;
                         let formData = new FormData(indexForm);
-                        let response = await fetch("{{ route('post.store') }}", {
+                        let response = await fetch("{{ route('mail.store') }}", {
                             method: 'POST',
                             body: formData
                         });

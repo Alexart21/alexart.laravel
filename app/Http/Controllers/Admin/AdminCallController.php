@@ -10,9 +10,10 @@ class AdminCallController extends AppController
     public function index()
     {
         $calls = Call::all();
+        $count = $calls->count();
         $trashed = Call::onlyTrashed()->get()->count();
 //        dd($pages);
-        return view('admin.call.index', compact('calls', 'trashed'));
+        return view('admin.call.index', compact('calls', 'count', 'trashed'));
     }
 
     public function show($id)
@@ -29,6 +30,23 @@ class AdminCallController extends AppController
         return redirect()->route('call.index');
     }
 
+    // все в корзину
+    public function destroyAll()
+    {
+        $calls = Call::all();
+        foreach ($calls as $call){
+            $call->delete();
+        }
+        return redirect()->route('call.index');
+    }
+
+    // безвозвратно очистка таблицы
+    public function deleteAll()
+    {
+        Call::truncate();
+        return redirect()->route('call.index');
+    }
+
     public function trash(){
         $calls = Call::onlyTrashed()->get();
         return view('admin.call.trash', compact('calls'));
@@ -42,6 +60,12 @@ class AdminCallController extends AppController
 
     public function destroyForewer($id){
         Call::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('call.index');
+    }
+
+    public function clearTrash()
+    {
+        Call::onlyTrashed()->forceDelete();
         return redirect()->route('call.index');
     }
 

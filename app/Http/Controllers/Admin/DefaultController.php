@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Content;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
+//use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 class DefaultController extends AppController
 {
@@ -16,15 +17,9 @@ class DefaultController extends AppController
 
    public function cache()
    {
-       try {
-           Artisan::call('cache:clear');
-           Artisan::call('config:clear');
-           Artisan::call('view:clear');
-           Artisan::call('route:clear');
-           flash('Кэш очищен')->success()->important();
-       }catch (Exception $e){
-           dd($e->getMessage());
-       }
+//       $this->clearCache(); // из родительского контроллера
+       Cache::flush();
+       flash('Кэш очищен')->success()->important();
        return redirect()->back();
    }
 
@@ -32,6 +27,8 @@ class DefaultController extends AppController
    public function last()
    {
        $this->setLastMod(); // из родительского контроллера
+//       $this->clearCache(); // из родительского контроллера
+       Cache::flush();
        flash('Обновлено')->success()->important();
        return redirect()->back();
    }

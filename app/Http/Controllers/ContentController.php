@@ -21,11 +21,13 @@ class ContentController extends Controller
             return Content::where('page', 'index')->firstOrFail();
         });*/
         $data = Content::where('page', 'index')->firstOrFail();
+//        dd($data['last_mod']);
         view()->share(['data' => $data]);
 //        return view('content.index', compact('data'));
         return response()
             ->view('content.index', compact('data'))
-            ->header('Last-Modified:', $data['last_mod']);
+            ->header('Last-Modified', $data['last_mod'])
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 
     public function page($page)
@@ -39,37 +41,7 @@ class ContentController extends Controller
 //        return view('content.page', compact('data'));
         return response()
             ->view('content.page', compact('data'))
-            ->header('Last-Modified:', $data['last_mod']);
-    }
-
-    /*public function store(IndexFormRequest $request)
-    {
-        $data = $request->validated();
-        Post::create($data);
-        return redirect()->route('content.index');
-    }*/
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:2|max:128',
-            'email' => 'email',
-            'tel' => 'min:6|max:18',
-            'body' => 'required|min:2|max:10000',
-        ]);
-
-        if ($validator->fails()) // не прошла валидация
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
-            ]);
-        }else{ // успех
-            $data = $request->all();
-            Post::create($data);
-            return response()->json([
-                'success' => true,
-            ]);
-        }
+            ->header('Last-Modified', $data['last_mod'])
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 }

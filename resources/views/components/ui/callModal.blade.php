@@ -11,7 +11,7 @@
     </div>
     <div class="modal-body">
         <div class="row" style="padding: 1em">
-            <form id="call-form" action="{{ route('call.store') }}" method="post">
+            <form id="call-form" action="{{ route('zvonok.store') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <input type="text" class="form-control" name="name" placeholder="Ваше имя">
@@ -52,7 +52,7 @@
                         let inp = document.getElementById("callform-recaptcha");
                         inp.value = token;
                         let formData = new FormData(callForm);
-                        let response = await fetch("{{ route('call.store') }}", {
+                        let response = await fetch("{{ route('zvonok.store') }}", {
                             method: 'POST',
                             body: formData
                         });
