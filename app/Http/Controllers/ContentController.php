@@ -25,7 +25,7 @@ class ContentController extends Controller
 //        return view('content.index', compact('data'));
         return response()
             ->view('content.index', compact('data'))
-            ->header('Last-Modified:', gmdate("D, d M Y H:i:s \G\M\T", $data['last_mod']));
+            ->header('Last-Modified:', $data['last_mod']);
     }
 
     public function page($page)
@@ -39,7 +39,7 @@ class ContentController extends Controller
 //        return view('content.page', compact('data'));
         return response()
             ->view('content.page', compact('data'))
-            ->header('Last-Modified:', gmdate("D, d M Y H:i:s \G\M\T", $data['last_mod']));
+            ->header('Last-Modified:', $data['last_mod']);
     }
 
     /*public function store(IndexFormRequest $request)

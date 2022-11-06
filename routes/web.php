@@ -10,6 +10,8 @@ use App\Http\Controllers\OAuth\OauthController;
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // все остальные страницы кроме главной
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing']);
+// Чтото сделать с роутами!
+//Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
 
 Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
 Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
