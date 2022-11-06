@@ -10,7 +10,8 @@ class AdminPostController extends AppController
 
     public function index()
     {
-        $mails = Post::all();
+//        $mails = Post::all();
+        $mails = Post::paginate(2);;
         $count = $mails->count();
         $trashed = Post::onlyTrashed()->get()->count();
 //        dd($pages);

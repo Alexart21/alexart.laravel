@@ -1,6 +1,6 @@
 <x-layouts.admin title="Админка">
     <h1>Корзина</h1>
-    <table class="table-bordered table-hover">
+    <table class="table-bordered table-hover table-admin">
         <tr>
             <th>id</th>
             <th>page</th>

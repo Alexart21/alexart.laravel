@@ -24,7 +24,7 @@
                 </button>
             </form>
         </div>
-    <table class="table-bordered table-hover">
+    <table class="table-bordered table-hover table-admin">
         <tr>
             <th>id</th>
             <th>Имя</th>
@@ -59,4 +59,6 @@
     @else
         <h4>Нет данных</h4>
     @endif
+    <br>
+    {{ $calls->links('vendor.pagination.bootstrap-4') }}
 </x-layouts.admin>

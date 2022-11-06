@@ -9,7 +9,7 @@ class AdminCallController extends AppController
 
     public function index()
     {
-        $calls = Call::all();
+        $calls = Call::paginate(2);
         $count = $calls->count();
         $trashed = Call::onlyTrashed()->get()->count();
 //        dd($pages);

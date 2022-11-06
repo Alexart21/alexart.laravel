@@ -9,7 +9,7 @@
             </button>
         </form>
     </div>
-    <table class="table-bordered table-hover">
+    <table class="table-bordered table-hover table-admin">
         <tr>
             <th>id</th>
             <th>Имя</th>

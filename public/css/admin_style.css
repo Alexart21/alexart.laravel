@@ -25,3 +25,11 @@ ody {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.table-admin td,.table-admin th{
+    padding: .5em;
+}
+
+.table-admin th{
+    text-align: center;
+}
