@@ -11,10 +11,13 @@ class AdminContentController extends AppController
 
     public function index()
     {
-        $pages = Content::all();
+//        $pages = Content::all();
+        $pages = Content::orderByDesc('updated_at')->paginate(20);
+        $count = $pages->count();
+        $total = $pages->total();
         $trashed = Content::onlyTrashed()->get()->count();
 //        dd($pages);
-        return view('admin.content.index', compact('pages', 'trashed'));
+        return view('admin.content.index', compact('pages', 'total', 'count',  'trashed'));
     }
 
     public function create()
@@ -50,7 +53,9 @@ class AdminContentController extends AppController
         try {
             $page = Content::findOrFail($id);
             $page->update($data);
-            $this->setLastMod(); // обновление Last-Modified (из родительского контроллера)
+//            $this->setLastMod(); // обновление Last-Modified (из родительского контроллера)
+            $page->last_mod = gmdate("D, d M Y H:i:s \G\M\T", time());
+            $page->save();
             flash('Обновлено !')->success();
         }catch (Exception $e){
             flash($e->getMessage())->error();

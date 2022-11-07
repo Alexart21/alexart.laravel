@@ -1,3 +1,6 @@
+@php
+    use Jenssegers\Date\Date;
+@endphp
 <x-layouts.admin title="">
     <div><b>Имя: </b>
         <span>{{ $mail->name }}</span>
@@ -18,7 +21,17 @@
     </div>
     <div>
         <b>Дата: </b>
-        <span>{{ $mail->updated_at }}</span>
+        @php
+            $date = Date::parse($mail->updated_at);
+        if($date->isYesterday()){
+            $date = 'вчера в ' . $date->format('H:i');
+        }elseif ($date->isToday()){
+            $date = 'сегодня в ' . $date->format('H:i');
+        }else{
+            $date = $date->format('j F Y H:i');
+        }
+        @endphp
+        <span>{{ $date }}</span>
     </div>
     <form action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
         @csrf

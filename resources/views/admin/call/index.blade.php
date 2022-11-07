@@ -1,4 +1,7 @@
-<x-layouts.admin title="Заказы обратных звонков">
+@php
+use Jenssegers\Date\Date;
+@endphp
+<x-layouts.admin title="Заказы обратных звонков | страница {{ $calls->currentPage() }}">
     <div class="d-flex">
         <h1>Заказы обратных звонков</h1>
         @if($trashed)
@@ -24,6 +27,7 @@
                 </button>
             </form>
         </div>
+        <div class="font-italic">{{ $count }} записей из {{ $total }}</div>
     <table class="table-bordered table-hover table-admin">
         <tr>
             <th>id</th>
@@ -37,7 +41,17 @@
                 <td>{{ $call->id }}</td>
                 <td>{{ $call->name }}</td>
                 <td>{{ $call->tel }}</td>
-                <td>{{ $call->updated_at }}</td>
+                @php
+                    $date = Date::parse($call->updated_at);
+                if($date->isYesterday()){
+                    $date = 'вчера в ' . $date->format('H:i');
+                }elseif ($date->isToday()){
+                    $date = 'сегодня в ' . $date->format('H:i');
+                }else{
+                    $date = $date->format('j F Y H:i');
+                }
+                @endphp
+                <td>{{ $date }}</td>
                 <td>
                     <div class="d-flex">
                         <div class="top-links"><a href="{{ route('call.show', [ $call->id ]) }}"><span

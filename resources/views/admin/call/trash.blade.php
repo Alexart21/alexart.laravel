@@ -1,3 +1,6 @@
+@php
+    use Jenssegers\Date\Date;
+@endphp
 <x-layouts.admin title="Админка">
     <h1>Корзина</h1>
     <div>
@@ -22,7 +25,17 @@
                 <td>{{$call->id }}</td>
                 <td>{{ $call->name }}</td>
                 <td>{{ $call->tel ?? 'не указан' }}</td>
-                <td>{{ $call->deleted_at }}</td>
+                @php
+                    $date = Date::parse($call->deleted_at);
+                if($date->isYesterday()){
+                    $date = 'вчера в ' . $date->format('H:i');
+                }elseif ($date->isToday()){
+                    $date = 'сегодня в ' . $date->format('H:i');
+                }else{
+                    $date = $date->format('j F Y H:i');
+                }
+                @endphp
+                <td>{{ $date }}</td>
                 <td>
                     <div class="d-flex">
                         <div>

@@ -11,11 +11,12 @@ class AdminPostController extends AppController
     public function index()
     {
 //        $mails = Post::all();
-        $mails = Post::paginate(2);;
+        $mails = Post::orderByDesc('updated_at')->paginate(20);
         $count = $mails->count();
+        $total = $mails->total();
         $trashed = Post::onlyTrashed()->get()->count();
 //        dd($pages);
-        return view('admin.post.index', compact('mails', 'count', 'trashed'));
+        return view('admin.post.index', compact('mails', 'count', 'total', 'trashed'));
     }
 
     public function show($id)

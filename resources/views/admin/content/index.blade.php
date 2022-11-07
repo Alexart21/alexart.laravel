@@ -1,8 +1,10 @@
-<x-layouts.admin title="Админка">
+@php
+    use Jenssegers\Date\Date;
+@endphp
+<x-layouts.admin title="Основные страницы | страница {{ $pages->currentPage() }}">
     <div class="d-flex">
         <h1>Основные страницы</h1>
         <div>
-            &nbsp;&nbsp;&nbsp;
             <a href="{{ route('content.create') }}" class="btn btn-info">Создать</a>
         </div>
         @if($trashed)
@@ -12,11 +14,13 @@
             </div>
         @endif
     </div>
+    @if($count)
     <table class="table-bordered table-hover table-admin">
         <tr>
             <th>id</th>
             <th>page</th>
             <th>title</th>
+            <th>дата изменения</th>
             <th>действия</th>
         </tr>
         @foreach($pages as $page)
@@ -24,6 +28,17 @@
                 <td>{{ $page->id }}</td>
                 <td>{{ $page->page }}</td>
                 <td>{{ $page->title }}</td>
+                @php
+                    $date = Date::parse($page->updated_at);
+                if($date->isYesterday()){
+                    $date = 'вчера в ' . $date->format('H:i');
+                }elseif ($date->isToday()){
+                    $date = 'сегодня в ' . $date->format('H:i');
+                }else{
+                    $date = $date->format('j F Y H:i');
+                }
+                @endphp
+                <td>{{ $date }}</td>
                 <td>
                     <div class="d-flex">
                         <div class="top-links"><a href="{{ route('content.show', [ $page->id ]) }}"><span
@@ -44,4 +59,9 @@
             </tr>
         @endforeach
     </table>
+    @else
+        <h4>Нет данных</h4>
+    @endif
+    <br>
+    {{ $pages->links('vendor.pagination.bootstrap-4') }}
 </x-layouts.admin>

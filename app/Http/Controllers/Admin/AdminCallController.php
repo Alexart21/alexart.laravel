@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Call;
+use Illuminate\Support\Carbon;
 
 
 class AdminCallController extends AppController
@@ -9,11 +10,11 @@ class AdminCallController extends AppController
 
     public function index()
     {
-        $calls = Call::paginate(2);
+        $calls = Call::orderByDesc('updated_at')->paginate(20);
         $count = $calls->count();
+        $total = $calls->total();
         $trashed = Call::onlyTrashed()->get()->count();
-//        dd($pages);
-        return view('admin.call.index', compact('calls', 'count', 'trashed'));
+        return view('admin.call.index', compact('calls', 'count', 'total', 'trashed'));
     }
 
     public function show($id)

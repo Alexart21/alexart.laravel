@@ -1,4 +1,7 @@
-<x-layouts.admin title="Входящие сообщения">
+@php
+use Jenssegers\Date\Date;
+@endphp
+<x-layouts.admin title="Заказы обратных звонков | страница {{ $mails->currentPage() }}">
     <div class="d-flex">
         <h1>Входящие сообщения</h1>
         @if($trashed)
@@ -24,7 +27,7 @@
                 </button>
             </form>
         </div>
-
+        <div class="font-italic">{{ $count }} записей из {{ $total }}</div>
         <table class="table-bordered table-hover table-admin">
             <tr>
                 <th>id</th>
@@ -42,7 +45,17 @@
                     <td>{{ $mail->email }}</td>
                     <td>{{ $mail->tel ?? 'не указан' }}</td>
                     <td class="body-text">{{ $mail->body }}</td>
-                    <td>{{ $mail->updated_at }}</td>
+                    @php
+                        $date = Date::parse($mail->updated_at);
+                    if($date->isYesterday()){
+                        $date = 'вчера в ' . $date->format('H:i');
+                    }elseif ($date->isToday()){
+                        $date = 'сегодня в ' . $date->format('H:i');
+                    }else{
+                        $date = $date->format('j F Y H:i');
+                    }
+                    @endphp
+                    <td>{{ $date }}</td>
                     <td>
                         <div class="d-flex">
                             <div class="top-links"><a href="{{ route('post.show', [ $mail->id ]) }}"><span

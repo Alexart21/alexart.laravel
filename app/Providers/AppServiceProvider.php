@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,5 +50,6 @@ class AppServiceProvider extends ServiceProvider
         /*DB::beforeExecuting(function($query){
             echo  "<pre>$query</pre>";
         });*/
+//        setlocale(LC_ALL, 'ru_RU.utf8');
     }
 }

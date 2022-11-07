@@ -1,3 +1,6 @@
+@php
+    use Jenssegers\Date\Date;
+@endphp
 <x-layouts.admin title="Админка">
     <h1>Корзина</h1>
     <table class="table-bordered table-hover table-admin">
@@ -13,7 +16,17 @@
                 <td>{{$page->id }}</td>
                 <td>{{ $page->page }}</td>
                 <td>{{ $page->title }}</td>
-                <td>{{ $page->deleted_at }}</td>
+                @php
+                    $date = Date::parse($page->deleted_at);
+                if($date->isYesterday()){
+                    $date = 'вчера в ' . $date->format('H:i');
+                }elseif ($date->isToday()){
+                    $date = 'сегодня в ' . $date->format('H:i');
+                }else{
+                    $date = $date->format('j F Y H:i');
+                }
+                @endphp
+                <td>{{ $date }}</td>
                 <td>
                     <div class="d-flex">
                         <div>
