@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Call;
-use Illuminate\Support\Carbon;
+use App\Models\Post;
 
 
 class AdminCallController extends AppController
@@ -20,6 +20,18 @@ class AdminCallController extends AppController
     public function show($id)
     {
         $call = Call::findOrFail($id);
+        $call->is_read = 1;
+        $call->save();
+        // сдесь поскольку мы минуем middlware CheckisAdmin где устанавливаются значения
+        // то приходиться вручную
+        session([
+            'msgs' => [
+                'allCalls' => Call::count(),
+                'newCalls' => Call::where('is_read', 0)->count(),
+                'allPosts' => Post::count(),
+                'newPosts' => Post::where('is_read', 0)->count(),
+            ],
+        ]);
         return view('admin.call.show', compact('call'));
     }
 
@@ -27,6 +39,8 @@ class AdminCallController extends AppController
     public function destroy($id)
     {
         $call = Call::findOrFail($id);
+        $call->is_read = 1;
+        $call->save();
         $call->delete();
         return redirect()->route('call.index');
     }
@@ -36,6 +50,8 @@ class AdminCallController extends AppController
     {
         $calls = Call::all();
         foreach ($calls as $call){
+            $call->is_read = 1;
+            $call->save();
             $call->delete();
         }
         return redirect()->route('call.index');

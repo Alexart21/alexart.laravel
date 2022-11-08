@@ -1,4 +1,7 @@
-<!doctype html>
+@php
+    $msgs = session('msgs');
+@endphp
+    <!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +16,19 @@
     <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
     <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
 <body>
-
+<div class="admin_header container">
+    <div class="msgs-block">
+        <a href="{{ route('call.index') }}"><i class="fa fa-phone text-success"></i></a>
+        @if($msgs['newCalls'])
+            <a href="{{ route('call.index') }}"><b>{{ $msgs['newCalls'] }}</b></a>
+        @endif
+        &nbsp;&nbsp;&nbsp;
+        <a href="{{ route('post.index') }}"><i class="fa fa-envelope text-success"></i></a>
+        @if($msgs['newPosts'])
+            <a href="{{ route('post.index') }}"><b>{{ $msgs['newPosts'] }}</b></a>
+        @endif
+    </div>
+</div>
 <div class="container">
     {{ $slot }}
 </div>

@@ -1,7 +1,7 @@
 @php
 use Jenssegers\Date\Date;
 @endphp
-<x-layouts.admin title="Заказы обратных звонков | страница {{ $mails->currentPage() }}">
+<x-layouts.admin title="Входящие сообщения | страница {{ $mails->currentPage() }}">
     <div class="d-flex">
         <h1>Входящие сообщения</h1>
         @if($trashed)
@@ -39,7 +39,7 @@ use Jenssegers\Date\Date;
                 <th>Действия</th>
             </tr>
             @foreach($mails as $mail)
-                <tr>
+                <tr class="{{ $mail->is_read ? '' : 'table-success' }}">
                     <td>{{ $mail->id }}</td>
                     <td>{{ $mail->name }}</td>
                     <td>{{ $mail->email }}</td>

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\IndexFormRequest;
+use App\Models\Call;
 use App\Models\Post;
 
 
@@ -22,6 +22,18 @@ class AdminPostController extends AppController
     public function show($id)
     {
         $mail = Post::findOrFail($id);
+        $mail->is_read = 1;
+        $mail->save();
+        // сдесь поскольку мы минуем middlware CheckisAdmin где устанавливаются значения
+        // то приходиться вручную
+        session([
+            'msgs' => [
+                'allCalls' => Call::count(),
+                'newCalls' => Call::where('is_read', 0)->count(),
+                'allPosts' => Post::count(),
+                'newPosts' => Post::where('is_read', 0)->count(),
+            ],
+        ]);
         return view('admin.post.show', compact('mail'));
     }
 
@@ -29,6 +41,8 @@ class AdminPostController extends AppController
     public function destroy($id)
     {
         $mail = Post::findOrFail($id);
+        $mail->is_read = 1;
+        $mail->save();
         $mail->delete();
         return redirect()->route('post.index');
     }
@@ -38,6 +52,8 @@ class AdminPostController extends AppController
     {
         $mails = Post::all();
         foreach ($mails as $mail){
+            $mail->is_read = 1;
+            $mail->save();
             $mail->delete();
         }
         return redirect()->route('post.index');

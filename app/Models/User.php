@@ -14,8 +14,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 // о необходимости верифицировать email
 // что не есть god надо найти этот редирект и как то пофиксить
 
-class User extends Authenticatable implements MustVerifyEmail
-//class User extends Authenticatable
+//class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasFactory;
     use HasProfilePhoto;
@@ -59,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
+
+    public function isAdmin()
+    {
+        return $this->is_admin == 1;
+    }
 
     /**
      * The attributes that should be cast.

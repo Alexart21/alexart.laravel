@@ -37,7 +37,7 @@ use Jenssegers\Date\Date;
             <th>Действия</th>
         </tr>
         @foreach($calls as $call)
-            <tr>
+            <tr class="{{ $call->is_read ? '' : 'table-success' }}">
                 <td>{{ $call->id }}</td>
                 <td>{{ $call->name }}</td>
                 <td>{{ $call->tel }}</td>

@@ -11,15 +11,12 @@ use App\Http\Controllers\Admin\CKEditorController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
-// Админка (остальные роуты в подключаемом файле admin.php)
-Route::get('/admin', [ DefaultController::class, 'index' ])->name('admin.index');
-
 Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
 Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
 
 // все остальные страницы кроме главной
-//Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing']);
-Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
+Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
+//Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
 
 
 

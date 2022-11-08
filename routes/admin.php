@@ -10,8 +10,10 @@ Route::get('/admin/content', [ AdminContentController::class, 'index' ])->name('
 
 Route::resource('admin/content', AdminContentController::class)->parameters(['id' => 'id']);*/
 
-Route::prefix('admin')->group(function () {
-//    Route::get('/', [ DefaultController::class, 'index' ])->name('admin.index');
+Route::get('/admin', [ DefaultController::class, 'index' ])->name('admin.index');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isadmin']], function () {
+    Route::get('/', [ DefaultController::class, 'index' ])->name('admin.index');
     Route::post('/cache', [ DefaultController::class, 'cache' ])->name('admin.cache');
     Route::post('/last', [ DefaultController::class, 'last' ])->name('admin.last');
 
