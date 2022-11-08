@@ -14,9 +14,21 @@ Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
 Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('auth/{service}', [OauthController::class, 'redirectToService'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
+Route::get('auth/{service}/callback', [OauthController::class, 'handleCallback'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
+
+
+require __DIR__.'/admin.php';
+
+require __DIR__.'/auth.php';
+
 // все остальные страницы кроме главной
-Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
-//Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
+//Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
+Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
 
 
 
@@ -26,16 +38,9 @@ Route::middleware(['throttle:formsLimit'])->group(function () {
     Route::post('/zvonok', [ CallsController::class, 'store' ])->name('zvonok.store');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('auth/{service}', [OauthController::class, 'redirectToService'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
-Route::get('auth/{service}/callback', [OauthController::class, 'handleCallback'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
-
 //Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');
 Route::post('ckeditor/image_upload', [ CKEditorController::class, 'upload' ])->name('upload');
 
-require __DIR__.'/auth.php';
 
-require __DIR__.'/admin.php';
+
+

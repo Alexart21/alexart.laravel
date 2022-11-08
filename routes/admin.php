@@ -5,13 +5,6 @@ use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminCallController;
 
-/*Route::get('/admin', [ DefaultController::class, 'index' ])->name('admin.index');
-Route::get('/admin/content', [ AdminContentController::class, 'index' ])->name('content.index');
-
-Route::resource('admin/content', AdminContentController::class)->parameters(['id' => 'id']);*/
-
-Route::get('/admin', [ DefaultController::class, 'index' ])->name('admin.index');
-
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isadmin']], function () {
     Route::get('/', [ DefaultController::class, 'index' ])->name('admin.index');
     Route::post('/cache', [ DefaultController::class, 'cache' ])->name('admin.cache');
