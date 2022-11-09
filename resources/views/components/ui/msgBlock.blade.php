@@ -10,7 +10,7 @@ $time = date('H:i');
      title="Добрый день,я Александр.Чем могу помочь ?">
     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     <div id="msg-content">
-        <div class="msg-closed button-anim">
+        <div class="msg-closed">
             &nbsp;&nbsp;&nbsp;<i class="fab fa-viber viber"></i> <i class="fab fa-whatsapp wats"></i> <i
                 class="fab fa-telegram-plane tg"></i>
             <b class="msg-closed-text">Начните чат</b>

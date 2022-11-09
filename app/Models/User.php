@@ -14,13 +14,16 @@ use Laravel\Jetstream\HasProfilePhoto;
 // о необходимости верифицировать email
 // что не есть god надо найти этот редирект и как то пофиксить
 
-//class User extends Authenticatable implements MustVerifyEmail
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
+//class User extends Authenticatable
 {
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    const STATUS_ADMIN = 10; // права админа
+    const ADMIN_ID = 1; // админ только один и с таким id
 
     /**
      * The attributes that are mass assignable.
@@ -62,7 +65,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin == 1;
+        return ($this->status == self::STATUS_ADMIN) && ($this->id == self::ADMIN_ID);
     }
 
     /**

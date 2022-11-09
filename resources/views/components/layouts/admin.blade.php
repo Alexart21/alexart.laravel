@@ -11,10 +11,16 @@
 {{--    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>--}}
 <!-- <meta name="referrer" content="origin"/> -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
+    {{--<link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
-    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">--}}
+    @vite([
+    'resources/css/bootstrap.min.css',
+    'resources/css/style.css',
+    'resources/css/fontawesome/css/all.min.css',
+    ])
+    <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
 <body>
 <div class="admin_header container">
     <div class="msgs-block">
@@ -32,10 +38,9 @@
 <div class="container">
     {{ $slot }}
 </div>
-
-<script src="{{ asset('assets/9e6dad0b/jquery.js') }}"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
-<script src="{{ asset('assets/a9bedd54/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
 

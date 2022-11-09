@@ -24,7 +24,7 @@
                 </div>
                 <input type="hidden" id="callform-recaptcha" name="reCaptcha"/>
                 <div class="form-group">
-                    <button id="callSubmit" type="submit" class="btn success-button button-anim">жду звонка!</button>
+                    <button id="callSubmit" type="submit" class="btn success-button">жду звонка!</button>
                 </div>
             </form>
         </div>
