@@ -1,6 +1,16 @@
 <x-layouts.admin title="Админка">
     <h1>Админка</h1>
+    <style>
+        .alert-block{
+            /*position: fixed;*/
+        }
+        .alert{
+            /*display: inline-block;*/
+        }
+    </style>
+    <div class="alert-block d-flex justify-content-end">
     @include('flash::message')
+    </div>
     <div class="d-flex">
         <div class="btn top-links" style="color: #fff !important;">
             <a class="" href="{{ route('content.index') }}">Основные страницы</a>
@@ -25,3 +35,7 @@
         </form>
     </div>
 </x-layouts.admin>
+<script>
+    $('div.alert').delay(3000).fadeOut(350);
+</script>
+

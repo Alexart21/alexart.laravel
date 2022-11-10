@@ -19,7 +19,7 @@ class DefaultController extends AppController
    {
 //       $this->clearCache(); // из родительского контроллера
        Cache::flush();
-       flash('Кэш очищен')->success()->important();
+       flash('Кэш очищен')->success();
        return redirect()->back();
    }
 
@@ -29,7 +29,7 @@ class DefaultController extends AppController
        $this->setLastMod(); // из родительского контроллера
 //       $this->clearCache(); // из родительского контроллера
        Cache::flush();
-       flash('Обновлено')->success()->important();
+       flash('Обновлено')->success();
        return redirect()->back();
    }
 }

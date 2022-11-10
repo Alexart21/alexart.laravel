@@ -28,12 +28,33 @@ class CheckIsAdmin
         /*DB::beforeExecuting(function($query){
             echo  "<pre>$query</pre>";
         });*/
+        // Впихнул в UNION
+        $results = DB::select(
+            'SELECT COUNT(*) FROM `calls`
+                   UNION ALL SELECT COUNT(*) FROM `calls` WHERE is_read = 0
+                   UNION ALL SELECT COUNT(*) FROM `posts`
+                   UNION ALL SELECT COUNT(*) FROM `posts` WHERE is_read = 0
+
+        ');
+        // значения доставать из Std класса таким черезж способом
+        foreach ($results as $res) {
+            foreach ($res as $item) {
+                $x[] = $item;
+            }
+        }
         session([
-            'msgs' => [
+            // без Union 4 запроса
+            /*'msgs' => [
                 'allCalls' => Call::count(),
                 'newCalls' => Call::where('is_read', 0)->count(),
                 'allPosts' => Post::count(),
                 'newPosts' => Post::where('is_read', 0)->count(),
+            ],*/
+            'msgs' => [
+                'allCalls' => $x[0],
+                'newCalls' => $x[1],
+                'allPosts' => $x[2],
+                'newPosts' => $x[3],
             ],
         ]);
         return $next($request);

@@ -12,6 +12,7 @@ class AdminCallController extends AppController
     {
         $calls = Call::orderByDesc('updated_at')->paginate(20);
         $count = $calls->count();
+//        dd($calls);
         $total = $calls->total();
         $trashed = Call::onlyTrashed()->get()->count();
         return view('admin.call.index', compact('calls', 'count', 'total', 'trashed'));

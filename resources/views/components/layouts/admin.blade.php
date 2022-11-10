@@ -1,7 +1,10 @@
+@props([
+'title'
+])
 @php
     $msgs = session('msgs');
 @endphp
-    <!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -34,6 +37,11 @@
             <a href="{{ route('post.index') }}"><b>{{ $msgs['newPosts'] }}</b></a>
         @endif
     </div>
+    <div class="d-flex menu-block">
+        <div><a href="/">на сайт</a></div>
+        <div><a href="{{ route('admin.index') }}">главная</a></div>
+    </div>
+
 </div>
 <div class="container">
     {{ $slot }}
