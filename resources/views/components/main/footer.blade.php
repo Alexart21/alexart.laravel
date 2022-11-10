@@ -11,10 +11,10 @@
            $avatar = '/upload/default_avatar/no-image.png';
         }
     }
-    $Year = date('Y');
+
 @endphp
 <footer class="innerShadow gradient3">
-    <strong class="company">Alex-art21</strong><sup>&copy;</sup> web developer group 2009&mdash;{{ $Year }} тел. <b
+    <strong class="company">Alex-art21</strong><sup>&copy;</sup> web developer group 2009&mdash;{{ date('Y') }} тел. <b
         class="corpid">+7(987) 668-04-84</b><br/>
     <strong>Создание и продвижение сайтов в Чебоксарах</strong><br/>
     <span>Ваши персональные данные могут обрабатывается только в соответствии с
@@ -25,7 +25,7 @@
         <a href="https://policies.google.com/terms">условиями применения</a>.
     </small>
     <br>
-    @if($user)
+    @auth()
         <div class="d-flex justify-content-center user-block">
             &nbsp;
             <div><a href="/user/profile" title="личный кабинет">
@@ -33,12 +33,23 @@
                 </a>
             </div>
             &nbsp;&nbsp;<div class="username"><a href="/user/profile" title="личный кабинет"
-                                                 class="text-dark">{{ $username }}</a></div>
+                                                 class="text-dark">{{ $user->name }}</a></div>
             &nbsp;&nbsp;
-            <form action="/logout" method="post" style="display: inline-block">
+            <dialog id="logoutDialog">
+                <form method="dialog" style="display: flex;flex-direction: column;justify-content: center">
+                    <h3 class="text-center">Точно выйти ?</h3>
+                    <div class="d-flex justify-content-center">
+                        <button id="confirmBtn" class="btn btn-outline-danger">ВЫЙТИ</button>
+                        &nbsp;
+                        &nbsp;
+                        <button value="cancel" class="btn btn-outline-secondary">отмена</button>
+                    </div>
+                </form>
+            </dialog>
+            <form id="logout-form" action="/logout" method="post" style="display: inline-block">
                 @csrf
                 <div>&nbsp;&nbsp;
-                    <button style="background: transparent">
+                    <button id="logout-btn" style="background: transparent">
                         <span title="выйти" class="fa fa-external-link-alt"></span>
                     </button>
                 </div>
