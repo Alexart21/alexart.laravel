@@ -10,7 +10,7 @@ class AdminCallController extends AppController
 
     public function index()
     {
-        $calls = Call::orderByDesc('updated_at')->paginate(20);
+        $calls = Call::orderByDesc('created_at')->paginate(20);
         $count = $calls->count();
 //        dd($calls);
         $total = $calls->total();

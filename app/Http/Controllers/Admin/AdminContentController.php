@@ -12,7 +12,7 @@ class AdminContentController extends AppController
     public function index()
     {
 //        $pages = Content::all();
-        $pages = Content::orderByDesc('updated_at')->paginate(20);
+        $pages = Content::orderByDesc('created_at')->paginate(20);
         $count = $pages->count();
         $total = $pages->total();
         $trashed = Content::onlyTrashed()->get()->count();

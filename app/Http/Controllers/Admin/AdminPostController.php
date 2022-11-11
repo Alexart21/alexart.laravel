@@ -11,7 +11,7 @@ class AdminPostController extends AppController
     public function index()
     {
 //        $mails = Post::all();
-        $mails = Post::orderByDesc('updated_at')->paginate(20);
+        $mails = Post::orderByDesc('created_at')->paginate(20);
         $count = $mails->count();
         $total = $mails->total();
         $trashed = Post::onlyTrashed()->get()->count();
