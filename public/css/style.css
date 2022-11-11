@@ -2285,3 +2285,18 @@ abbr{
     top: calc(50% - 4em);
     letter-spacing: 2px;
 }
+
+#logoutDialog form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#logoutDialog form button{
+   font-weight: bold;
+   letter-spacing: 2px;
+}
+
+#logoutDialog::backdrop{
+    background: rgba(0,0,0, .7);
+}

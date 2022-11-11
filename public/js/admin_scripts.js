@@ -1,5 +1,7 @@
 'use strict'
 
+'use strict'
+
 const screen_w = document.body.clientWidth;
 const screen_h = document.body.clientHeight;
 /*let scrollHeight = Math.max( // полная высота с прокручиваемой частью
@@ -88,10 +90,10 @@ function menu_fix() {
                 'color': '#313A3D',
                 'borderRight': '1px dotted #e61b05'
             });
-           /* leftMenu.css({
-                'position': 'fixed',
-                'top': 0
-            });*/
+            /* leftMenu.css({
+                 'position': 'fixed',
+                 'top': 0
+             });*/
         } else {
             menu.css({
                 'top': 0,
@@ -332,7 +334,7 @@ function linkColor() {
     }
 }
 
- // Параграф "этапы создания сайта" на главной странице окраска активной ссылки
+// Параграф "этапы создания сайта" на главной странице окраска активной ссылки
 /*let etap = [ // массив с описаниями
     "Уяснение задач заказчика, определение целевой аудитории сайта, написание брифа(в народном фольклоре ТЗ).Прототипирование или составление эскиза где определяются расположения элементов страниц.",
     "Определение концепции дизайна.Цветовое и графическое решение будущего сайта, выбор шрифтов и др.",
@@ -374,8 +376,8 @@ if (leftMenu) {
 /******/
 const callBtn = document.getElementById('call');
 callBtn.onclick = () => {
-        $('#callback').modal('show');
-        $('.modal-content').velocity('transition.bounceIn');
+    $('#callback').modal('show');
+    $('.modal-content').velocity('transition.bounceIn');
 }
 //
 function startLoader(){
@@ -451,7 +453,7 @@ if(logoutDialog){
             logoutForm.submit();
         });
         logoutDialog.addEventListener('close', () => {
-        console.log('отмена');
+            console.log('отмена');
             logoutForm.onsubmit = (e) => {
                 e.preventDefault = true;
             }

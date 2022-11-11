@@ -15,7 +15,7 @@ return new class extends Migration {
     {
         Schema::create('oauth', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('source');
             $table->string('source_id');
             $table->timestamps();

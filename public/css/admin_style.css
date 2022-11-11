@@ -1,5 +1,10 @@
-ody {
-    /*margin: 2em;*/
+* {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 @font-face {
@@ -54,4 +59,40 @@ ody {
 
 .menu-block>div{
     margin-right: 1em;
+}
+
+.admin-user-block{
+    height: 40px;
+}
+
+.admin-user-block a, admin-user-block a:active, admin-user-block a:visited{
+    color: #000 !important;
+}
+
+.admin-user-block div{
+    height: 2em;
+    line-height: 2em;
+}
+
+.admin-user-block .avatar{
+    width: 2em;
+    height: 2em;
+}
+
+/*.admin-user-block .fa-user-circle{
+    font-size: 30px;
+    line-height: 40px;
+}*/
+
+.admin-user-block .fa-external-link-alt{
+    line-height: 2em;
+    transform: rotate(45deg);
+    color: #222;
+}
+
+.username{
+    display: inline-block;
+    max-width: 24em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
