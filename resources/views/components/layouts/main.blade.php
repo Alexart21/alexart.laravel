@@ -34,13 +34,20 @@
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
-{{--    'resources/css/style.css',--}}
+    {{--    'resources/css/style.css',--}}
     'resources/css/animate.min.css',
     'resources/css/fontawesome/css/all.min.css',
     ])
     <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 <body>
+@auth()
+    @if(!auth()->user()->email_verified_at)
+        <div class="alert alert-danger">
+            <h2>Подтвердите регистрацию через email {{ auth()->user()->email }}</h2>
+        </div>
+    @endif
+@endif
 <x-ui.loader/>
 <output id="my-modal"></output>
 {{-- Модальное обратного звонка --}}

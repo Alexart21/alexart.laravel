@@ -11,6 +11,9 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
+    const NEW_STATUS = 0;
+    const READ_STATUS = 1;
+
 //    protected $guarded = [];
     protected $fillable = [
         'name',

@@ -14,7 +14,7 @@
     <div>
         <b>Дата: </b>
         @php
-            $date = Date::parse($call->updated_at);
+            $date = Date::parse($call->created_at);
         if($date->isYesterday()){
             $date = 'вчера в ' . $date->format('H:i');
         }elseif ($date->isToday()){

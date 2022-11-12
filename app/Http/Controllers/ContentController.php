@@ -21,9 +21,6 @@ class ContentController extends Controller
             return Content::where('page', 'index')->firstOrFail();
         });*/
         $data = Content::where('page', 'index')->firstOrFail();
-//        dd($data['last_mod']);
-        view()->share(['data' => $data]);
-//        return view('content.index', compact('data'));
         return response()
             ->view('content.index', compact('data'))
             ->header('Last-Modified', $data['last_mod'])

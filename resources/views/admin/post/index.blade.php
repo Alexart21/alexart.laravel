@@ -1,5 +1,7 @@
 @php
 use Jenssegers\Date\Date;
+
+$h1 = $new ? 'Заказы обратных звонков - новые' : 'Заказы обратных звонков - все';
 @endphp
 <x-layouts.admin title="Входящие сообщения | страница {{ $mails->currentPage() }}">
     <div class="d-flex">
@@ -12,6 +14,11 @@ use Jenssegers\Date\Date;
     </div>
     @if($count)
         <div class="d-flex">
+            @if($new)
+                <a href="{{ route('post.index') }}" class="btn btn-success top-links">показать все</a>
+            @else
+                <a href="{{ route('post.index', ['s' => 'new']) }}" class="btn btn-success top-links">только новые</a>
+            @endif
             <form class="top-links" action="{{ route('post.destroyAll') }}" method="post" >
                 @csrf
                 @method('DELETE')
@@ -39,14 +46,14 @@ use Jenssegers\Date\Date;
                 <th>Действия</th>
             </tr>
             @foreach($mails as $mail)
-                <tr class="{{ $mail->is_read ? '' : 'table-success' }}">
+                <tr class="{{ $mail->status ? '' : 'table-success' }}">
                     <td>{{ $mail->id }}</td>
                     <td>{{ $mail->name }}</td>
                     <td>{{ $mail->email }}</td>
                     <td>{{ $mail->tel ?? 'не указан' }}</td>
                     <td class="body-text">{{ $mail->body }}</td>
                     @php
-                        $date = Date::parse($mail->updated_at);
+                        $date = Date::parse($mail->created_at);
                     if($date->isYesterday()){
                         $date = 'вчера в ' . $date->format('H:i');
                     }elseif ($date->isToday()){

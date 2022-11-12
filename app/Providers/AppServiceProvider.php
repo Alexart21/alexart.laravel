@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use http\Env\Url;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -51,5 +52,6 @@ class AppServiceProvider extends ServiceProvider
             echo  "<pre>$query</pre>";
         });*/
 //        setlocale(LC_ALL, 'ru_RU.utf8');
+//        Paginator::useBootstrapFive();
     }
 }

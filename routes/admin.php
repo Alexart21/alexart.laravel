@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminCallController;
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isadmin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isadmin', 'verified']], function () {
     Route::get('/', [ DefaultController::class, 'index' ])->name('admin.index');
     Route::post('/cache', [ DefaultController::class, 'cache' ])->name('admin.cache');
     Route::post('/last', [ DefaultController::class, 'last' ])->name('admin.last');

@@ -1,38 +1,41 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Call;
 use App\Models\Post;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Http\Request;
 
 
 class AdminCallController extends AppController
 {
 
-    public function index()
+    // все сообщения
+    public function index(Request $request)
     {
-        $calls = Call::orderByDesc('created_at')->paginate(20);
-        $count = $calls->count();
-//        dd($calls);
-        $total = $calls->total();
-        $trashed = Call::onlyTrashed()->get()->count();
-        return view('admin.call.index', compact('calls', 'count', 'total', 'trashed'));
+        if ($request->s === 'new') { // только непрочитанные
+            $query = Call::where('status', Call::NEW_STATUS);
+            $calls = $query->orderByDesc('created_at')->paginate(20);
+            $count = $query->count();
+            $total = $calls->total();
+            $trashed = Call::onlyTrashed()->get()->count();
+            $new = true;
+        } else { // все
+            $calls = Call::orderByDesc('created_at')->paginate(20);
+            $count = $calls->count();
+            $total = $calls->total();
+            $trashed = Call::onlyTrashed()->get()->count();
+            $new = false;
+        }
+        return view('admin.call.index', compact('calls', 'count', 'total', 'trashed', 'new'));
     }
 
     public function show($id)
     {
         $call = Call::findOrFail($id);
-        $call->is_read = 1;
+        $call->status = Call::READ_STATUS;
         $call->save();
-        // сдесь поскольку мы минуем middlware CheckisAdmin где устанавливаются значения
-        // то приходиться вручную
-        session([
-            'msgs' => [
-                'allCalls' => Call::count(),
-                'newCalls' => Call::where('is_read', 0)->count(),
-                'allPosts' => Post::count(),
-                'newPosts' => Post::where('is_read', 0)->count(),
-            ],
-        ]);
         return view('admin.call.show', compact('call'));
     }
 
@@ -40,7 +43,7 @@ class AdminCallController extends AppController
     public function destroy($id)
     {
         $call = Call::findOrFail($id);
-        $call->is_read = 1;
+        $call->status = Call::READ_STATUS;
         $call->save();
         $call->delete();
         return redirect()->route('call.index');
@@ -50,8 +53,8 @@ class AdminCallController extends AppController
     public function destroyAll()
     {
         $calls = Call::all();
-        foreach ($calls as $call){
-            $call->is_read = 1;
+        foreach ($calls as $call) {
+            $call->status = Call::READ_STATUS;
             $call->save();
             $call->delete();
         }
@@ -65,18 +68,21 @@ class AdminCallController extends AppController
         return redirect()->route('call.index');
     }
 
-    public function trash(){
+    public function trash()
+    {
         $calls = Call::onlyTrashed()->get();
         return view('admin.call.trash', compact('calls'));
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
         $call = Call::onlyTrashed()->findOrFail($id);
         $call->restore();
         return redirect()->route('call.index');
     }
 
-    public function destroyForewer($id){
+    public function destroyForewer($id)
+    {
         Call::onlyTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('call.index');
     }

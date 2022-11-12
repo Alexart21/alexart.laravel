@@ -3,37 +3,36 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Call;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 
 class AdminPostController extends AppController
 {
 
-    public function index()
+    public function index(Request $request)
     {
-//        $mails = Post::all();
-        $mails = Post::orderByDesc('created_at')->paginate(20);
-        $count = $mails->count();
-        $total = $mails->total();
-        $trashed = Post::onlyTrashed()->get()->count();
-//        dd($pages);
-        return view('admin.post.index', compact('mails', 'count', 'total', 'trashed'));
+        if ($request->s === 'new') { // только непрочитанные
+            $query = Post::where('status', Post::NEW_STATUS);
+            $mails = $query->orderByDesc('created_at')->paginate(20);
+            $count = $query->count();
+            $total = $mails->total();
+            $trashed = Post::onlyTrashed()->get()->count();
+            $new = true;
+        } else { // все
+            $mails = Post::orderByDesc('created_at')->paginate(20);
+            $count = $mails->count();
+            $total = $mails->total();
+            $trashed = Post::onlyTrashed()->get()->count();
+            $new = false;
+        }
+        return view('admin.post.index', compact('mails', 'count', 'total', 'trashed', 'new'));
     }
 
     public function show($id)
     {
         $mail = Post::findOrFail($id);
-        $mail->is_read = 1;
+        $mail->status = Post::READ_STATUS;
         $mail->save();
-        // сдесь поскольку мы минуем middlware CheckisAdmin где устанавливаются значения
-        // то приходиться вручную
-        session([
-            'msgs' => [
-                'allCalls' => Call::count(),
-                'newCalls' => Call::where('is_read', 0)->count(),
-                'allPosts' => Post::count(),
-                'newPosts' => Post::where('is_read', 0)->count(),
-            ],
-        ]);
         return view('admin.post.show', compact('mail'));
     }
 
@@ -41,7 +40,7 @@ class AdminPostController extends AppController
     public function destroy($id)
     {
         $mail = Post::findOrFail($id);
-        $mail->is_read = 1;
+        $mail->status = Post::READ_STATUS;
         $mail->save();
         $mail->delete();
         return redirect()->route('post.index');
@@ -52,7 +51,7 @@ class AdminPostController extends AppController
     {
         $mails = Post::all();
         foreach ($mails as $mail){
-            $mail->is_read = 1;
+            $mail->status = Post::READ_STATUS;
             $mail->save();
             $mail->delete();
         }
