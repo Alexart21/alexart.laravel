@@ -1,25 +1,26 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Call;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 
 class AdminPostController extends AppController
 {
+    const PAGE_SIZE = 2;
 
     public function index(Request $request)
     {
-        if ($request->s === 'new') { // только непрочитанные
-            $query = Post::where('status', Post::NEW_STATUS);
-            $mails = $query->orderByDesc('created_at')->paginate(20);
-            $count = $query->count();
+        if ($request->sort === 'new') { // только непрочитанные
+            $mails = Post::where('status', Post::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
+            $count = $mails->count();
             $total = $mails->total();
             $trashed = Post::onlyTrashed()->get()->count();
+            $mails->appends(['sort' => 'new']);
             $new = true;
-        } else { // все
-            $mails = Post::orderByDesc('created_at')->paginate(20);
+        } else { // все сообщения
+            $mails = Post::orderByDesc('created_at')->paginate(self::PAGE_SIZE);
             $count = $mails->count();
             $total = $mails->total();
             $trashed = Post::onlyTrashed()->get()->count();
@@ -47,13 +48,20 @@ class AdminPostController extends AppController
     }
 
     // все в корзину
-    public function destroyAll()
+    public function destroyAll(Request $request)
     {
-        $mails = Post::all();
-        foreach ($mails as $mail){
-            $mail->status = Post::READ_STATUS;
-            $mail->save();
-            $mail->delete();
+        $pageNum = (int)$request->page;
+        if ($request->sort === 'all') {
+            $mails = Post::orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+        } elseif ($request->sort === 'new') {
+            $mails = Post::where('status', Post::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+        }
+        if ($mails) {
+            foreach ($mails as $mail) {
+                $mail->status = Post::READ_STATUS;
+                $mail->save();
+                $mail->delete();
+            }
         }
         return redirect()->route('post.index');
     }
@@ -65,18 +73,21 @@ class AdminPostController extends AppController
         return redirect()->route('post.index');
     }
 
-    public function trash(){
+    public function trash()
+    {
         $mails = Post::onlyTrashed()->get();
         return view('admin.post.trash', compact('mails'));
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
         $mail = Post::onlyTrashed()->findOrFail($id);
         $mail->restore();
         return redirect()->route('post.index');
     }
 
-    public function destroyForewer($id){
+    public function destroyForewer($id)
+    {
         Post::onlyTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('post.index');
     }

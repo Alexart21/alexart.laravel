@@ -1,11 +1,11 @@
 @php
 use Jenssegers\Date\Date;
 
-$h1 = $new ? 'Заказы обратных звонков - новые' : 'Заказы обратных звонков - все';
+$h1 = $new ? 'Входящие сообщения - новые' : 'Входящие сообщения - все';
 @endphp
 <x-layouts.admin title="Входящие сообщения | страница {{ $mails->currentPage() }}">
     <div class="d-flex">
-        <h1>Входящие сообщения</h1>
+        <h1>{{ $h1 }}</h1>
         @if($trashed)
             <div class="top-links">
                 <a href="{{ route('post.trash') }}" class="btn btn-warning">Корзина</a>
@@ -17,9 +17,9 @@ $h1 = $new ? 'Заказы обратных звонков - новые' : 'За
             @if($new)
                 <a href="{{ route('post.index') }}" class="btn btn-success top-links">показать все</a>
             @else
-                <a href="{{ route('post.index', ['s' => 'new']) }}" class="btn btn-success top-links">только новые</a>
+                <a href="{{ route('post.index', ['sort' => 'new']) }}" class="btn btn-success top-links">только новые</a>
             @endif
-            <form class="top-links" action="{{ route('post.destroyAll') }}" method="post" >
+            <form class="top-links" action="{{ route('post.destroyAll', [ 'sort' => $new ? 'new' : 'all', 'page' => $mails->currentPage() ]) }}" method="post" >
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-warning">

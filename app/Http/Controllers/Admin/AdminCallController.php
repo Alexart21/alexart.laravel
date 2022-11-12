@@ -11,18 +11,19 @@ use Illuminate\Http\Request;
 class AdminCallController extends AppController
 {
 
-    // все сообщения
+    const PAGE_SIZE = 2;
+
     public function index(Request $request)
     {
-        if ($request->s === 'new') { // только непрочитанные
-            $query = Call::where('status', Call::NEW_STATUS);
-            $calls = $query->orderByDesc('created_at')->paginate(20);
-            $count = $query->count();
+        if ($request->sort === 'new') { // только непрочитанные
+            $calls = Call::where('status', Call::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
+            $count = $calls->count();
             $total = $calls->total();
             $trashed = Call::onlyTrashed()->get()->count();
+            $calls->appends(['sort' => 'new']);
             $new = true;
-        } else { // все
-            $calls = Call::orderByDesc('created_at')->paginate(20);
+        } else { // все сообщения
+            $calls = Call::orderByDesc('created_at')->paginate(self::PAGE_SIZE);
             $count = $calls->count();
             $total = $calls->total();
             $trashed = Call::onlyTrashed()->get()->count();
@@ -50,13 +51,20 @@ class AdminCallController extends AppController
     }
 
     // все в корзину
-    public function destroyAll()
+    public function destroyAll(Request $request)
     {
-        $calls = Call::all();
-        foreach ($calls as $call) {
-            $call->status = Call::READ_STATUS;
-            $call->save();
-            $call->delete();
+        $pageNum = (int)$request->page;
+        if($request->sort === 'all'){
+            $calls = Call::orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+        }elseif ($request->sort === 'new'){
+            $calls = Call::where('status', Call::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+        }
+        if($calls){
+            foreach ($calls as $call) {
+                $call->status = Call::READ_STATUS;
+                $call->save();
+                $call->delete();
+            }
         }
         return redirect()->route('call.index');
     }

@@ -12,15 +12,14 @@
             </div>
         @endif
     </div>
-{{--    <a class="btn btn-success" href="{{ route('call.index', ['s' => 'new']) }}">новые</a>--}}
     @if($count)
         <div class="d-flex">
             @if($new)
                 <a href="{{ route('call.index') }}" class="btn btn-success top-links">показать все</a>
             @else
-                <a href="{{ route('call.index', ['s' => 'new']) }}" class="btn btn-success top-links">только новые</a>
+                <a href="{{ route('call.index', ['sort' => 'new']) }}" class="btn btn-success top-links">только новые</a>
             @endif
-            <form class="top-links" action="{{ route('call.destroyAll') }}" method="post">
+            <form class="top-links" action="{{ route('call.destroyAll', [ 'sort' => $new ? 'new' : 'all', 'page' => $calls->currentPage() ]) }}" method="post">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-warning">
