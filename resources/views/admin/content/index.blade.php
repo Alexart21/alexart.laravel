@@ -2,8 +2,9 @@
     use Jenssegers\Date\Date;
 @endphp
 <x-layouts.admin title="Основные страницы | страница {{ $pages->currentPage() }}">
+    <br>
     <div class="d-flex">
-        <h1>Основные страницы</h1>
+        <h1>Основные страницы</h1>&nbsp;
         <div>
             <a href="{{ route('content.create') }}" class="btn btn-info">Создать</a>
         </div>
@@ -46,10 +47,10 @@
                         <div class="top-links"><a href="{{ route('content.edit', [ $page->id ]) }}"><span
                                     class="fa fa-pen"></span></a></div>
                         <div class="top-links">
-                            <form action="{{ route('content.destroy', [ $page->id ]) }}" method="post">
+                            <form class="delForms" action="{{ route('content.destroy', [ $page->id ]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button>
+                                <button class="delBtns" onclick="return confirm('Отправит в корзину ?');">
                                     <span class="fa fa-trash text-danger"></span>
                                 </button>
                             </form>

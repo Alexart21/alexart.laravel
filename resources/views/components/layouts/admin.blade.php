@@ -51,7 +51,10 @@
                 </a>
             </div>
             &nbsp;&nbsp;<div class="username"><a href="/user/profile" title="личный кабинет"
-                                                 class="text-dark">{{ $username }}</a></div>
+                                                 class="text-dark">{{ $username }}
+                    {{-- статус $role расшарен в шлюзах в файле app/Providers/AuthServiceProvider.php --}}
+                    [{{ $role }}]
+                </a></div>
             &nbsp;&nbsp;
             {{-- Окошко подтверждения выхода --}}
             <x-ui.dialog />

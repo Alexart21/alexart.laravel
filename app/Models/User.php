@@ -8,22 +8,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Illuminate\Support\Facades\Auth;
 
 
 // когда имплементируем MustVerifyEmail то при OAuth при удачной авторизации перебрасывает на страницу с сообщением
 // о необходимости верифицировать email
 // что не есть god надо найти этот редирект и как то пофиксить
 
-class User extends Authenticatable implements MustVerifyEmail
-//class User extends Authenticatable
+//class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-
-    const STATUS_ADMIN = 10; // права админа
-    const ADMIN_ID = 1; // админ только один и с таким id
 
     /**
      * The attributes that are mass assignable.
@@ -63,11 +61,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'two_factor_secret',
     ];
 
-    public function isAdmin()
-    {
-        return ($this->status == self::STATUS_ADMIN) && ($this->id == self::ADMIN_ID);
-    }
-
     /**
      * The attributes that should be cast.
      *
@@ -85,4 +78,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
 }

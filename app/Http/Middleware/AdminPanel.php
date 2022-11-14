@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Call;
 use App\Models\Post;
 
-class CheckIsAdmin
+class AdminPanel
 {
     /**
      * Handle an incoming request.
@@ -21,11 +21,6 @@ class CheckIsAdmin
      */
     public function handle($request, Closure $next)
     {
-
-        if(!Auth::user()->isAdmin()){
-//            die('here');
-            return redirect('/');
-        }
         $callNewStatus = Call::NEW_STATUS;
         $postNewStatus = Post::NEW_STATUS;
         // что необходимо в шаблоне берем из базы
@@ -65,11 +60,18 @@ class CheckIsAdmin
                 $avatar = '/upload/default_avatar/no-image.png';
             }
         }
+
+        if($user->roles()->where('name', 'admin')->count() > 0){
+            $role = 'администратор';
+        }elseif ($user->roles()->where('name', 'manager')->count() > 0) {
+            $role = 'менеджер';
+        }
         // Расшариваем нужные данные
         View::share([
             'msgs' => $msgs,
             'username' => $user->name,
             'avatar' => $avatar,
+            'role' => $role
         ]);
         /*DB::beforeExecuting(function($query){
             echo  "<pre>$query</pre>";

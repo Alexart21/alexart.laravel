@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AdminPostController extends AppController
 {
-    const PAGE_SIZE = 2;
+    const PAGE_SIZE = 20;
 
     public function index(Request $request)
     {

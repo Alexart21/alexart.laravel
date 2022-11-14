@@ -71,7 +71,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                                 <form action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button>
+                                    <button onclick="return confirm('Отправит в корзину ?')">
                                         <span class="fa fa-trash text-danger"></span>
                                     </button>
                                 </form>

@@ -8,11 +8,12 @@ use App\Http\Requests\Admin\ContentFormRequest;
 
 class AdminContentController extends AppController
 {
+    const PAGE_SIZE = 20;
 
     public function index()
     {
 //        $pages = Content::all();
-        $pages = Content::orderByDesc('created_at')->paginate(20);
+        $pages = Content::orderByDesc('created_at')->paginate(self::PAGE_SIZE);
         $count = $pages->count();
         $total = $pages->total();
         $trashed = Content::onlyTrashed()->get()->count();
