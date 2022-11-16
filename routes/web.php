@@ -15,6 +15,7 @@ Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
 Route::get('/test/dadata', [ TestController::class, 'dadata' ])->name('test.dadata');
 Route::get('/test/address', [ TestController::class, 'address' ])->name('test.address');
 Route::post('/test/info', [ TestController::class, 'info' ])->name('test.info');
+Route::post('/test/save', [ TestController::class, 'save' ])->name('test.save');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

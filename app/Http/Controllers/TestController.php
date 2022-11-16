@@ -29,6 +29,12 @@ class TestController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function save(Request $request)
+    {
+//        die('here');
+        dd($request->q);
+    }
+
     public function dadata()
     {
         return view('test.dadata');
@@ -46,15 +52,10 @@ class TestController extends Controller
     {
         /*return response()->json([
             'success' => true,
-            'count' => 3,
-            'address' => ['aaaaaa', 'bbbbbbbbbbb', 'cccccccccccc']
+            'count' => 2,
+            'address' => ['aaaa', 'bla-bka-bla-la-LA'],
         ]);*/
-//        $dadata = DaDataAddress::standardization($request->q);
         $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
-//        $dadata = DaDataAddress::id($request->q);
-//        $dadata = DaDataAddress::postalUnitById(127642, 2, Language::RU);
-//        $dadata = DaDataPhone::standardization('раб 846)231.60.14 *139');
-//        dd($dadata['suggestions'][5]['value']);
         $res = [];
         foreach ($dadata['suggestions'] as $v){
             array_push($res, $v['value']);

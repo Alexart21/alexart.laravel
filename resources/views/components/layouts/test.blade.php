@@ -13,7 +13,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="{{ asset('css/test/bootstrap.min.css')  }}" rel="stylesheet">
-    <link href="{{ asset('css/custom-select.css')  }}" rel="stylesheet">
+    <link href="{{ asset('css/datalist.css')  }}" rel="stylesheet">
 <body>
 <!-- начало основной контент -->
 <div class="inc-out">
@@ -23,6 +23,6 @@
 </div>
 <!-- конец основной контент -->
 <script src="{{ asset('js/jquery3.6.0.min.js') }}"></script>
-{{--<script src="{{ asset('js/custom.select.box.js') }}"></script>--}}
+<script src="{{ asset('js/datalist.js') }}"></script>
 </body>
 </html>
