@@ -20,7 +20,7 @@
        let form = document.getElementById('test-form');
        form.onsubmit = async (e) => {
            e.preventDefault();
-           clearErrMsgs('index-err-msg');
+           // clearErrMsgs('index-err-msg');
            let formData = new FormData(form);
            let response = await fetch("{{ route('test.store') }}", {
                method: 'POST',

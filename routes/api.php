@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\CallsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// ограничения описаны в app/Providers/AppServiceProvider.php
+Route::middleware(['throttle:formsLimit'])->group(function () {
+    Route::post('/mail', [ PostsController::class, 'store' ])->name('mail.store');
+    Route::post('/zvonok', [ CallsController::class, 'store' ])->name('zvonok.store');
+});
+
+Route::post('/test', [ TestController::class, 'store' ])->name('test.store');

@@ -3,12 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use App\Models\Call;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class AdminPanel
 {
@@ -61,9 +62,15 @@ class AdminPanel
             }
         }
 
-        if($user->roles()->where('name', 'admin')->count() > 0){
+        /*if($user->roles()->where('name', 'admin')->count() > 0){
             $role = 'администратор';
         }elseif ($user->roles()->where('name', 'manager')->count() > 0) {
+            $role = 'менеджер';
+        }*/
+//        dd($user->roles()->where('name', 'manager'));
+        if(Gate::check('admin')){
+            $role = 'администратор';
+        }elseif (Gate::check('manager')) {
             $role = 'менеджер';
         }
         // Расшариваем нужные данные

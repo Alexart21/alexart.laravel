@@ -12,8 +12,8 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
-    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
+    <link href="{{ asset('css/test/bootstrap.min.css')  }}" rel="stylesheet">
+    <link href="{{ asset('css/custom-select.css')  }}" rel="stylesheet">
 <body>
 <!-- начало основной контент -->
 <div class="inc-out">
@@ -22,7 +22,7 @@
     </main>
 </div>
 <!-- конец основной контент -->
-{{--<script src="{{ asset('assets/a9bedd54/js/bootstrap.bundle.js') }}"></script>--}}
-<script src="{{ asset('js/scripts.js') }}"></script>
+<script src="{{ asset('js/jquery3.6.0.min.js') }}"></script>
+{{--<script src="{{ asset('js/custom.select.box.js') }}"></script>--}}
 </body>
 </html>

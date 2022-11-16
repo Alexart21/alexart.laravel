@@ -8,6 +8,10 @@ use App\Models\Oauth;
 use App\Models\User;
 use Carbon\Carbon;
 use Jenssegers\Date\Date;
+use MoveMoveIo\DaData\Facades\DaDataAddress;
+use MoveMoveIo\DaData\Enums\Language;
+use MoveMoveIo\DaData\Facades\DaDataName;
+use MoveMoveIo\DaData\DaDataPhone;
 
 
 class TestController extends Controller
@@ -15,35 +19,6 @@ class TestController extends Controller
     public ?int $x;
     public function index()
     {
-//        setlocale(LC_TIME, 'ru_RU.UTF-8');
-//        Carbon::setLocale(config('app.locale'));
-//        $time = Carbon::parse('2012-5-21')->locale('ru')->format('d F y');
-
-
-//        Date::setLocaletLocale('ru');
-
-//        echo Date::now()->format('l j F Y H:i:s'); // zondag 28 april 2013 21:58:16
-//        $date =  Date::parse('2022-11-06 19:07:24')->isYesterday(); // вчера
-//        $date =  Date::parse('2022-11-07 19:07:24')->isToday(); // сегодня
-        $date = Date::parse('2022-11-05 14:07:24');
-
-        if($date->isYesterday()){
-            $date = 'вчера в ' . $date->format('H:i');
-        }elseif ($date->isToday()){
-            $date = 'сегодня в ' . $date->format('H:i');
-        }else{
-            $date = $date->format('j F Y H:i');
-        }
-        dd($date);
-//        $x = Carbon::parse('2022-11-01 19:07:24')->diff(Carbon::now())->format('%H hours %i minutes, %s seconds');
-        $x = Carbon::parse('2022-10-01 11:07:24')->diff(Carbon::now());
-//        dd($date->ago());
-//        dd($x);
-//        echo Date::parse('2022-11-06 18:07:24')->format('l j F Y H:i'); // zondag 28 april 2013 21:58:16
-        echo Date::parse('2022-11-06 18:07:24')->format('l j F Y H:i'); // zondag 28 april 2013 21:58:16
-
-//        echo Date::parse('-1 day')->diffForHumans(); // 1 dag geleden
-        die;
         $data =[];
         return view('test.index', compact('data'));
     }
@@ -52,5 +27,44 @@ class TestController extends Controller
     {
         $request->validated();
         return response()->json(['success' => true]);
+    }
+
+    public function dadata()
+    {
+        return view('test.dadata');
+    }
+
+    public function address()
+    {
+//        $dadata = DaDataAddress::standardization('новы');
+//        dd($dadata[0]['result']);
+
+        return view('test.address');
+    }
+
+    public function info(Request $request)
+    {
+        /*return response()->json([
+            'success' => true,
+            'count' => 3,
+            'address' => ['aaaaaa', 'bbbbbbbbbbb', 'cccccccccccc']
+        ]);*/
+//        $dadata = DaDataAddress::standardization($request->q);
+        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
+//        $dadata = DaDataAddress::id($request->q);
+//        $dadata = DaDataAddress::postalUnitById(127642, 2, Language::RU);
+//        $dadata = DaDataPhone::standardization('раб 846)231.60.14 *139');
+//        dd($dadata['suggestions'][5]['value']);
+        $res = [];
+        foreach ($dadata['suggestions'] as $v){
+            array_push($res, $v['value']);
+        }
+//        dd($res);
+        return response()->json([
+            'success' => true,
+            'count' => $count,
+            'address' => $res
+        ]);
+
     }
 }

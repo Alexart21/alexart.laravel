@@ -198,6 +198,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
 
         App\Providers\JetstreamServiceProvider::class,
+        MoveMoveIo\DaData\DaDataServiceProvider::class,
 
     ],
 

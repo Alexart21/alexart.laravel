@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminCallController;
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:manager', 'adminPanel',]], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:manager', 'adminPanel']], function () {
     // шлюзы 'admin' и 'manager' описан в app/Providers/AuthServiceProvider.php
     Route::group(['middleware' => 'can:admin'], function (){
         Route::get('/content/trash', [ AdminContentController::class, 'trash' ])->name('content.trash');

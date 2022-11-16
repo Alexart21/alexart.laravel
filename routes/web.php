@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\CKEditorController;
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
 Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
-Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
+Route::get('/test/dadata', [ TestController::class, 'dadata' ])->name('test.dadata');
+Route::get('/test/address', [ TestController::class, 'address' ])->name('test.address');
+Route::post('/test/info', [ TestController::class, 'info' ])->name('test.info');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,14 +31,6 @@ require __DIR__.'/auth.php';
 // все остальные страницы кроме главной
 //Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
-
-
-
-// ограничения описаны в app/Providers/AppServiceProvider.php
-Route::middleware(['throttle:formsLimit'])->group(function () {
-    Route::post('/mail', [ PostsController::class, 'store' ])->name('mail.store');
-    Route::post('/zvonok', [ CallsController::class, 'store' ])->name('zvonok.store');
-});
 
 //Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');
 Route::post('ckeditor/image_upload', [ CKEditorController::class, 'upload' ])->name('upload');
