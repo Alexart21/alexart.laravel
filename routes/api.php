@@ -28,3 +28,6 @@ Route::middleware(['throttle:formsLimit'])->group(function () {
 });
 
 Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
+
+Route::post('/mail/info', [ PostsController::class, 'info' ])->name('post.info');
+Route::post('/zvonok/info', [ CallsController::class, 'info' ])->name('zvonok.info');

@@ -11,6 +11,8 @@ use Jenssegers\Date\Date;
 use MoveMoveIo\DaData\Facades\DaDataAddress;
 use MoveMoveIo\DaData\Enums\Language;
 use MoveMoveIo\DaData\Facades\DaDataName;
+use MoveMoveIo\DaData\Enums\Gender;
+use MoveMoveIo\DaData\Enums\Parts;
 use MoveMoveIo\DaData\DaDataPhone;
 
 
@@ -55,7 +57,8 @@ class TestController extends Controller
             'count' => 2,
             'address' => ['aaaa', 'bla-bka-bla-la-LA'],
         ]);*/
-        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
+        $dadata = DaDataName::prompt($request->q, $count=5, Gender::UNKNOWN, [Parts::NAME]);
+//        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
         $res = [];
         foreach ($dadata['suggestions'] as $v){
             array_push($res, $v['value']);

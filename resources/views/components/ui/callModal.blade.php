@@ -14,7 +14,9 @@
             <form id="call-form" action="{{ route('zvonok.store') }}" method="post">
                 @csrf
                 <div class="form-group">
-                    <input type="text" class="form-control" name="name" placeholder="Ваше имя">
+                    <input id="callInp" list="callNames" type="text" class="form-control" name="name" placeholder="Ваше имя">
+                    <datalist id="callNames">
+                    </datalist>
                     <div id="name-err-call" class="call-err-msg text-danger"></div>
                 </div>
 
@@ -33,6 +35,46 @@
 </div>
 </div>
 <script>
+    // DADAta
+    let callInp = document.getElementById('callInp');
+    let callNames = document.getElementById('callNames');
+    let csrf = document.getElementById('_csrf_token').content; // объявлен в шаблоне
+    callInp.addEventListener('input', (e) => {
+        q = e.target.value;
+        if (q.length > 3) { // со скольки букв начинать живой поиск
+            fetchNameData(q);
+        }
+    });
+    async function fetchNameData(name){
+        let formData = new FormData();
+        formData.append('name', name);
+        formData.append('_token', csrf);
+        let response = await fetch("{{ route('zvonok.info') }}", {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) {
+            console.log(response);
+        } else {// статус 200
+            result = await response.json();
+            if (result.success) { // успешно
+                let names = result.names;
+                // console.log(address)
+                if (names && result.count) {
+                    console.log(names)
+                    callNames.innerHTML = '';
+                    names.map((item) => {
+                        let option = document.createElement('option');
+                        option.value = item;
+                        callNames.prepend(option);
+                    })
+                }
+            } else { // фиг знает че за ошибка
+                console.log(response);
+            }
+        }
+    }
+    // end DADAta
     // FETCH отправка формы
     let callForm = document.getElementById('call-form');
 

@@ -11,7 +11,9 @@
     <div class="field name-box animated bounceInDown wow" data-wow-delay="0.9s">
         <div class="form-group field-indexform-name required">
             <label class="control-label" for="indexform-name">Имя</label>
-            <input type="text" class="form-control" name="name" value="{{ old('name') }}" tabindex="1">
+            <input id="nameInp" list="indexNames" type="text" class="form-control" name="name" value="{{ old('name') }}" tabindex="1">
+            <datalist id="indexNames">
+            </datalist>
             @error('name')
             <div class="err-msg text-danger">{{ $message }}</div>@enderror
             {{--       этот div для AJAX отправки формы (предидущий блок разметка с сервера не приходит) сюда с помощью JS вставляем сообщение об ошибках     --}}
@@ -54,6 +56,47 @@
     </div>
 </form>
 <script>
+    // DADAta
+    let nameInp = document.getElementById('nameInp');
+    let indexNames = document.getElementById('indexNames');
+    let token = document.getElementById('_csrf_token').content; // объявлен в шаблоне
+    // console.log(token);
+    nameInp.addEventListener('input', (e) => {
+        q = e.target.value;
+        if (q.length > 3) { // со скольки букв начинать живой поиск
+            fetchDaData(q);
+        }
+    });
+    async function fetchDaData(name){
+        let formData = new FormData();
+        formData.append('name', name);
+        formData.append('_token', token);
+        let response = await fetch("{{ route('post.info') }}", {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) {
+            console.log(response);
+        } else {// статус 200
+            result = await response.json();
+            if (result.success) { // успешно
+                let names = result.names;
+                // console.log(address)
+                if (names && result.count) {
+                    console.log(names)
+                    indexNames.innerHTML = '';
+                    names.map((item) => {
+                        let option = document.createElement('option');
+                        option.value = item;
+                        indexNames.prepend(option);
+                    })
+                }
+            } else { // фиг знает че за ошибка
+                console.log(response);
+            }
+        }
+    }
+    // end DADAta
     /* Фиксируем "шторки" в контактной форме при фокусе */
     document.getElementById('index-form').addEventListener('focusin', (e) => {
         let el = e.target;

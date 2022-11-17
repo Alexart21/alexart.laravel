@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Feedback;
 use App\Http\Requests\IndexFormRequest;
+use MoveMoveIo\DaData\Facades\DaDataName;
+use MoveMoveIo\DaData\Enums\Gender;
+use MoveMoveIo\DaData\Enums\Parts;
 
 class PostsController extends AppFormsController
 {
@@ -62,6 +66,26 @@ class PostsController extends AppFormsController
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function info(Request $request)
+    {
+        /*return response()->json([
+            'success' => true,
+            'count' => 2,
+            'names' => ['вася', 'василий', 'василиса', 'васискис'],
+        ]);*/
+        $dadata = DaDataName::prompt($request->name, $count=5, Gender::UNKNOWN, [Parts::NAME]);
+        $res = [];
+        foreach ($dadata['suggestions'] as $v){
+            array_push($res, $v['value']);
+        }
+        return response()->json([
+            'success' => true,
+            'count' => $count,
+            'names' => $res
+        ]);
+
     }
 
 }
