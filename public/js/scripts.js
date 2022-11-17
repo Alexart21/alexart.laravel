@@ -458,3 +458,34 @@ if(logoutDialog){
         });
     });
 }
+// запрос для DAdAta сервиса
+// передаем name {name: 'name'}
+async function fetchDaData(name, url,  csrfToken, datalist){
+    let formData = new FormData();
+    formData.append('name', name);
+    formData.append('_token', csrfToken);
+    let response = await fetch(url, {
+        method: 'POST',
+        body: formData
+    });
+    if (!response.ok) {
+        console.log(response);
+    } else {// статус 200
+        let result = await response.json();
+        if (result.success) { // успешно
+            let names = result.names;
+            // console.log(address)
+            if (names && result.count) {
+                console.log(names)
+                datalist.innerHTML = '';
+                names.map((item) => {
+                    let option = document.createElement('option');
+                    option.value = item;
+                    datalist.prepend(option);
+                })
+            }
+        } else { // фиг знает че за ошибка
+            console.log(response);
+        }
+    }
+}

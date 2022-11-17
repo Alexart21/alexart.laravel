@@ -70,7 +70,7 @@ class CallsController extends AppFormsController
     {
         /*return response()->json([
             'success' => true,
-            'count' => 2,
+            'count' => 4,
             'names' => ['вася', 'василий', 'василиса', 'васискис'],
         ]);*/
         $dadata = DaDataName::prompt($request->name, $count=5, Gender::UNKNOWN, [Parts::NAME]);

@@ -60,42 +60,13 @@
     let nameInp = document.getElementById('nameInp');
     let indexNames = document.getElementById('indexNames');
     let token = document.getElementById('_csrf_token').content; // объявлен в шаблоне
-    // console.log(token);
+    let indexFormUrl = "{{ route('post.info') }}";
     nameInp.addEventListener('input', (e) => {
-        q = e.target.value;
-        if (q.length > 3) { // со скольки букв начинать живой поиск
-            fetchDaData(q);
+        let name = e.target.value;
+        if (name.length > 2) { // со скольки букв начинать подсказку
+            fetchDaData(name, indexFormUrl, token, indexNames); // в scripts.js описано
         }
     });
-    async function fetchDaData(name){
-        let formData = new FormData();
-        formData.append('name', name);
-        formData.append('_token', token);
-        let response = await fetch("{{ route('post.info') }}", {
-            method: 'POST',
-            body: formData
-        });
-        if (!response.ok) {
-            console.log(response);
-        } else {// статус 200
-            result = await response.json();
-            if (result.success) { // успешно
-                let names = result.names;
-                // console.log(address)
-                if (names && result.count) {
-                    console.log(names)
-                    indexNames.innerHTML = '';
-                    names.map((item) => {
-                        let option = document.createElement('option');
-                        option.value = item;
-                        indexNames.prepend(option);
-                    })
-                }
-            } else { // фиг знает че за ошибка
-                console.log(response);
-            }
-        }
-    }
     // end DADAta
     /* Фиксируем "шторки" в контактной форме при фокусе */
     document.getElementById('index-form').addEventListener('focusin', (e) => {

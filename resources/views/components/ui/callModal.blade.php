@@ -39,41 +39,13 @@
     let callInp = document.getElementById('callInp');
     let callNames = document.getElementById('callNames');
     let csrf = document.getElementById('_csrf_token').content; // объявлен в шаблоне
+    let callFormUrl = "{{ route('zvonok.info') }}";
     callInp.addEventListener('input', (e) => {
-        q = e.target.value;
-        if (q.length > 3) { // со скольки букв начинать живой поиск
-            fetchNameData(q);
+        let name = e.target.value;
+        if (name.length > 2) { // со скольки букв начинать подсказку
+            fetchDaData(name, callFormUrl, csrf, callNames); // в scripts.js описано
         }
     });
-    async function fetchNameData(name){
-        let formData = new FormData();
-        formData.append('name', name);
-        formData.append('_token', csrf);
-        let response = await fetch("{{ route('zvonok.info') }}", {
-            method: 'POST',
-            body: formData
-        });
-        if (!response.ok) {
-            console.log(response);
-        } else {// статус 200
-            result = await response.json();
-            if (result.success) { // успешно
-                let names = result.names;
-                // console.log(address)
-                if (names && result.count) {
-                    console.log(names)
-                    callNames.innerHTML = '';
-                    names.map((item) => {
-                        let option = document.createElement('option');
-                        option.value = item;
-                        callNames.prepend(option);
-                    })
-                }
-            } else { // фиг знает че за ошибка
-                console.log(response);
-            }
-        }
-    }
     // end DADAta
     // FETCH отправка формы
     let callForm = document.getElementById('call-form');

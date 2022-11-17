@@ -1837,7 +1837,7 @@ button.close {
     height: 65px;
     margin: 0;
     padding: 18px 0;
-    padding-left: 19.5%;
+    padding-left: 20.5%;
     color: #313A3D;
     font-size: 1.5vw;
     letter-spacing: 0.05em;
@@ -1885,14 +1885,14 @@ button.close {
 }
 
 #index-form .field:hover label {
-    width: 18%;
+    width: 20%;
     background: #003333;
     color: white;
 }
 
 
 .fill{
-    width: 18% !important;
+    width: 20% !important;
     background:#003333 !important;
     color: white !important;
 }
