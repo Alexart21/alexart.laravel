@@ -4,6 +4,7 @@ namespace App\Http\Controllers\OAuth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
@@ -29,6 +30,7 @@ class OauthController
         // сразу редиректим на главную без всяких напоминаний о подтверждении email
         session(['is_oauth' => true]);
         $user = Socialite::driver($service)->user();
+//        dd($user);
 //        dd($user->user);
         $_user = Oauth::where('source_id', $user->id)->first();
         if ($_user) { //уже заходил с этим сервисом
@@ -94,7 +96,9 @@ class OauthController
                 DB::rollBack();
                 // поскольку поле email у нас unique возможны ошибки MYSQL
                 // при попытке дублировать email Duplicate entry....  код ошибки 23000
-                $oldUser = User::where('email', $user->email)->first();
+                $oldUser = User::where('email', $email)->first();
+//                dump($oldUser);
+//                dd($email);
                 $oauth = Oauth::where('user_id', $oldUser->id)->first();
                 // if (($e->getCode() == 23000) && ($oldUser && $oauth)) {
                 if ($oldUser && $oauth) { // юзер уже логинился через какой то сервис с таким же email
@@ -118,6 +122,10 @@ class OauthController
                     }
                 }
                 // другая ошибка
+                $errCode = $e->getCode();
+                if($errCode == 23000){ // уже регались обычным способом(не OAuth !) с таким email
+                    return view('auth.oauthErr', compact('email'));
+                }
                 dd($e->getMessage());
             }
         }
