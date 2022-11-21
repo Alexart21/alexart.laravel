@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
+use App\Rules\ReCaptchaV3;
 
 class IndexFormRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class IndexFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'reCaptcha' => ['required', new ReCaptchaV3],
             'name' => 'required|min:2|max:128',
             'email' => 'required|email',
             'tel' => 'min:6|max:20',

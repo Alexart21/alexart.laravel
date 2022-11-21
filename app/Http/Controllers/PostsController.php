@@ -25,7 +25,7 @@ class PostsController extends AppFormsController
         // если не провалидировано то уходит {success:false, errors:....}
         // это в методе failedValidation в файле app/Http/Requests/IndexFormRequest.php
 
-        $score = $this->checkReCaptcha();
+        /*$score = $this->checkReCaptcha(); // метод из родительского контроллера AppFormsController.php
         if (!$score || $score < 0.5) // не прошла recaptcha
         {
             return response()->json([
@@ -33,7 +33,7 @@ class PostsController extends AppFormsController
                 'recaptcha' => false,
                 'score' => $score,
             ]);
-        }
+        }*/
         $db = Post::create($data) ? true : false;
         $mail = $this->sendEmail($data);
         if ($db && $mail) {
@@ -45,7 +45,7 @@ class PostsController extends AppFormsController
                 'success' => false,
                 'db' => $db,
                 'mail' => $mail,
-                'score' => $score,
+//                'score' => $score,
             ]);
         }
     }

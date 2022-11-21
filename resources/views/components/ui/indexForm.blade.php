@@ -49,7 +49,8 @@
             <div id="body-err-index" class="index-err-msg text-danger"></div>
         </div>
     </div>
-    <input type="hidden" id="indexform-recaptcha" name="reCaptcha"/>
+    <input type="hidden" id="rc" name="reCaptcha"/>
+    <div id="reCaptcha-err-index" class="index-err-msg text-danger"></div>
     <div class="form-group">
         <button type="submit" class="btn success-button animated bounceInDown wow" data-wow-delay="0.1s">Отправить
         </button>
@@ -93,7 +94,7 @@
                     })
                     .then(async function (token) {
                         /* Все дальнейшие операции только после получения reCaptcha токена !!! */
-                        let inp = document.getElementById("indexform-recaptcha");
+                        let inp = document.getElementById("rc");
                         inp.value = token;
                         let formData = new FormData(indexForm);
                         let response = await fetch("{{ route('mail.store') }}", {

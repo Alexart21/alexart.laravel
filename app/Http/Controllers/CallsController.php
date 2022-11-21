@@ -23,7 +23,7 @@ class CallsController extends AppFormsController
         $data = $request->validated();
         // если не провалидировано то уходит {success:false, errors:....}
         // это в методе failedValidation в файле app/Http/Requests/CallFormRequest.php
-        $score = $this->checkReCaptcha();
+        /*$score = $this->checkReCaptcha();
         if (!$score || $score < 0.5) // не прошла recaptcha
         {
             return response()->json([
@@ -31,7 +31,7 @@ class CallsController extends AppFormsController
                 'recaptcha' => false,
                 'score' => $score,
             ]);
-        }
+        }*/
 
         $db = Call::create($data) ? true : false;
         $mail = $this->sendEmail($data);
@@ -44,7 +44,7 @@ class CallsController extends AppFormsController
                 'success' => false,
                 'db' => $db,
                 'mail' => $mail,
-                'score' => $score,
+//                'score' => $score,
             ]);
         }
     }

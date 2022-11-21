@@ -25,6 +25,7 @@
                     <div id="tel-err-call" class="call-err-msg text-danger"></div>
                 </div>
                 <input type="hidden" id="callform-recaptcha" name="reCaptcha"/>
+                <div id="reCaptcha-err-call" class="call-err-msg text-danger"></div>
                 <div class="form-group">
                     <button id="callSubmit" type="submit" class="btn success-button">жду звонка!</button>
                 </div>
