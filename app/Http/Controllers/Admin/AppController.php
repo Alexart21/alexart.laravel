@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Content;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
 {
@@ -27,13 +28,17 @@ class AppController extends Controller
     {
         $pages = Content::all();
         try{
+            DB::beginTransaction();
             foreach ($pages as $page) {
                 $time = time() - rand(60, 300); // разброс от 1 до 5 минут
-                $page->last_mod = gmdate("D, d M Y H:i:s \G\M\T", $time);
+                // mysql сама формирует дату в поле timestamp
+                $page->updated_at = $time;
                 $page->save();
             }
+            DB::commit();
             Cache::flush();
         }catch (Exception $e){
+            DB::rollBack();
             dd($e->getMessage());
         }
     }

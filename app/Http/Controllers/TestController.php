@@ -8,6 +8,8 @@ use App\Models\Oauth;
 use App\Models\User;
 use Carbon\Carbon;
 use Jenssegers\Date\Date;
+use App\Models\Content;
+
 use MoveMoveIo\DaData\Facades\DaDataAddress;
 use MoveMoveIo\DaData\Enums\Language;
 use MoveMoveIo\DaData\Facades\DaDataName;
@@ -21,6 +23,13 @@ class TestController extends Controller
     public ?int $x;
     public function index()
     {
+        $updated_at = Content::findOrFail(1)->updated_at;
+//        $date = Date::parse($updated_at);
+        $t = 'Last-Modified:' . gmdate("D, d M Y H:i:s \G\M\T", $updated_at->timestamp);
+        dd($t);
+//        $date = $date->format('j F Y H:i');
+//        $date = $date->format('');
+        dd($date);
         $data =[];
         return view('test.index', compact('data'));
     }

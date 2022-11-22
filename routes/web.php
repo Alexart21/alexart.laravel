@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContentController;
-use App\Http\Controllers\PostsController;
-use App\Http\Controllers\CallsController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\OAuth\OauthController;
-use App\Http\Controllers\Admin\DefaultController;
 use App\Http\Controllers\Admin\CKEditorController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');

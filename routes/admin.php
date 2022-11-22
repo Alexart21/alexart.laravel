@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminCallController;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:manager', 'adminPanel']], function () {
     // шлюзы 'admin' и 'manager' описан в app/Providers/AuthServiceProvider.php
+    // у админа обязательно есть role 'manager'
     Route::group(['middleware' => 'can:admin'], function (){
         Route::get('/content/trash', [ AdminContentController::class, 'trash' ])->name('content.trash');
         Route::put('/content/{id}/restore', [ AdminContentController::class, 'restore' ])->whereNumber(['id'])->name('content.restore');

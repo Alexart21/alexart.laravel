@@ -19,6 +19,7 @@ class Content extends Model
         'title',
         'title_seo',
         'description',
-        'last_mod',
+        'created_at',
+        'updated_at',
     ];
 }

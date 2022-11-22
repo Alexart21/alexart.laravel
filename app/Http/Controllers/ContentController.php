@@ -23,7 +23,7 @@ class ContentController extends Controller
         $data = Content::where('page', 'index')->firstOrFail();
         return response()
             ->view('content.index', compact('data'))
-            ->header('Last-Modified', $data['last_mod'])
+            ->header('Last-Modified', gmdate("D, d M Y H:i:s \G\M\T", $data->updated_at->timestamp))
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 
@@ -38,7 +38,7 @@ class ContentController extends Controller
 //        return view('content.page', compact('data'));
         return response()
             ->view('content.page', compact('data'))
-            ->header('Last-Modified', $data['last_mod'])
+            ->header('Last-Modified', gmdate("D, d M Y H:i:s \G\M\T", $data->updated_at->timestamp))
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 }
