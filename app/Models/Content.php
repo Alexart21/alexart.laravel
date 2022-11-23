@@ -12,14 +12,14 @@ class Content extends Model
     use SoftDeletes;
 
     protected $table = 'content';
-//    protected $guarded = [];
+    protected $guarded = [];
 
-    protected $fillable = [
+    /*protected $fillable = [
         'page_text',
         'title',
         'title_seo',
         'description',
         'created_at',
         'updated_at',
-    ];
+    ];*/
 }

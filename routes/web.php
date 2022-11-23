@@ -8,11 +8,13 @@ use App\Http\Controllers\Admin\CKEditorController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
-Route::get('/test', [ TestController::class, 'index' ])->name('test.index');
-Route::get('/test/dadata', [ TestController::class, 'dadata' ])->name('test.dadata');
-Route::get('/test/address', [ TestController::class, 'address' ])->name('test.address');
-Route::post('/test/info', [ TestController::class, 'info' ])->name('test.info');
-Route::post('/test/save', [ TestController::class, 'save' ])->name('test.save');
+Route::prefix('test')->controller(TestController::class)->group(function (){
+    Route::get('/', 'index')->name('test.index');
+    Route::get('/dadata', 'dadata')->name('test.dadata');
+    Route::get('/address', 'address')->name('test.address');
+    Route::post('/info', 'info')->name('test.info');
+    Route::post('/save', 'save')->name('test.save');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,7 +32,6 @@ require __DIR__.'/auth.php';
 //Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');
 
-//Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');
 Route::post('ckeditor/image_upload', [ CKEditorController::class, 'upload' ])->name('upload');
 
 

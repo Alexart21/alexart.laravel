@@ -24,11 +24,6 @@ class OauthController
 
     public function handleCallback($service)
     {
-        // здесь пишем в сессию чтобы не было редиректа на страницу о необходимости подтверждения email
-        // для OAuth это не нужно в отличии от обычной регистрации
-        // в файле app/Http/Controllers/Auth/EmailVerificationPromptController.php проверяем значение сессии если true то
-        // сразу редиректим на главную без всяких напоминаний о подтверждении email
-        session(['is_oauth' => true]);
         $user = Socialite::driver($service)->user();
 //        dd($user);
 //        dd($user->user);

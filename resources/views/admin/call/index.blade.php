@@ -67,7 +67,7 @@
                                 <form action="{{ route('call.destroy', [ $call->id ]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button onclick="return confirm('Отправит в корзину ?')">
+                                    <button onclick="confirmTrash()">
                                         <span class="fa fa-trash text-danger"></span>
                                     </button>
                                 </form>

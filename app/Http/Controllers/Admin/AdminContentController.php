@@ -54,9 +54,6 @@ class AdminContentController extends AppController
         try {
             $page = Content::findOrFail($id);
             $page->update($data);
-//            $this->setLastMod(); // обновление Last-Modified (из родительского контроллера)
-            $page->last_mod = gmdate("D, d M Y H:i:s \G\M\T", time());
-            $page->save();
             flash('Обновлено !')->success();
         }catch (Exception $e){
             flash($e->getMessage())->error();

@@ -1,5 +1,8 @@
 'use strict'
-
+// подтверждение удаления
+function confirmTrash() {
+  return confirm('Отправить в корзину ?');
+}
 // подтверждение выхода
 let logoutDialog = document.getElementById('logoutDialog');
 if(logoutDialog){

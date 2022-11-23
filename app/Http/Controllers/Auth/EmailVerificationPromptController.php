@@ -16,13 +16,14 @@ class EmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request)
     {
+        return  redirect()->intended(RouteServiceProvider::HOME);
         //отсебятина. Вслучае OAuth авторизации на не нужно подтверждение email
-        if(session('is_oauth')){
+       /* if(session('is_oauth')){
             session(['is_oauth' => null]);
             return  redirect()->route('content.index');
-        }
-        return $request->user()->hasVerifiedEmail()
+        }*/
+        /*return $request->user()->hasVerifiedEmail()
                     ? redirect()->intended(RouteServiceProvider::HOME)
-                    : view('auth.verify-email');
+                    : view('auth.verify-email');*/
     }
 }
