@@ -26,6 +26,7 @@ class CallFormRequest  extends FormRequest
     public function messages()
     {
         return [
+            'reCaptcha.required' => 'Отсутствует параметр reCaptcha',
             'name.required' => 'Укажите имя',
             'name.min' => '2 буквы хотя бы...',
             'tel.required' => 'Укажите номер',

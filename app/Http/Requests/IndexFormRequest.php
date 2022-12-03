@@ -48,6 +48,7 @@ class IndexFormRequest extends FormRequest
     public function messages()
     {
         return [
+            'reCaptcha.required' => 'Отсутствует параметр reCaptcha',
             'name.required' => 'Укажите имя',
             'name.min' => '2 буквы хотя бы...',
             'tel.min' => '6 цифр хотя бы...',

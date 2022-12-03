@@ -54,10 +54,10 @@ class PostsController extends AppFormsController
     {
         try {
             $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
-                'email' => $data['email'],
-                'tel' => $data['tel'],
+                'email' => htmlspecialchars($data['email']),
+                'tel' => htmlspecialchars($data['tel']),
                 'body' => nl2br(htmlspecialchars($data['body'])),
-                'name' => $data['name'],
+                'name' => htmlspecialchars($data['name']),
                 'subject' => 'Письмо с сайта',
             ];
             Mail::to(env('ADMIN_EMAIL'))

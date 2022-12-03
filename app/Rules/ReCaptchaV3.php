@@ -35,6 +35,7 @@ class ReCaptchaV3 implements ImplicitRule
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $value);
         $recaptcha = json_decode($recaptcha);
         $score = $recaptcha->score;
+//        dd($value);
 //        dd($score);
 //        return false;
         return $score > 0.5 ?? false;

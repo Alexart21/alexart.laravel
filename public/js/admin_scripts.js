@@ -1,7 +1,16 @@
 'use strict'
 // подтверждение удаления
-function confirmTrash() {
-  return confirm('Отправить в корзину ?');
+function confirmTrash(btn) {
+  let form = btn.parentElement;
+  form.onsubmit = (e) => {
+      e.preventDefault();
+      let result = confirm('Точно удалить ?');
+      if(result){
+          form.submit();
+      }
+  }
+
+  // return confirm('Отправить в корзину ?');
 }
 // подтверждение выхода
 let logoutDialog = document.getElementById('logoutDialog');

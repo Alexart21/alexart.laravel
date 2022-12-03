@@ -53,9 +53,9 @@ class CallsController extends AppFormsController
     {
         try {
             $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
-                'tel' => $data['tel'],
+                'tel' => htmlspecialchars($data['tel']),
                 'body' => 'Просьба перезвонить',
-                'name' => $data['name'],
+                'name' => htmlspecialchars($data['name']),
                 'email' => null,
                 'subject' => 'Просьба перезвонить',
             ];
