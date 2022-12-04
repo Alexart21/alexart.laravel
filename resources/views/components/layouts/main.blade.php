@@ -37,7 +37,7 @@
     'resources/css/bootstrap.min.css',
     {{--    'resources/css/style.css',--}}
     'resources/css/animate.min.css',
-    'resources/css/fontawesome/css/all.min.css',
+{{--    'resources/css/fontawesome/css/all.min.css',--}}
     ])
     <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>

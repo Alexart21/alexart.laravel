@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 // о необходимости верифицировать email
 // что не есть god надо найти этот редирект и как то пофиксить
 
-//class User extends Authenticatable implements MustVerifyEmail
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
+//class User extends Authenticatable
 {
     use HasFactory;
     use HasProfilePhoto;

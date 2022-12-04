@@ -9,7 +9,7 @@ export default defineConfig({
                 // 'resources/css/style.css',
                 'resources/css/bootstrap.min.css',
                 'resources/css/animate.min.css',
-                'resources/css/fontawesome/css/all.min.css',
+                // 'resources/css/fontawesome/css/all.min.css',
 
                 'resources/js/app.js',
                 /*'resources/js/jquery.min.js',
@@ -18,7 +18,7 @@ export default defineConfig({
                 'resources/js/velocity.min.js',
                 'resources/js/velocity.ui.min.js',
                 'resources/js/wow.min.js',
-                'resources/js/scripts.js',
+                // 'resources/js/scripts.js',
             ],
             refresh: [
                 ...refreshPaths,
