@@ -1031,11 +1031,7 @@ ul.highlightTextIn li a:before {
 /* анимация AJAX загрузки */
 
 #container_loading {
-    position: fixed;
-    z-index: 100000000;
-    left: calc(100%/2 - 30px);
-    top: calc(100%/2 - 30px);
-    display: none;
+
 }
 
 @keyframes loader-spin {
@@ -1043,7 +1039,12 @@ ul.highlightTextIn li a:before {
     to {transform:rotate(360deg);}
 }
 #container_loading{
-    animation: loader-spin 2s linear 0s infinite;
+    position: fixed;
+    z-index: 100000000;
+    left: calc(100%/2 - 30px);
+    top: calc(100%/2 - 30px);
+    display: none;
+    animation: loader-spin 1s linear 0s infinite;
 }
 
 .fa-spin, .fa-pulse {
