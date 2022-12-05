@@ -1032,10 +1032,18 @@ ul.highlightTextIn li a:before {
 
 #container_loading {
     position: fixed;
-    z-index: 10000000000;
+    z-index: 100000000;
     left: calc(100%/2 - 30px);
     top: calc(100%/2 - 30px);
     display: none;
+}
+
+@keyframes loader-spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+#container_loading{
+    animation: loader-spin 2s linear 0s infinite;
 }
 
 .fa-spin, .fa-pulse {
@@ -2321,7 +2329,7 @@ abbr{
 }*/
 
 .user-block .external-link{
-    width: 40px;
+    width: 20px;
     height: 40px;
     line-height: 40px;
     color: #666;

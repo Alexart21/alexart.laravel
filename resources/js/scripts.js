@@ -333,7 +333,7 @@ function linkColor() {
 }
 
  // Параграф "этапы создания сайта" на главной странице окраска активной ссылки
-/*let etap = [ // массив с описаниями
+let etap = [ // массив с описаниями
     "Уяснение задач заказчика, определение целевой аудитории сайта, написание брифа(в народном фольклоре ТЗ).Прототипирование или составление эскиза где определяются расположения элементов страниц.",
     "Определение концепции дизайна.Цветовое и графическое решение будущего сайта, выбор шрифтов и др.",
     "Страницы сайта должны корректно отображаться во всех браузерах.Как правило хорошего тона нынче можно говорить об <a class=\"portf-call\" href=\"/sozdanie#response\"><b> адаптивной верстке</b></a> т.е. сайт должен быть хорошо читаем без потери функционала и на смартфонах и на планшетах и на настольных пк, и даже на тех устройствах, которые появятся в будущем.",
@@ -353,7 +353,7 @@ if (etli) {
         document.getElementById('etap_target').innerHTML = etap[n]; // впендюриваем описание куда надо
 
     };
-}*/
+}
 /* Левое меню окраска активной ссылки */
 let leftMenu = document.querySelector('#l_menu');
 if (leftMenu) {
@@ -424,4 +424,68 @@ function showDbError(msgBlock){
         msgBlock.innerHTML = '';
         $('#successModal').modal('hide');
     }, 8000);
+}
+// подтверждение выхода
+let logoutDialog = document.getElementById('logoutDialog');
+if(logoutDialog){
+    let logoutBtn = document.getElementById('logout-btn');
+    let confirmBtn = logoutDialog.querySelector('#confirmBtn');
+    let logoutForm = document.getElementById('logout-form');
+    if (typeof logoutDialog.showModal !== 'function') {
+        logoutDialog.hidden = true;
+    }
+    logoutBtn.addEventListener('click', () => {
+        if (typeof logoutDialog.showModal === "function") {
+            logoutDialog.showModal();
+        } else {
+            console.log('Sorry, the <dialog> API is not supported by this browser');
+            // logoutForm.submit();
+            return;
+        }
+        //
+        logoutForm.onsubmit = (e) => {
+            e.preventDefault();
+        }
+        confirmBtn.addEventListener('click', () => {
+            console.log('exit');
+            logoutForm.submit();
+        });
+        logoutDialog.addEventListener('close', () => {
+        console.log('отмена');
+            logoutForm.onsubmit = (e) => {
+                e.preventDefault = true;
+            }
+        });
+    });
+}
+// запрос для DAdAta сервиса
+// передаем name {name: 'name'}
+async function fetchDaData(name, url,  csrfToken, datalist){
+    let formData = new FormData();
+    formData.append('name', name);
+    formData.append('_token', csrfToken);
+    let response = await fetch(url, {
+        method: 'POST',
+        body: formData
+    });
+    if (!response.ok) {
+        console.log(response);
+    } else {// статус 200
+        let result = await response.json();
+        if (result.success) { // успешно
+            let names = result.names;
+            // console.log(address)
+            if (names && result.count) {
+                console.log(names)
+                datalist.innerHTML = '';
+                names.map((item) => {
+                    let option = document.createElement('option');
+                    option.value = item;
+                    datalist.prepend(option);
+                })
+            }
+        } else { // фиг знает че за ошибка
+            console.log(response);
+        }
+    }
 }

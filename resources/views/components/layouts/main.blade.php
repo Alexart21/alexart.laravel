@@ -35,11 +35,11 @@
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
-    {{--    'resources/css/style.css',--}}
+    'resources/css/style.css',
     'resources/css/animate.min.css',
 {{--    'resources/css/fontawesome/css/all.min.css',--}}
     ])
-    <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
+{{--    <link href="{{ asset('css/style.css')  }}" rel="stylesheet">--}}
     <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 <body>
 @auth()
@@ -96,11 +96,6 @@
 <script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
-
-{{--<script src="{{ asset('js/wow.min.js') }}"></script>
-<script src="{{ asset('js/velocity.min.js') }}"></script>
-<script src="{{ asset('js/velocity.ui.min.js') }}"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>--}}
 
 @vite([
 {{--'resources/js/jquery.min.js',--}}

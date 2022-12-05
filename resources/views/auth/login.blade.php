@@ -49,6 +49,6 @@
         </form>
         <br>
         <h3>Войти с помощью:</h3>
-       @include('auth.oauth-icons')
+       @include({{ asset() }});
     </x-jet-authentication-card>
 </x-guest-layout>
