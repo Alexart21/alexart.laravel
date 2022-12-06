@@ -63,13 +63,19 @@
         .orbit-loader{
             width: 24px;
             height: 24px;
+            color: red;
             /*animation: rot 2s linear 0s infinite;*/
         }
         @keyframes rot {
             from {transform:rotate(0deg);}
             to {transform:rotate(360deg);}
         }
+        .red-icon{
+            width: 60px;
+            height: 60px;
+            fill: lime;
+        }
     </style>
-{{--    <img class="orbit-loader" src="{{ asset('svg/orbit-variant.svg') }}" alt="">--}}
-
+<img class="orbit-loader" src="{{ asset('svg/orbit-variant.svg') }}" alt="">
+    @svg('svg/abacus.svg', 'red-icon')
 </x-layouts.test>
