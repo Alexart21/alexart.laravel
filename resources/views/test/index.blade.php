@@ -73,9 +73,15 @@
         .red-icon{
             width: 60px;
             height: 60px;
-            fill: lime;
+            fill: red;
+        }
+        .blue-icon{
+            width: 40px;
+            height: 40px;
+            fill: blue;
         }
     </style>
 <img class="orbit-loader" src="{{ asset('svg/orbit-variant.svg') }}" alt="">
     @svg('svg/abacus.svg', 'red-icon')
+    @svg('svg/account-badge.svg', 'blue-icon')
 </x-layouts.test>

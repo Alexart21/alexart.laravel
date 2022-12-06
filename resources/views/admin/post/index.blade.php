@@ -68,10 +68,10 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                             <div class="top-links"><a href="{{ route('post.show', [ $mail->id ]) }}"><span
                                         class="fa fa-eye"></span></a></div>
                             <div class="top-links">
-                                <form action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
+                                <form class="del-form" action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button onclick="confirmTrash(this)">
+                                    <button>
                                         <span class="fa fa-trash text-danger"></span>
                                     </button>
                                 </form>

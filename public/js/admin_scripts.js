@@ -1,20 +1,30 @@
 'use strict'
-// подтверждение удаления
-function confirmTrash(btn) {
-  let form = btn.parentElement;
-  form.onsubmit = (e) => {
-      e.preventDefault();
-      let result = confirm('Точно удалить ?');
-      if(result){
-          form.submit();
-      }
-  }
 
-  // return confirm('Отправить в корзину ?');
+// подтверждение удаления
+function confirmTrash(e) {
+    e.preventDefault();
+    let form = e.target;
+    let result = confirm('Точно удалить ?');
+    if (result) {
+        form.submit();
+    }
 }
+//
+window.onload = () => {
+    let delForms = document.querySelectorAll('.del-form');
+    if (delForms.length) {
+        delForms.forEach((form) => {
+            form.addEventListener('submit', (e) => {
+                confirmTrash(e)
+            });
+        });
+    }
+}
+
+
 // подтверждение выхода
 let logoutDialog = document.getElementById('logoutDialog');
-if(logoutDialog){
+if (logoutDialog) {
     let logoutBtn = document.getElementById('logout-btn');
     let confirmBtn = logoutDialog.querySelector('#confirmBtn');
     let logoutForm = document.getElementById('logout-form');

@@ -17,9 +17,12 @@
             @if($new)
                 <a href="{{ route('call.index') }}" class="btn btn-success top-links">показать все</a>
             @else
-                <a href="{{ route('call.index', ['sort' => 'new']) }}" class="btn btn-success top-links">только новые</a>
+                <a href="{{ route('call.index', ['sort' => 'new']) }}" class="btn btn-success top-links">только
+                    новые</a>
             @endif
-            <form class="top-links" action="{{ route('call.destroyAll', [ 'sort' => $new ? 'new' : 'all', 'page' => $calls->currentPage() ]) }}" method="post">
+            <form class="top-links"
+                  action="{{ route('call.destroyAll', [ 'sort' => $new ? 'new' : 'all', 'page' => $calls->currentPage() ]) }}"
+                  method="post">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-warning">
@@ -64,10 +67,11 @@
                             <div class="top-links"><a href="{{ route('call.show', [ $call->id ]) }}"><span
                                         class="fa fa-eye"></span></a></div>
                             <div class="top-links">
-                                <form action="{{ route('call.destroy', [ $call->id ]) }}" method="post">
+                                <form class="del-form" action="{{ route('call.destroy', [ $call->id ]) }}"
+                                      method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button onclick="confirmTrash(this)">
+                                    <button>
                                         <span class="fa fa-trash text-danger"></span>
                                     </button>
                                 </form>

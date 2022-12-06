@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('loginLimit', function (Request $request) {
-            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip())->response(function() {
+            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip())->response(function () {
                 throw new TooManyRequestsHttpException();
             });
         });
@@ -53,17 +53,24 @@ class AppServiceProvider extends ServiceProvider
         });*/
 //        setlocale(LC_ALL, 'ru_RU.utf8');
 //        Paginator::useBootstrapFive();
-        Blade::directive('svg', function($arguments) {
-            // Funky madness to accept multiple arguments into the directive
-            list($path, $class) = array_pad(explode(',', trim($arguments, "() ")), 2, '');
-            $path = trim($path, "' ");
-            $class = trim($class, "' ");
-            // Create the dom document as per the other answers
-            $svg = new DOMDocument();
-            $svg->load(public_path($path));
-            $svg->documentElement->setAttribute("class", $class);
-            $output = $svg->saveXML($svg->documentElement);
-            return $output;
+        Blade::directive('svg', function ($arguments) {
+            try {
+                // Funky madness to accept multiple arguments into the directive
+                list($path, $class) = array_pad(explode(',', trim($arguments, "() ")), 2, '');
+                $path = trim($path, "' ");
+                $class = trim($class, "' ");
+                // Create the dom document as per the other answers
+                $svg = new DOMDocument();
+                $svg->load(public_path($path));
+                $svg->documentElement->setAttribute("class", $class);
+                $output = $svg->saveXML($svg->documentElement);
+                return $output;
+            } catch (Exception $e) {
+                echo "<h3 style='color:red'>Возможно неверный путь к SVG иконке</h3>";
+                die;
+//                echo "<h3>__FILE__</h3>";
+//                die($e);
+            }
         });
     }
 }
