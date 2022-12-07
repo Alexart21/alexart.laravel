@@ -10,6 +10,7 @@
         "hflabs/dadata": "^22.3",
         "jenssegers/date": "^4.0",
         "laracasts/flash": "^3.2",
+        "laravel/fortify": "^1.14",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.12",
         "laravel/sanctum": "^3.0",

@@ -31,6 +31,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//        dump(session('status'));
+        Fortify::twoFactorChallengeView(function () {
+//            die('here');
+            return view('auth.two-factor-challenge');
+        });
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);

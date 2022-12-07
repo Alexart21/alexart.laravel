@@ -23,9 +23,9 @@ return [
     | Fortify Password Broker
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which password broker Fortify can use when a user
-    | is resetting their password. This configured value should match one
-    | of your password brokers setup in your "auth" configuration file.
+    | By default, Fortify will throttle logins to five requests per minute for
+    | every email and IP address combination. However, if you would like to
+    | specify a custom rate limiter to call then you may specify it here.
     |
     */
 
@@ -125,9 +125,9 @@ return [
     | Features
     |--------------------------------------------------------------------------
     |
-    | Some of the Fortify features are optional. You may disable the features
-    | by removing them from this array. You're free to only remove some of
-    | these features or you can even remove all of these if you need to.
+    | Here you may specify which authentication guard Fortify will use while
+    | authenticating users. This value should correspond with one of your
+    | guards that is already present in your "auth" configuration file..
     |
     */
 
@@ -140,6 +140,7 @@ return [
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
+//            'confirmPassword' => false,
             // 'window' => 0,
         ]),
     ],
