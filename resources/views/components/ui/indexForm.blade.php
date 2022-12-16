@@ -57,7 +57,7 @@
     </div>
 </form>
 <script>
-    // DADAta
+    // DADAta эксперименты
     let nameInp = document.getElementById('nameInp');
     let indexNames = document.getElementById('indexNames');
     let token = document.getElementById('_csrf_token').content; // объявлен в шаблоне
