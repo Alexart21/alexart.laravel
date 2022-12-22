@@ -17,7 +17,8 @@ class ContentController extends Controller
 
     public function index()
     {
-        /*$data = Cache::remember('index', 600, function () {
+        //15552000 - 180 суток
+        /*$data = Cache::remember('index', 15552000, function () {
             return Content::where('page', 'index')->firstOrFail();
         });*/
         $data = Content::where('page', 'index')->firstOrFail();
@@ -30,7 +31,7 @@ class ContentController extends Controller
     public function page($page)
     {
         $this->page = $page;
-        /*$data = Cache::remember($page, 600, function () {
+        /*$data = Cache::remember($page, 15552000, function () {
             return Content::where('page', $this->page)->firstOrFail();
         });*/
         $data = Content::where('page', $this->page)->firstOrFail();

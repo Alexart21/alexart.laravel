@@ -13,7 +13,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {{--<link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
-    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">--}}
+    --}}
+    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
     @vite([
     'resources/css/bootstrap.min.css',
     {{--    'resources/css/style.css',--}}

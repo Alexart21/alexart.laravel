@@ -84,10 +84,13 @@
     line-height: 40px;
 }*/
 
-.admin-user-block .fa-external-link-alt{
+.external-link{
+    width: 20px;
+    height: 2em;
     line-height: 2em;
-    transform: rotate(45deg);
-    color: #222;
+    color: #666;
+    background: transparent;
+    display: inline-block;
 }
 
 .username{
