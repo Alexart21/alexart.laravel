@@ -18,10 +18,10 @@ class ContentController extends Controller
     public function index()
     {
         //15552000 - 180 суток
-       /* $data = Cache::remember('index', 15552000, function () {
+        $data = Cache::remember('index', 15552000, function () {
             return Content::where('page', 'index')->firstOrFail();
-        });*/
-        $data = Content::where('page', 'index')->firstOrFail();
+        });
+//        $data = Content::where('page', 'index')->firstOrFail();
         return response()
             ->view('content.index', compact('data'))
             ->header('Last-Modified', gmdate("D, d M Y H:i:s \G\M\T", $data->updated_at->timestamp))

@@ -48,7 +48,7 @@
 
             <div class="col-12 bg-light pt-2 pb-2 mt-3 chat">
                 <p class="p-0 m-0 ps-2 pe-2" v-for="(message, index) in incomingMessages">
-                    (@{{ message.time }}) <b>@{{ message.name }}</b>
+                    @{{ message.time }} <b style="font-size: 120%;">@{{ message.name }}</b>
                     @{{ message.message }}
                 </p>
             </div>
@@ -72,6 +72,7 @@
                     <div class="col-lg-10">
 
                     </div>
+                    <div v-show="sending">отправка...</div>
                     <div class="d-flex">
                         <button type="button" v-on:click="sendMessage()" class="btn btn-small btn-primary">Send
                             Message
@@ -98,8 +99,10 @@
             state: null,
             message: null,
             name: null,
+            // color: 'lime',
             formError: false,
             incomingMessages: [],
+            sending: false
         },
         mounted() {
             this.app = this.apps[0] || null;
@@ -154,9 +157,9 @@
                         if (data.type === "api-message") {
                             if (data.details.includes("SendMessageEvent")) {
                                 let messageData = JSON.parse(data.data);
-                                let utcDate = new Date(messageData.time);
-                                messageData.time = utcDate.toLocaleString();
                                 inst.incomingMessages.push(messageData);
+                                this.message = '';
+                                this.sending = false;
                             }
                         }
                     });
@@ -164,7 +167,8 @@
             disconnect() {
                 this.connected = false;
             },
-            sendMessage() {
+            async sendMessage() {
+                this.sending = true;
                 this.formError = false;
                 if (this.message === "" || this.message === null) {
                     this.formError = true;
@@ -173,14 +177,14 @@
                     formData.append("name", this.name ?? '');
                     formData.append("message", this.message);
                     formData.append("_token", '{{ csrf_token() }}');
-                    fetch("/chat/send", {
+                    await fetch("/chat/send", {
                         method: "POST",
                         /*headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         },*/
                         body: formData
                     })
-                    .catch(error => {alert("Error sending event.")})
+                    .catch(error => {alert("Error sending event.");this.sending = false;})
                 }
             },
             clearMsgs(){
