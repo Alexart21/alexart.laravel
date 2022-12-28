@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\CallsController;
+use App\Http\Controllers\SocketsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,5 @@ Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
 // это эксперименты с сервисом DaData
 Route::post('/mail/info', [ PostsController::class, 'info' ])->name('post.info');
 Route::post('/zvonok/info', [ CallsController::class, 'info' ])->name('zvonok.info');
+
+Route::post("/sockets/connect", [SocketsController::class, "connect"]);

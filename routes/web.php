@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
 Route::get('auth/{service}', [OauthController::class, 'redirectToService'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
 Route::get('auth/{service}/callback', [OauthController::class, 'handleCallback'])->whereIn('service', ['google', 'github', 'mailru', 'odnoklassniki', 'vkontakte', 'yandex']);
 
+require __DIR__.'/ws.php';
 
 require __DIR__.'/admin.php';
 
