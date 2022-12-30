@@ -17,24 +17,27 @@ class SendMessage implements ShouldBroadcast
     public string $name;
     public string $message;
     public string $time;
+    public string $color;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(string $name, string $message, string $time)
+    public function __construct(string $name, string $message, string $time, string $color)
     {
         $this->name = $name;
         $this->message = $message;
         $this->time = $time;
+        $this->color = $color;
     }
 
     public function broadcastWith() {
         return [
             "name" => $this->name,
             "message" => $this->message,
-            "time" => $this->time
+            "time" => $this->time,
+            "color" => $this->color
         ];
     }
 

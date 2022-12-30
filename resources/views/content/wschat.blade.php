@@ -28,6 +28,8 @@
                 <div class="col-lg-2 col-md-3 col-sm-12 mt-2 p-0">
                     <label>Name</label>
                     <input class="form-control form-control-sm" placeholder="Name" v-model="name">
+                    <label>Color</label>
+                    <input class="form-control form-control-sm" type="color" v-model="color">
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-12 mt-2 p-0">
                     <button v-if="connected === false" v-on:click="connect()" type="button"
@@ -48,7 +50,7 @@
 
             <div class="col-12 bg-light pt-2 pb-2 mt-3 chat">
                 <p class="p-0 m-0 ps-2 pe-2" v-for="(message, index) in incomingMessages">
-                    @{{ message.time }} <b style="font-size: 120%;">@{{ message.name }}</b>
+                    @{{ message.time }} @verbatim<span :style="{color:  message.color }">@endverbatim<b style="font-size: 120%">@{{ message.name }}</b></span>
                     @{{ message.message }}
                 </p>
             </div>
@@ -99,7 +101,7 @@
             state: null,
             message: null,
             name: null,
-            // color: 'lime',
+            color: null,
             formError: false,
             incomingMessages: [],
             sending: false
@@ -175,7 +177,8 @@
                 }else{
                     let formData = new FormData();
                     formData.append("name", this.name ?? '');
-                    formData.append("message", this.message);
+                    formData.append("msg", this.message);
+                    formData.append("color", this.color);
                     formData.append("_token", '{{ csrf_token() }}');
                     await fetch("/chat/send", {
                         method: "POST",
