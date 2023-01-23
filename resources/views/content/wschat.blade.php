@@ -12,6 +12,10 @@
             overflow: hidden;
             overflow-y: scroll;
         }
+        .sml{
+            color: rgba(0,0,0,.3);
+            font-size: 70%;
+        }
     </style>
 </head>
 
@@ -20,17 +24,13 @@
     <br>
     <br>
     <p class="text-center p-0 m-0">Laravel WebSockets</p>
-    <h1 class="text-center p-0 m-0">Chat App Example</h1>
-    <p class="text-center "><a href="https://ahtcloud.com">By AHT Cloud | Emad Zaamout</a></p>
     <div class="card mt-4">
         <div class="card-header p-2">
             <form>
-                <div class="col-lg-2 col-md-3 col-sm-12 mt-2 p-0">
                     <label>Name</label>
-                    <input class="form-control form-control-sm" placeholder="Name" v-model="name">
+                    <input :style="{color: color}" placeholder="Name" v-model="name">
                     <label>Color</label>
-                    <input class="form-control form-control-sm" type="color" v-model="color">
-                </div>
+                    <input type="color" v-model="color">
                 <div class="col-lg-1 col-md-2 col-sm-12 mt-2 p-0">
                     <button v-if="connected === false" v-on:click="connect()" type="button"
                             class="mr-2 btn btn-sm btn-primary w-100">
@@ -50,7 +50,7 @@
 
             <div class="col-12 bg-light pt-2 pb-2 mt-3 chat">
                 <p class="p-0 m-0 ps-2 pe-2" v-for="(message, index) in incomingMessages">
-                    @{{ message.time }} @verbatim<span :style="{color:  message.color }">@endverbatim<b style="font-size: 120%">@{{ message.name }}</b></span>
+                    <small class="sml">@{{ message.time }}</small> <b style="font-size: 120%" :style="{color: color}">@{{ message.name }}</b></span>
                     @{{ message.message }}
                 </p>
             </div>

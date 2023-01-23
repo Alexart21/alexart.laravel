@@ -42,4 +42,9 @@ class ContentController extends Controller
             ->header('Last-Modified', gmdate("D, d M Y H:i:s \G\M\T", $data->updated_at->timestamp))
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
+
+    public function nodechat()
+    {
+        return view('content.nodechat');
+    }
 }

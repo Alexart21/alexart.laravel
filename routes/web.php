@@ -37,6 +37,8 @@ require __DIR__.'/admin.php';
 
 require __DIR__.'/auth.php';
 
+Route::get('/nodechat', [ ContentController::class, 'nodechat' ])->name('content.nodechat');
+
 // все остальные страницы кроме главной
 //Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);
 Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page');

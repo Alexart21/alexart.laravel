@@ -1,7 +1,12 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo/>
+{{--            <x-jet-authentication-card-logo/>--}}
+            <a href="/">
+            <img class="svg" width="120" height="69"
+                 alt="логотип группы веб разработчиков Алекс-арт21"
+                 src="{{ asset('img/main_img/logo.png')  }}">
+            </a>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4"/>
