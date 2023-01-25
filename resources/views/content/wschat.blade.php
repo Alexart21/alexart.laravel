@@ -47,14 +47,14 @@
             </div>
         </div>
         <div v-if="connected === true" class="card-body">
-
+            @verbatim
             <div class="col-12 bg-light pt-2 pb-2 mt-3 chat">
                 <p class="p-0 m-0 ps-2 pe-2" v-for="(message, index) in incomingMessages">
-                    <small class="sml">@{{ message.time }}</small> <b style="font-size: 120%" :style="{color: color}">@{{ message.name }}</b></span>
-                    @{{ message.message }}
+                    <small class="sml">{{ message.time }}</small> <b style="font-size: 120%" :style="{color: message.color}">{{ message.name }}</b></span>
+                    {{ message.message }}
                 </p>
             </div>
-
+            @endverbatim
             <h4 class="mt-4">Message</h4>
             <form>
                 <div class="row mt-2">
