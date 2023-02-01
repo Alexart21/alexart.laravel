@@ -20,7 +20,7 @@ use MoveMoveIo\DaData\DaDataPhone;
 
 class TestController extends Controller
 {
-    public ?int $x;
+    // public ?int $x;
     public function index()
     {
         $data =[];
@@ -54,11 +54,13 @@ class TestController extends Controller
 
     public function info(Request $request)
     {
-        /*return response()->json([
+        /*
+        return response()->json([
             'success' => true,
             'count' => 2,
             'address' => ['aaaa', 'bla-bka-bla-la-LA'],
-        ]);*/
+        ]);
+        */
         $dadata = DaDataName::prompt($request->q, $count=5, Gender::UNKNOWN, [Parts::NAME]);
 //        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
         $res = [];

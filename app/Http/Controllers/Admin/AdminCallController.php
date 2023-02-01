@@ -34,6 +34,7 @@ class AdminCallController extends AppController
 
     public function show($id)
     {
+//        dd($id);
         $call = Call::findOrFail($id);
         $call->status = Call::READ_STATUS;
         $call->save();

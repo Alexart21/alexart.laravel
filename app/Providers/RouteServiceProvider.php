@@ -28,6 +28,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+//        $this->configurePatterns();
 
         $this->routes(function () {
             Route::middleware('api')
@@ -50,4 +51,9 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
+
+    // все id в роутах целые числа!
+    /*protected function configurePatterns(){
+        Route::pattern('id', '^\d*$');
+    }*/
 }

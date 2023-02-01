@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:man
             Route::delete('/call/deleteAll', 'deleteAll')->name('call.deleteAll');
         });
 
-        Route::resource('/call', AdminCallController::class)->parameters(['id' => 'id']);
-        Route::resource('/post', AdminPostController::class)->parameters(['id' => 'id']);
+        Route::resource('/call', AdminCallController::class)->parameters('id')->whereNumber(['id']);
+        Route::resource('/post', AdminPostController::class)->parameters(['id' => 'id'])->whereUuid('id');
     });
 });
