@@ -9,6 +9,8 @@
                 transform: rotate(360deg);
             }
         }</style>
+    <h2 class="text-center">Онлайн конструктор принтов</h2>
+    <br>
     <div id="app">
         <svg width="100px" height="100px" style="position: absolute;left:calc(50% - 50px);top:calc(50% - 50px)" viewBox="-3 -4 39 39"><polygon style="stroke-dasharray: 17;animation: dash 2.5s cubic-bezier(0.35, 0.04, 0.63, 0.95) infinite;" fill="#ffffff" stroke="#ff0000" stroke-width="1" points="16,0 32,32 0,32"></polygon></svg>
     </div>
