@@ -26,7 +26,8 @@ class TestFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:128',
+            // регуляреа - только кириллица пробел и дефис
+            'name' => 'required|min:2|max:128|regex:/^[А-Яа-яё -]*$/ui',
             'email' => 'email',
             'phone' => 'min:6|max:20',
             'body' => 'required|min:2|max:10000',
@@ -56,6 +57,7 @@ class TestFormRequest extends FormRequest
     {
         return [
             'name.min' => 'Слишком коротко! не меьше 2',
+            'name.regex' => 'Только кириллица без цифр и спецсимволов!',
             'body.min' => 'Слишком коротко! не меьше 2',
         ];
     }
