@@ -52,11 +52,11 @@
                             </form>
                         </div>
                         <div>
-                            <form class="top-links" action="{{ route('post.remove', [ $mail->id ]) }}" method="post">
+                            <form class="top-links del-form" action="{{ route('post.remove', [ $mail->id ]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger">
-                                    удалить навсегда
+                                    удалить безвозвратно
                                 </button>
                             </form>
                         </div>

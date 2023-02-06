@@ -48,11 +48,11 @@
                             </form>
                         </div>
                         <div>
-                            <form class="top-links" action="{{ route('call.remove', [ $call->id ]) }}" method="post">
+                            <form class="top-links del-form" action="{{ route('call.remove', [ $call->id ]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger">
-                                    удалить навсегда
+                                    удалить безвозвратно
                                 </button>
                             </form>
                         </div>

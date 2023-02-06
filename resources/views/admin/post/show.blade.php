@@ -33,9 +33,16 @@
         @endphp
         <span>{{ $date }}</span>
     </div>
-    <form action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
+    <form style="display: inline-block" action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
         @csrf
         @method('DELETE')
-        <button class="btn btn-warning">Удалить</button>
+        <button class="btn btn-warning">В корзину</button>
+    </form>
+    <form class="del-form" style="display: inline-block" action="{{ route('post.remove', [ $mail->id ]) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger">
+            Удалить безвозвратно
+        </button>
     </form>
 </x-layouts.admin>

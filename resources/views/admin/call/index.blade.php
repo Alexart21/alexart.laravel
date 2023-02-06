@@ -29,7 +29,7 @@
                     Все в корзину
                 </button>
             </form>
-            <form class="top-links" action="{{ route('call.deleteAll') }}" method="post">
+            <form class="top-links del-form" action="{{ route('call.deleteAll') }}" method="post">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger">
@@ -67,7 +67,7 @@
                             <div class="top-links"><a href="{{ route('call.show', [ $call->id ]) }}"><span
                                         class="fa fa-eye"></span></a></div>
                             <div class="top-links">
-                                <form class="del-form" action="{{ route('call.destroy', [ $call->id ]) }}"
+                                <form action="{{ route('call.destroy', [ $call->id ]) }}"
                                       method="post">
                                     @csrf
                                     @method('DELETE')

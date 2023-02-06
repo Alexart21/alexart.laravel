@@ -18,7 +18,7 @@ class CallFormRequest  extends FormRequest
     {
         return [
             'reCaptcha' => ['required', new ReCaptchaV3],
-            'name' => 'required|min:2|max:128',
+            'name' => 'required|min:3|max:128|alpha',
             'tel' => 'required|min:6|max:20',
         ];
     }
@@ -28,7 +28,8 @@ class CallFormRequest  extends FormRequest
         return [
             'reCaptcha.required' => 'Отсутствует параметр reCaptcha',
             'name.required' => 'Укажите имя',
-            'name.min' => '2 буквы хотя бы...',
+            'name.min' => '3 буквы хотя бы...',
+            'name.alpha' => 'Только буквы!',
             'tel.required' => 'Укажите номер',
             'tel.min' => '6 цифр хотя бы...'
         ];

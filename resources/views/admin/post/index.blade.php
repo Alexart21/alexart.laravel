@@ -26,7 +26,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                     Все в корзину
                 </button>
             </form>
-            <form class="top-links" action="{{ route('post.deleteAll') }}" method="post" >
+            <form class="top-links del-form" action="{{ route('post.deleteAll') }}" method="post" >
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger">
@@ -68,7 +68,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                             <div class="top-links"><a href="{{ route('post.show', [ $mail->id ]) }}"><span
                                         class="fa fa-eye"></span></a></div>
                             <div class="top-links">
-                                <form class="del-form" action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
+                                <form action="{{ route('post.destroy', [ $mail->id ]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button>

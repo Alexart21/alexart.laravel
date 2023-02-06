@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Call;
-use App\Models\Post;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 
@@ -42,6 +41,7 @@ class AdminCallController extends AppController
     }
 
 
+    // в корзину
     public function destroy($id)
     {
         $call = Call::findOrFail($id);
@@ -55,6 +55,7 @@ class AdminCallController extends AppController
     public function destroyAll(Request $request)
     {
         $pageNum = (int)$request->page;
+        // получаем данные по номеру страницы
         if($request->sort === 'all'){
             $calls = Call::orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
         }elseif ($request->sort === 'new'){
@@ -90,9 +91,11 @@ class AdminCallController extends AppController
         return redirect()->route('call.index');
     }
 
+    // безвозвратное удаление
     public function destroyForewer($id)
     {
-        Call::onlyTrashed()->findOrFail($id)->forceDelete();
+        // метод вызывается и из корзины и из стандартного вида поэтому withTrashed()
+        Call::withTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('call.index');
     }
 

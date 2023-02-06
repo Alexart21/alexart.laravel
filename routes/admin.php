@@ -43,6 +43,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:man
         });
 
         Route::resource('/call', AdminCallController::class)->parameters('id')->whereNumber(['id']);
-        Route::resource('/post', AdminPostController::class)->parameters(['id' => 'id'])->whereUuid('id');
+        Route::resource('/post', AdminPostController::class)->parameters(['id' => 'id'])->whereNumber(['id']);
     });
 });

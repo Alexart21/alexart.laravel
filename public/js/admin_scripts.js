@@ -11,6 +11,7 @@ function confirmTrash(e) {
 }
 //
 window.onload = () => {
+    // формы с этим классом требуют подтверждения удаления
     let delForms = document.querySelectorAll('.del-form');
     if (delForms.length) {
         delForms.forEach((form) => {
@@ -23,6 +24,7 @@ window.onload = () => {
 
 
 // подтверждение выхода
+// сделано на html <dialog>
 let logoutDialog = document.getElementById('logoutDialog');
 if (logoutDialog) {
     let logoutBtn = document.getElementById('logout-btn');
