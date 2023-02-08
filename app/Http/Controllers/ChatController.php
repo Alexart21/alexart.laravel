@@ -28,7 +28,7 @@ class ChatController extends Controller
     {
         $id = (int)$request->id;
         $lastId = Chat::all()->max('id');
-        $chat = Chat::where('id', '>', $id )->orderByDesc('id')->take(100)->get();
+        $chat = Chat::where('id', '>', $id )->orderBy('id')->take(100)->get();
         return response()->json([
             'success' => true,
             'lastId' => $lastId,
