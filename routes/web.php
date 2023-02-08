@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CKEditorController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\CallsController;
 use App\Http\Controllers\DesignerController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
@@ -43,7 +44,16 @@ require __DIR__.'/admin.php';
 
 require __DIR__.'/auth.php';
 
+// чат где вебсокет сервер на Laravel
+Route::get('/chat', [ ContentController::class, 'chat' ])->name('content.chat');
+// чат где вебсокет сервер на поднимается отдельно на Node js
 Route::get('/nodechat', [ ContentController::class, 'nodechat' ])->name('content.nodechat');
+// чат на setTimeout VUE3 MYSQL
+Route::get('/vchat', [ ChatController::class, 'index' ])->name('content.chat');
+Route::get('/vchat/all', [ ChatController::class, 'all' ]);
+Route::get('/vchat/update', [ ChatController::class, 'update' ]);
+Route::post('/vchat/store', [ ChatController::class, 'store' ]);
+Route::get('/csrf', [ ChatController::class, 'csrf' ]);
 
 // все остальные страницы кроме главной
 //Route::get('/{page}', [ ContentController::class, 'page' ])->name('content.page')->whereIn('page', ['sozdanie', 'prodvijenie', 'portfolio', 'parsing', 'bla']);

@@ -47,4 +47,9 @@ class ContentController extends Controller
     {
         return view('content.nodechat');
     }
+
+    public function chat()
+    {
+        return view('content.chat');
+    }
 }
