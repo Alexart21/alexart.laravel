@@ -35,4 +35,13 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	// Отсебятина
+	config.protectedSource.push(/<(style)[^>]*>.*<\/style>/ig);
+	config.protectedSource.push(/<(script)[^>]*>.*<\/script>/ig);
+	config.protectedSource.push(/<\?[\s\S]*?\?>/g);// разрешить php-код
+	config.allowedContent = true;
+	config.allowedContentRules = true;
 };
+// CKEDITOR.config.allowedContent = true;
+

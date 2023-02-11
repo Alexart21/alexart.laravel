@@ -36,7 +36,8 @@ class PostsController extends AppFormsController
             ]);
         }*/
         // отправка письма с использованием очередей (вся обработка в app/Jobs/SenderEmai.php)
-        /*$this->sendEmailWithQueue($data);
+        // или в .env выставь QUEUE_CONNECTION=sync для синхронноой отправки
+        $this->sendEmailWithQueue($data);
         if(Post::create($data)){
             return response()->json([
                 'success' => true,
@@ -45,10 +46,10 @@ class PostsController extends AppFormsController
             return response()->json([
                 'success' => false,
             ]);
-        }*/
+        }
 
         // это без всяких очередей
-        $db = Post::create($data) ? true : false;
+        /*$db = Post::create($data) ? true : false;
         $mail = $this->sendEmail($data);
         if ($db && $mail) {
             return response()->json([
@@ -61,7 +62,7 @@ class PostsController extends AppFormsController
                 'mail' => $mail,
 //                'score' => $score,
             ]);
-        }
+        }*/
     }
 
     private function sendEmail($data)

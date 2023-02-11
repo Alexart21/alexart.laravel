@@ -31,8 +31,7 @@ return [
     'connections' => [
 
         'sync' => [
-//            'driver' => 'sync',
-            'driver' => 'database',
+            'driver' => 'sync',
         ],
 
         'database' => [

@@ -24,9 +24,11 @@ class TestController extends Controller
     // public ?int $x;
     public function index()
     {
-        /*$msg = 'hello world!!';
+        // очереди
+        /*$msg = 'hello world new';
         $qs = new TestJob($msg);
         $this->dispatch($qs);*/
+//        die('here');
         $data =[];
         return view('test.index', compact('data'));
     }

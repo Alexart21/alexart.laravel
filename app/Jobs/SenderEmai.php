@@ -45,7 +45,6 @@ class SenderEmai implements ShouldQueue
             ];
             Mail::to(env('ADMIN_EMAIL'))
                 ->send(new Feedback($params));
-            return true;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
