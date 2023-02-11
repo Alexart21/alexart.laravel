@@ -18,6 +18,8 @@ Route::prefix('test')->controller(TestController::class)->group(function (){
     Route::get('/address', 'address')->name('test.address');
     Route::post('/info', 'info')->name('test.info');
     Route::post('/save', 'save')->name('test.save');
+    Route::get('/confirm', 'confirm')->name('test.confirm');
+    Route::post('/confirm', 'confirmStore')->name('test.confirmStore');;
 });
 
 // конструктор чехлов

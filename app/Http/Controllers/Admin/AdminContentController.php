@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\ContentFormRequest;
+use Illuminate\Support\Facades\Cache;
 
 class AdminContentController extends AppController
 {
@@ -54,6 +55,7 @@ class AdminContentController extends AppController
         try {
             $page = Content::findOrFail($id);
             $page->update($data);
+            Cache::flush();
             flash('Обновлено !')->success();
         }catch (Exception $e){
             flash($e->getMessage())->error();
@@ -66,6 +68,7 @@ class AdminContentController extends AppController
     {
        $page = Content::findOrFail($id);
        $page->delete();
+       Cache::flush();
        return redirect()->route('content.index');
     }
 
@@ -77,6 +80,7 @@ class AdminContentController extends AppController
     public function restore($id){
         $page = Content::onlyTrashed()->findOrFail($id);
         $page->restore();
+        Cache::flush();
         return redirect()->route('content.index');
     }
 

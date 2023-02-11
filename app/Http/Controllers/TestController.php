@@ -54,15 +54,15 @@ class TestController extends Controller
 
     public function info(Request $request)
     {
-        /*
-        return response()->json([
+
+        /*return response()->json([
             'success' => true,
             'count' => 2,
             'address' => ['aaaa', 'bla-bka-bla-la-LA'],
-        ]);
-        */
-        $dadata = DaDataName::prompt($request->q, $count=5, Gender::UNKNOWN, [Parts::NAME]);
-//        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
+        ]);*/
+
+//        $dadata = DaDataName::prompt($request->q, $count=5, Gender::UNKNOWN, [Parts::NAME]);
+        $dadata = DaDataAddress::prompt($request->q, $count = 10, Language::RU);
         $res = [];
         foreach ($dadata['suggestions'] as $v){
             array_push($res, $v['value']);
@@ -74,5 +74,20 @@ class TestController extends Controller
             'address' => $res
         ]);
 
+    }
+
+    public function confirm()
+    {
+        return view('test.confirm', ['success' => false]);
+    }
+
+    public function confirmStore(Request $request)
+    {
+        $request->validate([
+            'login' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        flash('Успешно !!!');
+        return view('test.confirm', ['success' => true]);
     }
 }

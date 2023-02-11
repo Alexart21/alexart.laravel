@@ -39,7 +39,7 @@
         </div>
     </form>
     <script>
-        CKEDITOR.replace( 'summary-ckeditor', {
+        CKEDITOR.replace('summary-ckeditor', {
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });

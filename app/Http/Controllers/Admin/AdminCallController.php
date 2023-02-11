@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AdminCallController extends AppController
 {
 
-    const PAGE_SIZE = 20;
+    const PAGE_SIZE = 2;
 
     public function index(Request $request)
     {

@@ -28,9 +28,6 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="keywords" content="">
     <meta name="description" content="{{ $data->description }}">
-    {{--<link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
-    <link href="{{ asset('css/animate.min.css')  }}" rel="stylesheet">
-    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">--}}
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
