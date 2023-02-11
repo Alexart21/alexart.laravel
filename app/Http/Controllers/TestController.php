@@ -16,6 +16,7 @@ use MoveMoveIo\DaData\Facades\DaDataName;
 use MoveMoveIo\DaData\Enums\Gender;
 use MoveMoveIo\DaData\Enums\Parts;
 use MoveMoveIo\DaData\DaDataPhone;
+use App\Jobs\TestJob;
 
 
 class TestController extends Controller
@@ -23,6 +24,9 @@ class TestController extends Controller
     // public ?int $x;
     public function index()
     {
+        /*$msg = 'hello world!!';
+        $qs = new TestJob($msg);
+        $this->dispatch($qs);*/
         $data =[];
         return view('test.index', compact('data'));
     }

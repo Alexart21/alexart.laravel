@@ -11,6 +11,7 @@ use App\Http\Requests\IndexFormRequest;
 use MoveMoveIo\DaData\Facades\DaDataName;
 use MoveMoveIo\DaData\Enums\Gender;
 use MoveMoveIo\DaData\Enums\Parts;
+use App\Jobs\SenderEmai;
 
 class PostsController extends AppFormsController
 {
@@ -34,6 +35,19 @@ class PostsController extends AppFormsController
                 'score' => $score,
             ]);
         }*/
+        // отправка письма с использованием очередей (вся обработка в app/Jobs/SenderEmai.php)
+        /*$this->sendEmailWithQueue($data);
+        if(Post::create($data)){
+            return response()->json([
+                'success' => true,
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+            ]);
+        }*/
+
+        // это без всяких очередей
         $db = Post::create($data) ? true : false;
         $mail = $this->sendEmail($data);
         if ($db && $mail) {
@@ -66,6 +80,12 @@ class PostsController extends AppFormsController
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    private function sendEmailWithQueue($data)
+    {
+        $qs = new SenderEmai($data);
+        $this->dispatch($qs);
     }
 
     public function info(Request $request)
