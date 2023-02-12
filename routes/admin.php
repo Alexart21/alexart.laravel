@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DefaultController;
 use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminCallController;
+use App\Http\Controllers\Admin\AdminContentEditableController;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:manager', 'adminPanel']], function () {
     // шлюзы 'admin' и 'manager' описан в app/Providers/AuthServiceProvider.php
@@ -15,7 +16,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'can:man
         Route::delete('/content/{id}/destroy', 'destroyForewer')->whereNumber(['id'])->name('content.remove');
         Route::resource('/content', AdminContentController::class)->parameters(['id' => 'id']);
     });
-
+    // режим contenteditable
+    Route::controller(AdminContentEditableController::class)->middleware('can:admin')->group(function () {
+        Route::get('/content/{id}/contenteditable', 'index')->whereNumber(['id'])->name('contenteditable');
+        Route::post('/content/contenteditable', 'store')->name('contenteditable.store');
+    });
     // большая группа роутов
     Route::group(['middleware' => 'can:manager'], function () {
         Route::controller(DefaultController::class)->group(function () {

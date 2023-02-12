@@ -1,20 +1,11 @@
-@props([
-'title'
-])
 <!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta id="_csrf_token" content="{{ csrf_token() }}">
-    <title>{{ $title }}</title>
+    <title>Режим contenteditable</title>
+    <link rel="canonical" href="https://alexart.s-solo.ru"/>
     <link rel="icon" type="image/png" href="{{ asset('icons/512x512.png')  }}"/>
-{{--    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>--}}
-<!-- <meta name="referrer" content="origin"/> -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    {{--<link href="{{ asset('assets/a9bedd54/css/bootstrap.css')  }}" rel="stylesheet">
-    <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
-    --}}
-    <link href="{{ asset('fontawesome/css/all.min.css')  }}" rel="stylesheet">
     @vite([
     'resources/css/bootstrap.min.css',
     {{--    'resources/css/style.css',--}}
@@ -74,4 +65,5 @@
 <script src="{{ asset('js/admin_scripts.js') }}"></script>
 </body>
 </html>
+
 

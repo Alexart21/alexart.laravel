@@ -99,3 +99,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+/* contenteditable */
+.contenteditable-block{
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid red;
+}
+
+#c_loader{
+    display: none;
+}
+
+.c-main{
+    padding-bottom: 2em;
+}
+/* end contenteditable */

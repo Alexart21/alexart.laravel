@@ -1,6 +1,17 @@
-<script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+@if($visual)
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+@endif
 <x-layouts.admin title="Админка">
     <h1>Страница {{ $page->page }}</h1>
+    <span class="h3">Перейти врежим <a class="h3"
+                                       href="{{ route('contenteditable', [ $page->id ]) }}">contenteditable</a></span>
+    @if($visual)
+        &nbsp;&nbsp;<span class="h3"><a class="h3" href="{{ route('content.edit', [ $page->id ]) }}">Текстовый режим</a></span>
+    @else
+        &nbsp;&nbsp;<span class="h3">Включить <a class="h3"
+                                                 href="{{ route('content.edit', [$page->id, 'mode' => 'v']) }}">CKEditor</a></span>
+    @endif
+    <br>
     <form method="post" action="{{ route('content.update', [ $page->id ]) }}">
         @csrf
         @method('PUT')
@@ -38,10 +49,12 @@
             <button class="btn btn-success" type="submit">Сохранить</button>
         </div>
     </form>
-    <script>
-        CKEDITOR.replace('summary-ckeditor', {
-            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
-            filebrowserUploadMethod: 'form'
-        });
-    </script>
+    @if($visual)
+        <script>
+            CKEDITOR.replace('summary-ckeditor', {
+                filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+                filebrowserUploadMethod: 'form'
+            });
+        </script>
+    @endif
 </x-layouts.admin>

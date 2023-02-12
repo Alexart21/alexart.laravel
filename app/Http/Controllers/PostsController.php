@@ -37,7 +37,7 @@ class PostsController extends AppFormsController
         }*/
         // отправка письма с использованием очередей (вся обработка в app/Jobs/SenderEmai.php)
         // или в .env выставь QUEUE_CONNECTION=sync для синхронноой отправки
-        $this->sendEmailWithQueue($data);
+        SenderEmai::dispatch($data);
         if(Post::create($data)){
             return response()->json([
                 'success' => true,
@@ -81,12 +81,6 @@ class PostsController extends AppFormsController
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-    }
-
-    private function sendEmailWithQueue($data)
-    {
-        $qs = new SenderEmai($data);
-        $this->dispatch($qs);
     }
 
     public function info(Request $request)
