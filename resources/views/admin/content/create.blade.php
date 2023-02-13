@@ -1,6 +1,19 @@
-<script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+@php
+    // показать или нет CKEditor
+    $visual = isset($_GET['mode']) && $_GET['mode'] === 'v' ? true : false;
+@endphp
+@if($visual)
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+@endif
 <x-layouts.admin title="Создать страницу">
     <h1>Создать страницу</h1>
+    @if($visual)
+        &nbsp;&nbsp;<span class="h3"><a class="h3" href="{{ route('content.create') }}">Текстовый режим</a></span>
+    @else
+        &nbsp;&nbsp;<span class="h3">Включить <a class="h3"
+                                                 href="{{ route('content.create', ['mode' => 'v']) }}">CKEditor</a></span>
+    @endif
+    <br>
     <form method="post" action="{{ route('content.store') }}">
         @csrf
         <div class="form-group">
@@ -32,10 +45,12 @@
             <button class="btn btn-success" type="submit">Сохранить</button>
         </div>
     </form>
+    @if($visual)
     <script>
         CKEDITOR.replace( 'summary-ckeditor', {
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });
     </script>
+    @endif
 </x-layouts.admin>

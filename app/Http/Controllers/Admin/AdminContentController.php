@@ -44,9 +44,8 @@ class AdminContentController extends AppController
 
     public function edit($id)
     {
-        $visual = isset($_GET['mode']) ? true : false;
         $page = Content::findOrFail($id);
-        return view('admin.content.edit', compact('page', 'visual'));
+        return view('admin.content.edit', compact('page'));
     }
 
 

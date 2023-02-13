@@ -1,3 +1,7 @@
+@php
+    // показать или нет CKEditor
+    $visual = isset($_GET['mode']) && $_GET['mode'] === 'v' ? true : false;
+@endphp
 @if($visual)
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 @endif
