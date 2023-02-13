@@ -25,8 +25,8 @@ Route::middleware('guest')->group(function () {
 //    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:3,1');
 //    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    // закомментировать при two factor аутентификации Fortify !!!
-//    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:' . env('All_FORMS_RATE_LIMIT') .  ',1');
+    // закомментировать при наличии хотя бы одного юзера с two factor аутентификацией Fortify !!!
+//    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:loginLimit']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');

@@ -1,5 +1,7 @@
 <x-layouts.admin title="">
-    <h1>{{ $page->page }}</h1>
+    <span class="h3">Страница {{ $page->page }}</span>&nbsp;&nbsp;
+    <a class="h3" href="{{ route('content.index') }}">все страницы</a>
+    <br>
     @include('flash::message')
     <div>
         <a href="{{ route('content.edit', [ $page->id ]) }}" class="btn btn-primary">редактировать</a>

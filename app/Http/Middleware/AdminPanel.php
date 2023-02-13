@@ -80,9 +80,6 @@ class AdminPanel
             'avatar' => $avatar,
             'role' => $role
         ]);
-        /*DB::beforeExecuting(function($query){
-            echo  "<pre>$query</pre>";
-        });*/
         return $next($request);
     }
 }
