@@ -22,13 +22,19 @@ use App\Jobs\TestJob;
 class TestController extends Controller
 {
     // public ?int $x;
-    public function index()
+    public function index(Request $request)
     {
-        // очереди
-        /*$msg = 'bla !!!';
-        TestJob::dispatch($msg);
-        die('here');*/
+        $count = session('count');
+        dump($count);
+        $count = $count ? $count + 1 : 1;
+        session(['count' => $count]);
+        dump(session('count'));
         $data =[];
+        $msg = 'msg ' . $count;
+        // очереди
+        TestJob::dispatch($msg);
+        //
+
         return view('test.index', compact('data'));
     }
 
