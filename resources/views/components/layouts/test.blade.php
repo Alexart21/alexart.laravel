@@ -13,7 +13,7 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link href="{{ asset('css/test/bootstrap.min.css')  }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap5.min.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/datalist.css')  }}" rel="stylesheet">
 <body>
 <!-- начало основной контент -->
@@ -25,5 +25,7 @@
 <!-- конец основной контент -->
 <script src="{{ asset('js/jquery3.6.0.min.js') }}"></script>
 <script src="{{ asset('js/datalist.js') }}"></script>
+<script src="{{ asset('js/bootstrap5.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
 </body>
 </html>

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContentController;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\OAuth\OauthController;
 use App\Http\Controllers\Admin\CKEditorController;
 use App\Http\Controllers\PostsController;
@@ -12,15 +11,8 @@ use App\Http\Controllers\ChatController;
 
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
-Route::prefix('test')->controller(TestController::class)->group(function (){
-    Route::get('/', 'index')->name('test.index');
-    Route::get('/dadata', 'dadata')->name('test.dadata');
-    Route::get('/address', 'address')->name('test.address');
-    Route::post('/info', 'info')->name('test.info');
-    Route::post('/save', 'save')->name('test.save');
-    Route::get('/confirm', 'confirm')->name('test.confirm');
-    Route::post('/confirm', 'confirmStore')->name('test.confirmStore');;
-});
+// Всякие эксперименты
+require __DIR__ . '/test.php';
 
 // конструктор чехлов
 Route::get('/designer', [ DesignerController::class, 'index' ])->name('designer.index');

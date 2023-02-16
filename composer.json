@@ -20,6 +20,7 @@
         "livewire/livewire": "^2.5",
         "movemoveapp/laravel-dadata": "^1.0",
         "predis/predis": "^2.0",
+        "protonemedia/laravel-form-components": "^3.7",
         "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/google": "^4.1",

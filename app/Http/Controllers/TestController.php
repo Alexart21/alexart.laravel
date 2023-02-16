@@ -31,8 +31,9 @@ class TestController extends Controller
         dump(session('count'));
         $data =[];
         $msg = 'msg ' . $count;
+//        die('here');
         // очереди
-        TestJob::dispatch($msg);
+//        TestJob::dispatch($msg);
         //
 
         return view('test.index', compact('data'));
@@ -100,5 +101,10 @@ class TestController extends Controller
         ]);
         flash('Успешно !!!');
         return view('test.confirm', ['success' => true]);
+    }
+
+    public function form()
+    {
+        return view('test.form');
     }
 }
