@@ -23,6 +23,7 @@
     <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
     <link href="{{ asset('css/admin_style.css')  }}" rel="stylesheet">
 <body>
+<div class="adm-flex">
 <div class="admin_header container">
     <div class="msgs-block d-flex">
         <div>
@@ -65,8 +66,13 @@
     </div>
 
 </div>
-<div class="container">
+
+<div class="container admin-main">
     {{ $slot }}
+</div>
+    <div class="admin-footer container">
+        <a href="{{ route('admin.phpinfo') }}">PHPINFO</a>
+    </div>
 </div>
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
