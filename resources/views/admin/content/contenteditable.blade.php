@@ -49,21 +49,17 @@
                         errText = 'Ошибка cервера! <small>смотри консоль</small>';
                     }
                     resultBlock.innerHTML = `<span style="color:red">${errText}</span>`;
-                    c_loader.style.display = 'none';
-                    setTimeout(() => {
-                        resultBlock.innerHTML = '';
-                    }, 5000)
                 } else { // 200 oK
                     result = await response.json();
                     console.log('ok');
                     console.log(response);
                     console.log(result);
                     resultBlock.innerHTML = '<span style="color:green">Успешно!</span>';
-                    c_loader.style.display = 'none';
-                    setTimeout(() => {
-                        resultBlock.innerHTML = '';
-                    }, 5000)
                 }
+                c_loader.style.display = 'none';
+                setTimeout(() => {
+                    resultBlock.innerHTML = '';
+                }, 5000)
             }
         </script>
     </div>
