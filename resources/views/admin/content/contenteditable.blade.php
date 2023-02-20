@@ -1,7 +1,8 @@
 <x-layouts.admin title="Режим contenteditable">
     <div class="c-main">
         <h3>Режим contenteditable страница : {{ $data->page }}</h3>
-        <h4><a href="{{ route('content.edit', [$data->id]) }}">в режим редактора</a></h4>
+        Здесь доступно только содержимое страницы. Полное редактирование в <span class="h4"><a
+                href="{{ route('content.edit', [$data->id]) }}">в режиме редактора</a></span>
         <div class="contenteditable-block" contenteditable="true">
             {!! $data->page_text !!}
         </div>
@@ -24,7 +25,7 @@
                 let url = '{{ route('contenteditable.store') }}';
                 let data = contentBlock.innerHTML;
                 // let formData = new FormData();
-                await fetch(url, {
+                let response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
@@ -34,24 +35,35 @@
                         id: {{ $data->id }},
                         data: data
                     })
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        console.log(result);
-                        resultBlock.innerHTML = '<span style="color:green">Успешно!</span>';
-                        c_loader.style.display = 'none';
-                        setTimeout(() => {
-                            resultBlock.innerHTML = '';
-                        }, 5000)
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        c_loader.style.display = 'none';
-                        resultBlock.innerHTML = '<span style="color:red">Ошибка!</span>';
-                        setTimeout(() => {
-                            resultBlock.innerHTML = '';
-                        }, 5000)
-                    })
+                });
+                let result;
+                if (!response.ok) {
+                    let errText;
+                    if (response.status == 422) { // ошибки валидации
+                        result = await response.json();
+                        let errors = result.errors;
+                        // console.log('validate errors');
+                        // console.log(errors.data[0]);
+                        errText = errors.data[0];
+                    } else { // при ошибках 500 или других
+                        errText = 'Ошибка cервера! <small>смотри консоль</small>';
+                    }
+                    resultBlock.innerHTML = `<span style="color:red">${errText}</span>`;
+                    c_loader.style.display = 'none';
+                    setTimeout(() => {
+                        resultBlock.innerHTML = '';
+                    }, 5000)
+                } else { // 200 oK
+                    result = await response.json();
+                    console.log('ok');
+                    console.log(response);
+                    console.log(result);
+                    resultBlock.innerHTML = '<span style="color:green">Успешно!</span>';
+                    c_loader.style.display = 'none';
+                    setTimeout(() => {
+                        resultBlock.innerHTML = '';
+                    }, 5000)
+                }
             }
         </script>
     </div>

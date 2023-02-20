@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use App\Http\Requests\Admin\AjaxSaveRequest;
 use App\Models\Content;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,18 +16,17 @@ class AdminContentEditableController extends Controller
         return view('admin.content.contenteditable', compact('data'));
     }
 
-    public function store(Request $request)
+    public function store(AjaxSaveRequest $request)
     {
-        $id = (int)$request->id;
-        $data = $request->data;
+        $data = $request->validated();
         try {
-            $page = Content::findOrFail($id);
-            $page->page_text = $data;
+            $page = Content::findOrFail($data['id']);
+            $page->page_text = $data['data'];
             $page->save();
             Cache::flush();
             return response()->json([
                 'success' => true,
-                'id' => $id,
+                'id' => $data['id'],
             ]);
         }catch (Exception $e){
             dd($e->getMessage());

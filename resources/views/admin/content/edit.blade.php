@@ -46,8 +46,8 @@
             <div class="text-danger">{{ $message }}</div>@enderror
         </div>
         <div class="form-group">
-            <label for="">Код страницы [page_text]:</label>
-            <textarea class="form-control @error('page_text') is-invalid @enderror" name="page_text" id="summary-ckeditor">{{ $page->page_text }}</textarea>
+            <label for="">Содержимое страницы [page_text]:</label>
+            <textarea rows="10" class="form-control @error('page_text') is-invalid @enderror" name="page_text" id="summary-ckeditor">{{ $page->page_text }}</textarea>
             @error('page_text')
             <div class="text-danger">{{ $message }}</div>@enderror
         </div>

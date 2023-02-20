@@ -10,7 +10,9 @@ class ContentFormRequest extends FormRequest
 
     public function authorize()
     {
-        return true;
+        // можно было просто вернуть true здесь это непринципиально
+        return auth()->user()->can('admin');
+//        return true;
     }
 
     public function rules()
