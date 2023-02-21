@@ -11,8 +11,7 @@ class DefaultController extends AppController
 {
    public function index()
    {
-       $pages = Content::all();
-       return view('admin.index', compact('pages'));
+       return view('admin.index');
    }
 
    public function cache()

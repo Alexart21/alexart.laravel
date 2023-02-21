@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\Post\Status;
 
 class Post extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    const NEW_STATUS = 0;
-    const READ_STATUS = 1;
 
 //    protected $guarded = [];
     protected $fillable = [
@@ -20,5 +18,10 @@ class Post extends Model
         'email',
         'tel',
         'body'
+    ];
+
+    // касты
+    protected $casts = [
+        'status' => Status::class,
     ];
 }

@@ -1,5 +1,6 @@
 @php
     use Jenssegers\Date\Date;
+    use App\Enums\Call\Status as CallStatus;
 
     $h1 = $new ? 'Заказы обратных звонков - новые' : 'Заказы обратных звонков - все';
 
@@ -47,7 +48,7 @@
                 <th>Действия</th>
             </tr>
             @foreach($calls as $call)
-                <tr class="{{ $call->status ? '' : 'table-success' }}">
+                <tr class="{{ $call->status === CallStatus::READ ? '' : 'table-success' }}">
                     <td>{{ $call->id }}</td>
                     <td>{{ $call->name }}</td>
                     <td>{{ $call->tel }}</td>

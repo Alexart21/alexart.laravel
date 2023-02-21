@@ -19,7 +19,7 @@ class AdminContentController extends AppController
         $total = $pages->total();
         $trashed = Content::onlyTrashed()->get()->count();
 //        dd($pages);
-        return view('admin.content.index', compact('pages', 'total', 'count',  'trashed'));
+        return view('admin.content.index', compact('pages', 'total', 'count', 'trashed'));
     }
 
     public function create()
@@ -32,7 +32,7 @@ class AdminContentController extends AppController
     {
         $data = $request->validated();
         $page = Content::create($data);
-        return redirect()->route('content.show', [ $page->id ]);
+        return redirect()->route('content.show', [$page->id]);
     }
 
 
@@ -57,34 +57,37 @@ class AdminContentController extends AppController
             $page->update($data);
             Cache::flush();
             flash('Обновлено !')->success();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             flash($e->getMessage())->error();
         }
 
-        return redirect()->route('content.show', [ $id ]);
+        return redirect()->route('content.show', [$id]);
     }
 
     public function destroy($id)
     {
-       $page = Content::findOrFail($id);
-       $page->delete();
-       Cache::flush();
-       return redirect()->route('content.index');
+        $page = Content::findOrFail($id);
+        $page->delete();
+        Cache::flush();
+        return redirect()->route('content.index');
     }
 
-    public function trash(){
+    public function trash()
+    {
         $pages = Content::onlyTrashed()->get();
         return view('admin.content.trash', compact('pages'));
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
         $page = Content::onlyTrashed()->findOrFail($id);
         $page->restore();
         Cache::flush();
         return redirect()->route('content.index');
     }
 
-    public function destroyForewer($id){
+    public function destroyForewer($id)
+    {
         Content::onlyTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('content.index');
     }

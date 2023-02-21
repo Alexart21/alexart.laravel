@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\View;
 use App\Models\Call;
 use App\Models\Post;
 use Illuminate\Support\Facades\Gate;
+use App\Enums\Post\Status as PostStatus;
+use App\Enums\Call\Status as CallStatus;
 
 class AdminPanel
 {
@@ -22,8 +24,8 @@ class AdminPanel
      */
     public function handle($request, Closure $next)
     {
-        $callNewStatus = Call::NEW_STATUS;
-        $postNewStatus = Post::NEW_STATUS;
+        $callNewStatus = CallStatus::NEW->value;
+        $postNewStatus = PostStatus::NEW->value;
         // что необходимо в шаблоне берем из базы
         // Впихнул в UNION
         $results = DB::select(

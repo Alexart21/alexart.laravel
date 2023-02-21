@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -6,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use App\Rules\ReCaptchaV3;
 
-class CallFormRequest  extends FormRequest
+class CallFormRequest extends FormRequest
 {
 
     public function authorize()
@@ -37,13 +38,13 @@ class CallFormRequest  extends FormRequest
     }
 
     // возвращает JSON !
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         $response = response()
-            ->json([ 'success' => false, 'errors' => $validator->errors()], 422);
+            ->json(['success' => false, 'errors' => $validator->errors()], 422);
 
         throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+            ->errorBag($this->errorBag);
     }
 
 }

@@ -62,12 +62,12 @@ class IndexFormRequest extends FormRequest
     }
 
     // возвращает JSON !
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         $response = response()
-            ->json([ 'success' => false, 'errors' => $validator->errors()], 422);
+            ->json(['success' => false, 'errors' => $validator->errors()], 422);
 
         throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+            ->errorBag($this->errorBag);
     }
 }

@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Call;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
+use App\Enums\Call\Status as CallStatus;
 
 
 class AdminCallController extends AppController
 {
 
-    const PAGE_SIZE = 2;
+    const PAGE_SIZE = 20;
 
 
     public function index(Request $request)
     {
         if ($request->sort === 'new') { // только непрочитанные
-            $calls = Call::where('status', Call::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
+            $calls = Call::where('status', CallStatus::NEW)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
             $count = $calls->count();
             $total = $calls->total();
             $trashed = Call::onlyTrashed()->get()->count();
@@ -34,9 +35,8 @@ class AdminCallController extends AppController
 
     public function show($id)
     {
-//        dd($id);
         $call = Call::findOrFail($id);
-        $call->status = Call::READ_STATUS;
+        $call->status = CallStatus::READ;
         $call->save();
         return view('admin.call.show', compact('call'));
     }
@@ -46,7 +46,7 @@ class AdminCallController extends AppController
     public function destroy($id)
     {
         $call = Call::findOrFail($id);
-        $call->status = Call::READ_STATUS;
+        $call->status = CallStatus::READ;
         $call->save();
         $call->delete();
         return redirect()->route('call.index');
@@ -60,11 +60,11 @@ class AdminCallController extends AppController
         if($request->sort === 'all'){
             $calls = Call::orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
         }elseif ($request->sort === 'new'){
-            $calls = Call::where('status', Call::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+            $calls = Call::where('status', CallStatus::NEW)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
         }
         if($calls){
             foreach ($calls as $call) {
-                $call->status = Call::READ_STATUS;
+                $call->status = CallStatus::READ;
                 $call->save();
                 $call->delete();
             }

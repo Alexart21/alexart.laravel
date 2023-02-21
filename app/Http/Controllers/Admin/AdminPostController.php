@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Enums\Post\Status as PostStatus;
 
 
 class AdminPostController extends AppController
@@ -13,7 +14,7 @@ class AdminPostController extends AppController
     public function index(Request $request)
     {
         if ($request->sort === 'new') { // только непрочитанные
-            $mails = Post::where('status', Post::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
+            $mails = Post::where('status', PostStatus::NEW)->orderByDesc('created_at')->paginate(self::PAGE_SIZE);
             $count = $mails->count();
             $total = $mails->total();
             $trashed = Post::onlyTrashed()->get()->count();
@@ -32,7 +33,7 @@ class AdminPostController extends AppController
     public function show($id)
     {
         $mail = Post::findOrFail($id);
-        $mail->status = Post::READ_STATUS;
+        $mail->status = PostStatus::READ;
         $mail->save();
         return view('admin.post.show', compact('mail'));
     }
@@ -41,7 +42,7 @@ class AdminPostController extends AppController
     public function destroy($id)
     {
         $mail = Post::findOrFail($id);
-        $mail->status = Post::READ_STATUS;
+        $mail->status = PostStatus::READ;
         $mail->save();
         $mail->delete();
         return redirect()->route('post.index');
@@ -55,11 +56,11 @@ class AdminPostController extends AppController
         if ($request->sort === 'all') {
             $mails = Post::orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
         } elseif ($request->sort === 'new') {
-            $mails = Post::where('status', Post::NEW_STATUS)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
+            $mails = Post::where('status', PostStatus::NEW)->orderByDesc('created_at')->paginate(self::PAGE_SIZE, ['*'], 'page', $pageNum);
         }
         if ($mails) {
             foreach ($mails as $mail) {
-                $mail->status = Post::READ_STATUS;
+                $mail->status = PostStatus::READ;
                 $mail->save();
                 $mail->delete();
             }

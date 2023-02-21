@@ -1,5 +1,6 @@
 @php
 use Jenssegers\Date\Date;
+use App\Enums\Post\Status as PostStatus;
 
 $h1 = $new ? 'Входящие сообщения - новые' : 'Входящие сообщения - все';
 @endphp
@@ -46,7 +47,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                 <th>Действия</th>
             </tr>
             @foreach($mails as $mail)
-                <tr class="{{ $mail->status ? '' : 'table-success' }}">
+                <tr class="{{ $mail->status === PostStatus::READ ? '' : 'table-success' }}">
                     <td>{{ $mail->id }}</td>
                     <td>{{ $mail->name }}</td>
                     <td>{{ $mail->email }}</td>

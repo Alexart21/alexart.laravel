@@ -5,18 +5,15 @@ namespace App\Http\Requests\Admin;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Gate;
 
 class AjaxSaveRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+
     public function authorize()
     {
         // можно было просто вернуть true здесь это непринципиально
-        return auth()->user()->can('admin');
+        return Gate::check('admin');
 //        return true;
     }
 
@@ -36,12 +33,12 @@ class AjaxSaveRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         $response = response()
-            ->json([ 'success' => false, 'errors' => $validator->errors()], 422);
+            ->json(['success' => false, 'errors' => $validator->errors()], 422);
 
         throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+            ->errorBag($this->errorBag);
     }
 }
