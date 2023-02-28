@@ -2,6 +2,6 @@
 namespace App\Enums\Post;
 
 enum Status : int {
-    case NEW = 0;
-    case READ = 1;
+    case NEW_STATUS = 0;
+    case READ_STATUS = 1;
 }

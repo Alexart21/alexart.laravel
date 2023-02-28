@@ -84,4 +84,6 @@
 <img class="orbit-loader" src="{{ asset('svg/orbit-variant.svg') }}" alt="">
     @svg('svg/abacus.svg', 'red-icon')
     @svg('svg/account-badge.svg', 'blue-icon')
+    <br>
+    <a href="{{ route('test.download') }}">загрузить файл</a>
 </x-layouts.test>

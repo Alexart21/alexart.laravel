@@ -47,7 +47,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                 <th>Действия</th>
             </tr>
             @foreach($mails as $mail)
-                <tr class="{{ $mail->status === PostStatus::READ ? '' : 'table-success' }}">
+                <tr class="{{ $mail->status === PostStatus::READ_STATUS ? '' : 'table-success' }}">
                     <td>{{ $mail->id }}</td>
                     <td>{{ $mail->name }}</td>
                     <td>{{ $mail->email }}</td>

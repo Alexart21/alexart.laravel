@@ -24,8 +24,8 @@ class AdminPanel
      */
     public function handle($request, Closure $next)
     {
-        $callNewStatus = CallStatus::NEW->value;
-        $postNewStatus = PostStatus::NEW->value;
+        $callNewStatus = CallStatus::NEW_STATUS->value;
+        $postNewStatus = PostStatus::NEW_STATUS->value;
         // что необходимо в шаблоне берем из базы
         // Впихнул в UNION
         $results = DB::select(

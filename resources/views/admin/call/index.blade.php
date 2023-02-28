@@ -48,7 +48,7 @@
                 <th>Действия</th>
             </tr>
             @foreach($calls as $call)
-                <tr class="{{ $call->status === CallStatus::READ ? '' : 'table-success' }}">
+                <tr class="{{ $call->status === CallStatus::READ_STATUS ? '' : 'table-success' }}">
                     <td>{{ $call->id }}</td>
                     <td>{{ $call->name }}</td>
                     <td>{{ $call->tel }}</td>

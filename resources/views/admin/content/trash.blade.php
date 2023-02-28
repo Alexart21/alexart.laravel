@@ -39,7 +39,7 @@
                             </form>
                         </div>
                         <div>
-                            <form class="top-links" action="{{ route('content.remove', [ $page->id ]) }}" method="post">
+                            <form class="top-links del-form" action="{{ route('content.remove', [ $page->id ]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger">

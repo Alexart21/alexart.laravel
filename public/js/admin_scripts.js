@@ -1,10 +1,11 @@
 'use strict'
 
 // подтверждение удаления
+// события на эту ф-ию вешаются далее строка 16..
 function confirmTrash(e) {
     e.preventDefault();
     let form = e.target;
-    let result = confirm('Точно удалить ?');
+    let result = confirm('Точно удалить ? Это действие необратимо !');
     if (result) {
         form.submit();
     }

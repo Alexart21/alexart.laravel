@@ -17,6 +17,7 @@ use MoveMoveIo\DaData\Enums\Gender;
 use MoveMoveIo\DaData\Enums\Parts;
 use MoveMoveIo\DaData\DaDataPhone;
 use App\Jobs\TestJob;
+use Iman\Streamer\VideoStreamer;
 
 
 class TestController extends Controller
@@ -33,7 +34,7 @@ class TestController extends Controller
         $msg = 'msg ' . $count;
 //        die('here');
         // очереди
-//        TestJob::dispatch($msg);
+       TestJob::dispatch($msg);
         //
 
         return view('test.index', compact('data'));
@@ -106,5 +107,22 @@ class TestController extends Controller
     public function form()
     {
         return view('test.form');
+    }
+
+    public function download()
+    {
+        return response()->download('sitemap.xml');
+    }
+
+    public function videopage()
+    {
+        return view('test.videopage');
+    }
+
+    // stream
+    public function video()
+    {
+        $path = public_path('storage/files/_video.mp4');
+        VideoStreamer::streamFile($path);
     }
 }

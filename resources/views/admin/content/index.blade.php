@@ -50,7 +50,7 @@
                             <form class="delForms" action="{{ route('content.destroy', [ $page->id ]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="delBtns" onclick="confirmTrash()">
+                                <button class="delBtns">
                                     <span class="fa fa-trash text-danger"></span>
                                 </button>
                             </form>

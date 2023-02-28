@@ -11,4 +11,7 @@ Route::prefix('test')->controller(TestController::class)->group(function (){
     Route::get('/confirm', 'confirm')->name('test.confirm');
     Route::post('/confirm', 'confirmStore')->name('test.confirmStore');;
     Route::get('/form', 'form')->name('test.form');
+    Route::get('/download', 'download')->name('test.download');
+    Route::get('/video', 'video')->name('test.video');
+    Route::get('/videopage', 'videopage')->name('test.videopage');
 });

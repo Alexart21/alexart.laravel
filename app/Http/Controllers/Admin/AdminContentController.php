@@ -89,6 +89,7 @@ class AdminContentController extends AppController
     public function destroyForewer($id)
     {
         Content::onlyTrashed()->findOrFail($id)->forceDelete();
+        Cache::flush();
         return redirect()->route('content.index');
     }
 }
