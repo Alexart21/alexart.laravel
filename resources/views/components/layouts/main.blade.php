@@ -20,10 +20,8 @@
     <title>{{ $title }}</title>
     <link rel="canonical" href="https://alexart.s-solo.ru"/>
     <link rel="icon" type="image/png" href="{{ asset('icons/512x512.png')  }}"/>
-    {{--    <link rel="manifest" href="{{ asset('browserconfig.xml') }}"/>--}}
     <meta name="csrf-token" id="_csrf_token" content="{{ csrf_token() }}">
     <meta name="msapplication-config" content="{{ asset('browserconfig.xml')  }}"/>
-    <!-- <meta name="referrer" content="origin"/> -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="HandheldFriendly" content="true">
     <meta name="keywords" content="">
@@ -31,11 +29,9 @@
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
-{{--    'resources/css/style.css',--}}
     'resources/css/animate.min.css',
-{{--    'resources/css/fontawesome/css/all.min.css',--}}
+    'resources/css/style.css',
     ])
-    <link href="{{ asset('css/style.css')  }}" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 <body>
 @auth()
@@ -88,20 +84,15 @@
     <x-main.footer/>
     <!--/noindex-->
 </div>
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
-
 @vite([
-{{--'resources/js/jquery.min.js',--}}
-{{--'resources/js/jquery.maskedinput.min.js',--}}
-{{--'resources/js/bootstrap.bundle.min.js',--}}
 'resources/js/app.js',
 'resources/js/velocity.min.js',
 'resources/js/velocity.ui.min.js',
 'resources/js/wow.min.js',
-{{--'resources/js/scripts.js',--}}
 ])
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

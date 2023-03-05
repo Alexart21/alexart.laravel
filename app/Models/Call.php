@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\Call\Status;
+use App\Enums\Call\Status as CallStatus;
 
 class Call extends Model
 {
@@ -19,6 +19,6 @@ class Call extends Model
 
     // касты
     protected $casts = [
-       'status' => Status::class,
+       'status' => CallStatus::class,
     ];
 }

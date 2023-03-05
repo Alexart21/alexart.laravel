@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Content;
 use Illuminate\Support\Facades\Cache;
+use App\Events\GetInPortfolioPage;
+use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
@@ -21,13 +23,17 @@ class ContentController extends Controller
             ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 
-    public function page($page)
+    public function page(Request $request, $page)
     {
         $this->page = $page;
         $data = Cache::remember($page, 15552000, function () {
             return Content::where('page', $this->page)->firstOrFail();
         });
 //        $data = Content::where('page', $this->page)->firstOrFail();
+        // событие проверка. Там отправка сообщения на TG канал
+        if($page === 'portfolio'){
+            event(new GetInPortfolioPage($request->ip()));
+        }
         return response()
             ->view('content.page', compact('data'))
             ->header('Last-Modified', gmdate("D, d M Y H:i:s \G\M\T", $data->updated_at->timestamp))

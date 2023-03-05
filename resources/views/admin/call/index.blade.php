@@ -45,6 +45,7 @@
                 <th>Имя</th>
                 <th>Телефон</th>
                 <th>Дата</th>
+                <th>Статус</th>
                 <th>Действия</th>
             </tr>
             @foreach($calls as $call)
@@ -63,6 +64,7 @@
                     }
                     @endphp
                     <td>{{ $date }}</td>
+                    <td>{{ $call->status->text() }}</td>
                     <td>
                         <div class="d-flex">
                             <div class="top-links"><a href="{{ route('call.show', [ $call->id ]) }}"><span

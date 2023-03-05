@@ -90,7 +90,7 @@
             <a href="/">на главную</a>
         </h2>
         <div class="err-msg">
-            @yield('code') | @yield('message')
+            @yield('code') <br> @yield('message')
         </div>
     </div>
 

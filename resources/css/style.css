@@ -37,6 +37,8 @@ h1, .h1 {
 h2, .h2 {
     font-size: 26px;
     line-height: 38px;
+    font-family: 'NeueMachina',Arial,sans-serif;
+    letter-spacing: 1px;
 }
 
 h3, .h3 {
@@ -72,6 +74,12 @@ h6, .h6 {
 @font-face {
     font-family: latoBold;
     src: url(./../fonts/LatoBold.woff);
+    font-display: swap;
+}
+
+@font-face {
+    font-family: NeueMachina;
+    src: url(./../fonts/NeueMachina-Bold.woff);
     font-display: swap;
 }
 
@@ -245,7 +253,11 @@ ul {
 
 h1, h2, h3, h4 {
     color: #474747;
-    font-family: Tahoma, Geneva, sans-serif;
+    font-family: 'NeueMachina',Arial,sans-serif;
+}
+
+.NeueMachina{
+    font-family: 'NeueMachina',Arial,sans-serif;
 }
 
 h1 {
@@ -1030,6 +1042,10 @@ ul.highlightTextIn li a:before {
 /* конец тень снизу верхнего меню */
 /* анимация AJAX загрузки */
 
+#container_loading {
+
+}
+
 @keyframes loader-spin {
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
@@ -1044,7 +1060,7 @@ ul.highlightTextIn li a:before {
 }
 
 .fa-spin, .fa-pulse {
-    color: var(--logo-color);
+    color: seagreen;
     /*color: #fff;*/
     font-size: 60px !important;
     animation: fa-spin .5s infinite linear !important;
@@ -1252,6 +1268,8 @@ ul.highlightTextIn li a:before {
 
 .h_2 {
     color: #000;
+    font-family: 'NeueMachina',Arial,sans-serif;
+    letter-spacing: 1px;
 }
 
 #bonus {
@@ -1284,7 +1302,7 @@ ul.highlightTextIn li a:before {
 }
 
 .list_block li {
-    font-family: corpid;
+    font-family: corpid,Arial,sans-serif;
     font-size: 20px !important;
     font-weight: bold !important;
     margin-left: -20px;
@@ -1292,7 +1310,8 @@ ul.highlightTextIn li a:before {
 
 .red {
     font-size: 1.2em;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    /*font-family: "Comic Sans MS", cursive, sans-serif;*/
+    font-family: 'NeueMachina',Arial,sans-serif;
     font-weight: bold;
     color: var(--logo-color);
 }

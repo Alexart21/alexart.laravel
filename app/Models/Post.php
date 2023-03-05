@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\Post\Status;
+use App\Enums\Post\Status as PostStatus;
 
 class Post extends Model
 {
@@ -22,6 +22,6 @@ class Post extends Model
 
     // касты
     protected $casts = [
-        'status' => Status::class,
+        'status' => PostStatus::class,
     ];
 }

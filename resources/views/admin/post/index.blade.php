@@ -44,6 +44,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                 <th>Телефон</th>
                 <th>Текст</th>
                 <th>Дата</th>
+                <th>Статус</th>
                 <th>Действия</th>
             </tr>
             @foreach($mails as $mail)
@@ -64,6 +65,7 @@ $h1 = $new ? 'Входящие сообщения - новые' : 'Входящ�
                     }
                     @endphp
                     <td>{{ $date }}</td>
+                    <td>{{ $mail->status->text() }}</td>
                     <td>
                         <div class="d-flex">
                             <div class="top-links"><a href="{{ route('post.show', [ $mail->id ]) }}"><span
