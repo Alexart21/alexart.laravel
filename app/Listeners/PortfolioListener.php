@@ -5,23 +5,30 @@ namespace App\Listeners;
 use App\Events\GetInPortfolioPage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Jobs\TelegramSender;
 
-class PortfolioListener
+// с интерфейсом ShouldQueue автоматом добавляется в очередь
+class PortfolioListener implements ShouldQueue
 {
 
     public function __construct()
     {
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Events\GetInPortfolioPage  $event
-     * @return void
-     */
     public function handle(GetInPortfolioPage $event)
     {
-        TelegramSender::dispatch($event->ip);
+        //ID канала куда отправляем
+        $id = env('TG_ID');
+        //токен бота которым отправляем сообщение
+        $token = env('TG_TOKEN');
+        //наше импровизированное сообщение
+        $message = 'Зашли на страницу портфолио сайта ' . env('APP_URL') . ' с ip адреса ' . $event->ip;
+        //кодируем его, чтобы сохранить переносы строк
+        $message = urlencode($message);
+        //после этого отправляем
+        try {
+            file_get_contents('https://api.telegram.org/bot' . $token . '/sendMessage?chat_id=' . $id . '&text=' . $message);
+        } catch (\Exception $e) {
+//            dd($e);
+        }
     }
 }

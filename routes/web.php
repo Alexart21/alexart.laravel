@@ -9,6 +9,7 @@ use App\Http\Controllers\CallsController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\ChatController;
 
+
 Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 
 // Всякие эксперименты
