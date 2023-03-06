@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 
+define('TG_TOKEN', env('TG_TOKEN'));
+define('TG_ID', env('TG_ID'));
+
 class BotController extends Controller
 {
-
-    const TOKEN = '5778112243:AAHTjPPiZC1_degvI_lEXHmKhrRDF6vJcfg';
-    const ID = 5118266266;
-
     public function index(Request $request)
     {
         $data = $request->all();
@@ -20,7 +19,7 @@ class BotController extends Controller
         $method = 'sendMessage';
 
         $send_data = [
-            'chat_id' => self::ID,
+            'chat_id' => TG_ID,
             'reply_to_message_id' => $msg_id,
         ];
 
@@ -29,7 +28,7 @@ class BotController extends Controller
             case 'да':
                 $method = 'sendMessage';
                 $send_data = [
-                    'chat_id' => self::ID,
+                    'chat_id' => TG_ID,
                     'reply_to_message_id' => $msg_id,
                     'text' => 'Что вы хотите заказать?',
                     'reply_markup'  => [
@@ -70,7 +69,7 @@ class BotController extends Controller
             default:
                 $method = 'sendMessage';
                 $send_data = [
-                    'chat_id' => self::ID,
+                    'chat_id' => TG_ID,
                     'reply_to_message_id' => $msg_id,
                     'text' => 'Вы хотите сделать заказ?',
                     'reply_markup'  => [
@@ -98,7 +97,7 @@ class BotController extends Controller
                 CURLOPT_POST => 1,
                 CURLOPT_HEADER => 0,
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => 'https://api.telegram.org/bot' . self::TOKEN . '/' . $method,
+                CURLOPT_URL => 'https://api.telegram.org/bot' . TG_TOKEN . '/' . $method,
                 CURLOPT_POSTFIELDS => json_encode($data),
                 CURLOPT_HTTPHEADER => array_merge(array("Content-Type: application/json"))
             ]);
