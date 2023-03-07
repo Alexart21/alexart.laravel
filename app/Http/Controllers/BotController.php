@@ -7,25 +7,24 @@ use App\Models\Chat;
 class BotController extends Controller
 {
 
-//    const TOKEN = '5778112243:AAHTjPPiZC1_degvI_lEXHmKhrRDF6vJcfg';
-//    const ID = 5118266266;
+
     private static $TOKEN;
-    private static $ID;
 
     public function index(Request $request)
     {
+
         self::$TOKEN = env('TG_TOKEN');
-        self::$ID = env('TG_ID');
 
         $data = $request->all();
 
         $input_msg = mb_strtolower($data['message']['text']);
+        $chat_id = $data['message']['chat']['id'];
         $msg_id = $data['message']['message_id'];
 
         $method = 'sendMessage';
 
         $send_data = [
-            'chat_id' => self::$ID,
+            'chat_id' => $chat_id,
             'reply_to_message_id' => $msg_id,
         ];
 
@@ -34,7 +33,7 @@ class BotController extends Controller
             case 'да':
                 $method = 'sendMessage';
                 $send_data = [
-                    'chat_id' => self::$ID,
+                    'chat_id' => $chat_id,
                     'reply_to_message_id' => $msg_id,
                     'text' => 'Что вы хотите заказать?',
                     'reply_markup'  => [
@@ -75,7 +74,7 @@ class BotController extends Controller
             default:
                 $method = 'sendMessage';
                 $send_data = [
-                    'chat_id' => self::$ID,
+                    'chat_id' => $chat_id,
                     'reply_to_message_id' => $msg_id,
                     'text' => 'Вы хотите сделать заказ?',
                     'reply_markup'  => [

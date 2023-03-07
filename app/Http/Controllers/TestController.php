@@ -26,7 +26,7 @@ class TestController extends Controller
     public function index(Request $request)
     {
         $str = '
-        {"update_id":490036148,"message":{"message_id":460,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678097310,"text":"\/start","entities":[{"offset":0,"length":6,"type":"bot_command"}]}}
+        {"update_id":490036471,"message":{"message_id":918,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678205326,"text":"ass"}}
         ';
         dd(json_decode($str));
         $count = session('count');
