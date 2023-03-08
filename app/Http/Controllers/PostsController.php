@@ -75,7 +75,7 @@ class PostsController extends AppFormsController
                 'name' => htmlspecialchars($data['name']),
                 'subject' => 'Письмо с сайта',
             ];
-            Mail::to(env('ADMIN_EMAIL'))
+            Mail::to(config('app.admin_email'))
                 ->send(new Feedback($params));
             return true;
         } catch (\Exception $e) {

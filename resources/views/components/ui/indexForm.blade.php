@@ -1,6 +1,6 @@
 @php
-    $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
-    $siteKey = env('RECAPTCHA_V3_SITE_KEY');
+    $rateLimit = 5;
+    $siteKey = config('grecaptcha.recaptcha_v3_site_key');;
 @endphp
 <div id="contacts" class="anchors"></div>
 <div class="h1 text-center">Возникли вопросы ?</div>

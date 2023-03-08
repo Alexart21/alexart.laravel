@@ -59,7 +59,7 @@ class CallsController extends AppFormsController
                 'email' => null,
                 'subject' => 'Просьба перезвонить',
             ];
-            Mail::to(env('ADMIN_EMAIL'))->send(new Feedback($params));
+            Mail::to(config('app.admin_email'))->send(new Feedback($params));
             return true;
         } catch (\Exception $e) {
             dd($e->getMessage());

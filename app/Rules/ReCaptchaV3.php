@@ -26,7 +26,7 @@ class ReCaptchaV3 implements ImplicitRule
     public function passes($attribute, $value)
     {
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-        $recaptcha_secret = env('RECAPTCHA_V3_SECRET_KEY');
+        $recaptcha_secret = config('grecaptcha.recaptcha_v3_secret_key');
 //        $recaptcha_response = $_POST['reCaptcha'];
         if (!$value) {
             return false;

@@ -43,7 +43,7 @@ class SenderEmai implements ShouldQueue
                 'name' => htmlspecialchars($this->data['name']),
                 'subject' => 'Письмо с сайта',
             ];
-            Mail::to(env('ADMIN_EMAIL'))
+            Mail::to(config('app.admin_email'))
                 ->send(new Feedback($params));
         } catch (\Exception $e) {
             dd($e->getMessage());

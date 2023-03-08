@@ -1,6 +1,6 @@
 @php
-    $rateLimit = env('All_FORMS_RATE_LIMIT', 10);
-    $siteKey = env('RECAPTCHA_V3_SITE_KEY');
+    $rateLimit = 5;
+    $siteKey = config('grecaptcha.recaptcha_v3_site_key');
 @endphp
 <div id="callback" class="modal" data-backdrop="static" style="padding-right: 17px;>
     <div class="modal-dialog=true" role="document">
