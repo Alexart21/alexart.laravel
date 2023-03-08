@@ -17,6 +17,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'admin_email' => env('ADMIN_EMAIL'),
+    'all_forms_rate_limit' => env('All_FORMS_RATE_LIMIT'),
 
     /*
     |--------------------------------------------------------------------------

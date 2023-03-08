@@ -10,6 +10,8 @@ use Illuminate\Queue\InteractsWithQueue;
 class PortfolioListener implements ShouldQueue
 {
 
+
+
     public function __construct()
     {
     }
@@ -17,11 +19,11 @@ class PortfolioListener implements ShouldQueue
     public function handle(GetInPortfolioPage $event)
     {
         //ID канала куда отправляем
-        $id = env('TG_ID');
+        $id = config('telegram.id');
         //токен бота которым отправляем сообщение
-        $token = env('TG_TOKEN');
+        $token = config('telegram.token');
         //наше импровизированное сообщение
-        $message = 'Зашли на страницу портфолио сайта ' . env('APP_URL') . ' с ip адреса ' . $event->ip;
+        $message = 'Зашли на страницу портфолио сайта ' . config('app.url') . ' с ip адреса ' . $event->ip;
         //кодируем его, чтобы сохранить переносы строк
         $message = urlencode($message);
         //после этого отправляем

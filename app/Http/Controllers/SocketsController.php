@@ -14,9 +14,9 @@ class SocketsController
     {
         $broadcaster = new PusherBroadcaster(
             new Pusher(
-                env("PUSHER_APP_KEY"),
-                env("PUSHER_APP_SECRET"),
-                env("PUSHER_APP_ID"),
+                config('pusher.pusher_app_key'),
+                config('pusher.pusher_app_secret'),
+                config('pusher.pusher_app_id'),
                 []
             )
         );

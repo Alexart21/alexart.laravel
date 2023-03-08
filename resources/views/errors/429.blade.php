@@ -5,7 +5,7 @@
     }
 </style>
 @php
-$msg = 'Не более ' . env('All_FORMS_RATE_LIMIT') . ' попыток в минуту';
+$msg = 'Не более ' . config('app.all_forms_rate_limit') . ' попыток в минуту';
 @endphp
 @extends('errors::minimal')
 <h3 class="hh" style="text-shadow: 1px 0 red;">{{ $msg }}</h3>
