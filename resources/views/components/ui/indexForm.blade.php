@@ -11,7 +11,8 @@
     <div class="field name-box animated bounceInDown wow" data-wow-delay="0.9s">
         <div class="form-group field-indexform-name required">
             <label class="control-label" for="indexform-name">Имя</label>
-            <input id="nameInp" list="indexNames" type="text" class="form-control" name="name" value="{{ old('name') }}" tabindex="1">
+            <input id="nameInp" list="indexNames" type="text" class="form-control" name="name" value="{{ old('name') }}"
+                   tabindex="1">
             <datalist id="indexNames">
             </datalist>
             @error('name')
@@ -100,11 +101,13 @@
                         let response = await fetch("{{ route('mail.store') }}", {
                             method: 'POST',
                             body: formData
-                        });
+                        })
+                            .finally(() => {
+                                stopLoader();
+                            });
                         let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
                         let result;
                         if (!response.ok) {
-                            stopLoader();
                             console.log(response);
                             if (response.status == 422) { // ошибки валидации
                                 result = await response.json();
@@ -126,7 +129,6 @@
                             }
                             return;
                         } else { // статус 200
-                            stopLoader();
                             result = await response.json();
                             if (result.success) { // успешно
                                 console.log('form submitted');

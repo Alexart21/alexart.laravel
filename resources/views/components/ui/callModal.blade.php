@@ -70,11 +70,13 @@
                         let response = await fetch("{{ route('zvonok.store') }}", {
                             method: 'POST',
                             body: formData
+                        })
+                        .finally(() => {
+                            stopLoader();
                         });
                         let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
                         let result;
                         if (!response.ok) {
-                            stopLoader();
                             console.log(response);
                             if (response.status == 422) { // ошибки валидации
                                 result = await response.json();
@@ -96,7 +98,6 @@
                             }
                             return;
                         } else { // статус 200
-                            stopLoader();
                             result = await response.json();
                             if (result.success) { // успешно
                                 console.log('form submitted');
