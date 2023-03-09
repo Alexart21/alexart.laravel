@@ -26,7 +26,8 @@ class TestController extends Controller
     // public ?int $x;
     public function index(Request $request)
     {
-        dd(Storage::disk('public')->get('files/test.txt'));
+        var_dump(file_get_contents(public_path('img/msg.png')));
+        die;
         /*$str = '
         {"update_id":490036471,"message":{"message_id":918,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678205326,"text":"ass"}}
         ';

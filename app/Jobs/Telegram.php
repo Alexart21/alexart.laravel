@@ -33,7 +33,7 @@ class Telegram implements ShouldQueue
         $chat_id = $this->data['message']['chat']['id'];
         $msg_id = $this->data['message']['message_id'];
         // путь к файлу от папки public
-//        TG::sendFile($chat_id, 'img/msg.png', 'test');
+        TG::sendFile($chat_id, 'img/msg.png', 'my_photo');
         switch ($input_msg) {
             case 'да':
                 $send_data = [

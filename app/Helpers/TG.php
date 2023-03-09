@@ -30,8 +30,18 @@ class TG
 
     public static function sendFile($chat_id, $file, $caption = '')
     {
-        $token = config('telegram.token');
+        Http::attach('document', file_get_contents(public_path($file)), basename($file))->post(self::url . config('telegram.token') . '/sendDocument',
+            [
+                'chat_id' => $chat_id,
+                'caption' => $caption,
+            ]
+        );
+    }
 
+    // это тоже работает
+    /*public static function sendDocument($chat_id, $file, $caption = '')
+    {
+        $token = config('telegram.token');
         $arrayQuery = array(
             'chat_id' => $chat_id,
             'caption' => $caption,
@@ -44,6 +54,6 @@ class TG
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_exec($ch);
         curl_close($ch);
-    }
+    }*/
 
 }
