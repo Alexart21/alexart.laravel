@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Helpers\TG;
+use Illuminate\Support\Facades\Log;
 
 class Telegram implements ShouldQueue
 {
@@ -31,7 +32,8 @@ class Telegram implements ShouldQueue
         $input_msg = mb_strtolower($this->data['message']['text']);
         $chat_id = $this->data['message']['chat']['id'];
         $msg_id = $this->data['message']['message_id'];
-
+        // путь к файлу от папки public
+//        TG::sendFile($chat_id, 'img/msg.png', 'test');
         switch ($input_msg) {
             case 'да':
                 $send_data = [
@@ -58,16 +60,16 @@ class Telegram implements ShouldQueue
                 TG::sendMessage($chat_id, 'Приходите еще!');
                 break;
             case 'яблоки':
-                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
+                TG::sendMessage($chat_id, "Заказ принят! Будут Вам <b>$input_msg</b>");
                 break;
             case 'груши':
-                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
+                TG::sendMessage($chat_id, "Заказ принят! Будут Вам <b>$input_msg</b>");
                 break;
             case 'лук':
-                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
+                TG::sendMessage($chat_id, "Заказ принят! Будет Вам <b>$input_msg</b>");
                 break;
             case 'чеснок':
-                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
+                TG::sendMessage($chat_id, "Заказ принят! Будет Вам <b>$input_msg</b>");
                 break;
             default:
                 $send_data = [

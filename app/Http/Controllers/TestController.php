@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Http\Requests\TestFormRequest;
 use App\Models\Oauth;
@@ -25,6 +26,7 @@ class TestController extends Controller
     // public ?int $x;
     public function index(Request $request)
     {
+        dd(Storage::disk('public')->get('files/test.txt'));
         /*$str = '
         {"update_id":490036471,"message":{"message_id":918,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678205326,"text":"ass"}}
         ';
