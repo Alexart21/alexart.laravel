@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Http;
 
 class Handler extends ExceptionHandler
 {
@@ -35,6 +36,21 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+
+    // отсебятина
+    /*public function report(Throwable $e)
+    {
+        $message = $e->getMessage();
+        $send_data = [
+            'chat_id' => config('telegram.id'),
+            'text' => $message,
+            'parse_mode' => 'html'
+        ];
+        Http::post('https://api.telegram.org/bot' . config('telegram.token') . '/sendMessage',
+            $send_data
+        );
+    }*/
 
     /**
      * Register the exception handling callbacks for the application.

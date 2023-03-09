@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Helpers\TG;
 
 class Telegram implements ShouldQueue
 {
@@ -31,18 +32,11 @@ class Telegram implements ShouldQueue
         $chat_id = $this->data['message']['chat']['id'];
         $msg_id = $this->data['message']['message_id'];
 
-        $method = 'sendMessage';
-
-        $send_data = [
-            'chat_id' => $chat_id,
-            'reply_to_message_id' => $msg_id,
-        ];
-
         switch ($input_msg) {
             case 'да':
                 $send_data = [
                     'chat_id' => $chat_id,
-                    'reply_to_message_id' => $msg_id,
+//                    'reply_to_message_id' => $msg_id,
                     'text' => 'Что вы хотите заказать?',
                     'reply_markup' => [
                         'resize_keyboard' => true,
@@ -58,26 +52,27 @@ class Telegram implements ShouldQueue
                         ]
                     ]
                 ];
+                TG::sendData('sendMessage', $send_data);
                 break;
             case 'нет':
-                $send_data['text'] = 'Приходите еще';
+                TG::sendMessage($chat_id, 'Приходите еще!');
                 break;
             case 'яблоки':
-                $send_data['text'] = 'заказ принят!';
+                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
                 break;
             case 'груши':
-                $send_data['text'] = 'заказ принят!';
+                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
                 break;
             case 'лук':
-                $send_data['text'] = 'заказ принят!';
+                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
                 break;
             case 'чеснок':
-                $send_data['text'] = 'заказ принят!';
+                TG::sendMessage($chat_id, 'Заказ принят! Будет Вам ' . $input_msg);
                 break;
             default:
                 $send_data = [
                     'chat_id' => $chat_id,
-                    'reply_to_message_id' => $msg_id,
+//                    'reply_to_message_id' => $msg_id,
                     'text' => 'Вы хотите сделать заказ?',
                     'reply_markup' => [
                         'resize_keyboard' => true,
@@ -89,29 +84,8 @@ class Telegram implements ShouldQueue
                         ]
                     ]
                 ];
+                TG::sendData('sendMessage', $send_data);
         }
-
-        self::send($method, $send_data);
     }
 
-    private static function send($method, $data, $headers = [])
-    {
-
-        try {
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_POST => 1,
-                CURLOPT_HEADER => 0,
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => 'https://api.telegram.org/bot' . config('telegram.token') . '/' . $method,
-                CURLOPT_POSTFIELDS => json_encode($data),
-                CURLOPT_HTTPHEADER => array_merge(array("Content-Type: application/json"))
-            ]);
-            curl_exec($curl);
-            curl_close($curl);
-        } catch (\Exception $e) {
-//            dd($e);
-        }
-
-    }
 }
