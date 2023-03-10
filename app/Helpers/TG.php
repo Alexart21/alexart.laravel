@@ -56,4 +56,28 @@ class TG
         curl_close($ch);
     }*/
 
+    public static function sendButtons($chat_id, $buttons, $message = '')
+    {
+        Http::post(self::url . config('telegram.token') . '/sendMessage',
+            [
+                'chat_id' => $chat_id,
+                'text' => $message,
+                'parse_mode' => 'html',
+                'reply_markup' => $buttons
+            ]
+        );
+    }
+
+    public static function editButtons($chat_id, $buttons, $message = '', $message_id)
+    {
+        Http::post(self::url . config('telegram.token') . '/editMessageText',
+            [
+                'chat_id' => $chat_id,
+                'text' => $message,
+                'parse_mode' => 'html',
+                'reply_markup' => $buttons,
+                'message_id' => $message_id
+            ]
+        );
+    }
 }

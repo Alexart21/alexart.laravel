@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Support\Facades\Http;
+use App\Helpers\TG;
 
 class Handler extends ExceptionHandler
 {
@@ -39,18 +40,12 @@ class Handler extends ExceptionHandler
 
 
     // отсебятина
-    /*public function report(Throwable $e)
+    // ошибки выводим в телеграм бот
+    public function report(Throwable $e)
     {
-        $message = $e->getMessage();
-        $send_data = [
-            'chat_id' => config('telegram.id'),
-            'text' => $message,
-            'parse_mode' => 'html'
-        ];
-        Http::post('https://api.telegram.org/bot' . config('telegram.token') . '/sendMessage',
-            $send_data
-        );
-    }*/
+        $txt = '<b>Ошибка в файле</b> <code>' . $e->getFile() . '</code> В строке ' . $e->getLine() . ' Описание: ' . $e->getMessage();
+        TG::sendMessage(config('telegram.id'), $txt);
+    }
 
     /**
      * Register the exception handling callbacks for the application.
