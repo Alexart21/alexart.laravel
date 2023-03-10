@@ -45,116 +45,58 @@ class Telegram implements ShouldQueue
             // путь к файлу от папки public
 //            TG::sendFile($chat_id, 'img/msg.png', 'my_photo');
 //            TG::sendMessage($chat_id, 'bla');
-            $buttons = [
+            $btns = [
                 'inline_keyboard' => [
                     [
                         [
-                            'text' => 'btn1',
+                            'text' => 'яблоки',
                             'callback_data' => 1
                         ],
                         [
-                            'text' => 'btn2',
+                            'text' => 'груши',
                             'callback_data' => 2
+                        ]
+                    ],
+                    [
+                        [
+                            'text' => 'лук',
+                            'callback_data' => 3
+                        ],
+                        [
+                            'text' => 'чеснок',
+                            'callback_data' => 4
                         ]
                     ]
                 ]
             ];
+            $btns_text = '<b>Сделайте заказ :</b>';
 
             if(isset($this->data['callback_query'])){
-//                TG::sendMessage($chat_id, $btnData);
                 if($btnData == 1){
-//                    TG::sendMessage($chat_id, '1');
-                    $reply_markup = [
-                        'inline_keyboard' => [
-                            [
-                                [
-                                    'text' => '✅btn1',
-                                    'callback_data' => 1
-                                ],
-                                [
-                                    'text' => 'btn2',
-                                    'callback_data' => 2
-                                ]
-                            ]
-                        ]
-                    ];
+                    $selected = 'яблоки';
+                    $icon = '🍏';
+                    $btns['inline_keyboard'][0][0]['text'] = '✅' . 'яблоки';
                 }elseif ($btnData == 2){
-//                    TG::sendMessage($chat_id, '2');
-                    $reply_markup = [
-                        'inline_keyboard' => [
-                            [
-                                [
-                                    'text' => 'btn1',
-                                    'callback_data' => 1
-                                ],
-                                [
-                                    'text' => '✅btn2',
-                                    'callback_data' => 2
-                                ]
-                            ]
-                        ]
-                    ];
+                    $selected = 'груши';
+                    $icon = '🍐';
+                    $btns['inline_keyboard'][0][1]['text'] = '✅' . 'груши';
+                }elseif ($btnData == 3){
+                    $selected = 'лук';
+                    $icon = '🧅';
+                    $btns['inline_keyboard'][1][0]['text'] = '✅' . 'лук';
+                }elseif ($btnData == 4){
+                    $selected = 'чеснок';
+                    $icon = '🧄';
+                    $btns['inline_keyboard'][1][1]['text'] = '✅' . 'чеснок';
+                }else{
+                    TG::sendMessage($chat_id, 'Что то пошло не так...');
+                    die;
                 }
-                TG::editButtons($chat_id, $reply_markup, 'жми что нибудь', $msg_id);
+                TG::editButtons($chat_id, $btns, $btns_text, $msg_id);
+                TG::sendMessage($chat_id, 'Отличный выбор! Доставим Вам ' . $selected . '! ' . $icon);
                 die;
             }
-            TG::sendButtons($chat_id, $buttons, 'жми что нибудь');
-            die;
-            switch ($input_msg) {
-                case 'да':
-                    $send_data = [
-                        'chat_id' => $chat_id,
-//                    'reply_to_message_id' => $msg_id,
-                        'text' => 'Что вы хотите заказать?',
-                        'reply_markup' => [
-                            'resize_keyboard' => true,
-                            'keyboard' => [
-                                [
-                                    ['text' => 'Яблоки'],
-                                    ['text' => 'Груши'],
-                                ],
-                                [
-                                    ['text' => 'Лук'],
-                                    ['text' => 'Чеснок'],
-                                ]
-                            ]
-                        ]
-                    ];
-                    TG::sendData('sendMessage', $send_data);
-                    break;
-                case 'нет':
-                    TG::sendMessage($chat_id, 'Приходите еще!');
-                    break;
-                case 'яблоки':
-                    TG::sendMessage($chat_id, "Заказ принят! Будут Вам <b>$input_msg</b>");
-                    break;
-                case 'груши':
-                    TG::sendMessage($chat_id, "Заказ принят! Будут Вам <b>$input_msg</b>");
-                    break;
-                case 'лук':
-                    TG::sendMessage($chat_id, "Заказ принят! Будет Вам <b>$input_msg</b>");
-                    break;
-                case 'чеснок':
-                    TG::sendMessage($chat_id, "Заказ принят! Будет Вам <b>$input_msg</b>");
-                    break;
-                default:
-                    $send_data = [
-                        'chat_id' => $chat_id,
-//                    'reply_to_message_id' => $msg_id,
-                        'text' => 'Вы хотите сделать заказ?',
-                        'reply_markup' => [
-                            'resize_keyboard' => true,
-                            'keyboard' => [
-                                [
-                                    ['text' => 'Да'],
-                                    ['text' => 'Нет'],
-                                ]
-                            ]
-                        ]
-                    ];
-                    TG::sendData('sendMessage', $send_data);
-            }
-
+            TG::sendButtons($chat_id, $btns, $btns_text);
         } catch (Throwable $e) {
             report($e);
             return false;
