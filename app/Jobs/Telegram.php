@@ -98,6 +98,7 @@ class Telegram implements ShouldQueue
             }
             TG::sendButtons($chat_id, $btns, $btns_text);
         } catch (Throwable $e) {
+            // чтобы не отправлчть прибей ф-ию report() в app/Exceptions/Handler.php
             report($e);
             return false;
         }

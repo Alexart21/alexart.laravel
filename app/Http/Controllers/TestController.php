@@ -19,6 +19,7 @@ use MoveMoveIo\DaData\Enums\Parts;
 use MoveMoveIo\DaData\DaDataPhone;
 use App\Jobs\TestJob;
 use Iman\Streamer\VideoStreamer;
+use Stevebauman\Location\Facades\Location;
 
 
 class TestController extends Controller
@@ -26,7 +27,9 @@ class TestController extends Controller
     // public ?int $x;
     public function index(Request $request)
     {
-        var_dump(file_get_contents(public_path('img/msg.png')));
+        $ip = $request->ip();
+        $data = Location::get('188.162.54.238');
+        var_dump($data->countryName);
         die;
         /*$str = '
         {"update_id":490036471,"message":{"message_id":918,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678205326,"text":"ass"}}

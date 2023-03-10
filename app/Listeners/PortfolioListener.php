@@ -5,11 +5,13 @@ namespace App\Listeners;
 use App\Events\GetInPortfolioPage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Throwable;
+use Stevebauman\Location\Facades\Location;
+use App\Helpers\TG;
 
 // с интерфейсом ShouldQueue автоматом добавляется в очередь
 class PortfolioListener implements ShouldQueue
 {
-
 
 
     public function __construct()
@@ -18,17 +20,14 @@ class PortfolioListener implements ShouldQueue
 
     public function handle(GetInPortfolioPage $event)
     {
-        //ID канала куда отправляем
-        $id = config('telegram.id');
-        //токен бота которым отправляем сообщение
-        $token = config('telegram.token');
-        //наше импровизированное сообщение
-        $message = 'Зашли на страницу портфолио сайта ' . config('app.url') . ' с ip адреса ' . $event->ip;
-        //кодируем его, чтобы сохранить переносы строк
-        $message = urlencode($message);
-        //после этого отправляем
+        $chat_id = config('telegram.id');
+
+        $loc = Location::get($event->ip);
+
+        $message = 'Зашли на страницу портфолио сайта ' . config('app.url') . ' с ip адреса ' . $event->ip . ' Предположительная локация '
+            . '<b>' . $loc->countryName . ' - ' . $loc->regionName . ' - ' .$loc->cityName . '</b>';
         try {
-            file_get_contents('https://api.telegram.org/bot' . $token . '/sendMessage?chat_id=' . $id . '&text=' . $message);
+            TG::sendMessage($chat_id, $message);
         } catch (\Exception $e) {
 //            dd($e);
         }
