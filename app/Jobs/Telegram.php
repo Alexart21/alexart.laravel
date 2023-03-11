@@ -30,13 +30,13 @@ class Telegram implements ShouldQueue
     public function handle()
     {
         // все обернуто в try catch
-        try{
-            if(isset($this->data['message'])){
+        try {
+            if (isset($this->data['message'])) {
                 $input_msg = isset($this->data['message']['text']) ? mb_strtolower($this->data['message']['text']) : '';
                 $chat_id = $this->data['message']['chat']['id'];
                 $msg_id = $this->data['message']['message_id'];
 
-            }elseif($this->data['callback_query']){ // нажали кнопку inline_keyboard
+            } elseif (isset($this->data['callback_query'])) { // нажали кнопку inline_keyboard
                 $btnData = mb_strtolower($this->data['callback_query']['data']);
                 $chat_id = $this->data['callback_query']['message']['chat']['id'];
                 $msg_id = $this->data['callback_query']['message']['message_id'];
@@ -71,24 +71,24 @@ class Telegram implements ShouldQueue
             ];
             $btns_text = '<b>Сделайте заказ :</b>';
 
-            if(isset($this->data['callback_query'])){
-                if($btnData == 1){
+            if (isset($this->data['callback_query'])) {
+                if ($btnData == 1) {
                     $selected = 'яблоки';
                     $icon = '🍏';
                     $btns['inline_keyboard'][0][0]['text'] = '✅' . 'яблоки';
-                }elseif ($btnData == 2){
+                } elseif ($btnData == 2) {
                     $selected = 'груши';
                     $icon = '🍐';
                     $btns['inline_keyboard'][0][1]['text'] = '✅' . 'груши';
-                }elseif ($btnData == 3){
+                } elseif ($btnData == 3) {
                     $selected = 'лук';
                     $icon = '🧅';
                     $btns['inline_keyboard'][1][0]['text'] = '✅' . 'лук';
-                }elseif ($btnData == 4){
+                } elseif ($btnData == 4) {
                     $selected = 'чеснок';
                     $icon = '🧄';
                     $btns['inline_keyboard'][1][1]['text'] = '✅' . 'чеснок';
-                }else{
+                } else {
                     TG::sendMessage($chat_id, 'Что то пошло не так...');
                     die;
                 }
@@ -96,7 +96,9 @@ class Telegram implements ShouldQueue
                 TG::sendMessage($chat_id, 'Отличный выбор! Доставим Вам ' . $selected . '! ' . $icon);
                 die;
             }
-            TG::sendButtons($chat_id, $btns, $btns_text);
+            if (isset($chat_id)) {
+                TG::sendButtons($chat_id, $btns, $btns_text);
+            }
         } catch (Throwable $e) {
             // чтобы не отправлчть прибей ф-ию report() в app/Exceptions/Handler.php
             report($e);
