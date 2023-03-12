@@ -93,7 +93,9 @@ class Telegram implements ShouldQueue
                     die;
                 }
                 TG::editButtons($chat_id, $btns, $btns_text, $msg_id);
-                TG::sendMessage($chat_id, 'Отличный выбор! Доставим Вам ' . $selected . '! ' . $icon);
+                TG::sendMessage($chat_id, '<i>Отличный выбор! Доставим Вам ' . $selected . '! ' . $icon . '</i>');
+                TG::sendMessage($chat_id, '<b>А теперь блин дай данные своей карты !!!</b>');
+                TG::sendMessage($chat_id, '<span class="tg-spoiler">Про карту разумеется была шутка...</span>');
                 die;
             }
             if (isset($chat_id)) {
@@ -101,8 +103,8 @@ class Telegram implements ShouldQueue
             }
         } catch (Throwable $e) {
             // чтобы не отправлчть прибей ф-ию report() в app/Exceptions/Handler.php
-            report($e);
-            return false;
+            /*report($e);
+            return false;*/
         }
 
     }

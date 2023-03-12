@@ -41,11 +41,11 @@ class Handler extends ExceptionHandler
 
     // отсебятина
     // ошибки выводим в телеграм бот
-    public function report(Throwable $e)
+    /*public function report(Throwable $e)
     {
-        /*$txt = '<b>Ошибка в файле</b> <code>' . $e->getFile() . '</code> В строке ' . $e->getLine() . ' Описание: ' . $e->getMessage();
-        TG::sendMessage(config('telegram.id'), $txt);*/
-    }
+        $txt = '<b>Ошибка в файле</b> <code>' . $e->getFile() . '</code> В строке ' . $e->getLine() . ' Описание: ' . $e->getMessage();
+        TG::sendMessage(config('telegram.id'), $txt);
+    }*/
 
     /**
      * Register the exception handling callbacks for the application.

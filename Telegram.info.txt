@@ -1,0 +1,12 @@
+Получить ID чата. Это как бы для отправки сообщений самому себе
+вставляем в браузер и получаем ответ нам нужен id (токен не забудь!)
+https://api.telegram.org/bot<token>/getUpdates
+
+Вставляем полученный id, имеющийся токен и должны получить сообщение
+https://api.telegram.org/bot<token>/sendMessage?chat_id=<id>&text=Проверка%20связи
+
+Привязка url
+https://api.telegram.org/bot<token>/setWebhook?url=https://laravel.s-solo.ru/api/bot
+
+Сообщение о последней имеющейся ошибке
+https://api.telegram.org/bot<token>/getWebhookInfo
