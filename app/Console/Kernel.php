@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Proba;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\Chat;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
+
     protected function scheduleTimezone()
     {
         return 'Europe/Moscow';
@@ -46,14 +48,6 @@ class Kernel extends ConsoleKernel
             }
 
         })->dailyAt('09:30');
-
-        /*$schedule->call(function () {
-            // код, выполняемый раз в 5 минут
-            $chat = new Chat();
-            $chat->name = 'cron';
-            $chat->msg = 'cron-test';
-            $chat->save();
-        })->everyFiveMinutes();*/
     }
 
     /**

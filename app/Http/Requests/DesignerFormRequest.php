@@ -23,7 +23,7 @@ class DesignerFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'screen.mime' => 'Только файлы PNG!',
+            'screen.mimes' => 'Только файлы PNG!',
             'screen.max' => 'Не более 500 кБ!',
         ];
     }
