@@ -3,7 +3,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 
 Route::prefix('test')->controller(TestController::class)->group(function (){
-    Route::get('/', 'index')->name('test.index');
+    Route::middleware('auth')->post('/store', [ TestController::class, 'store' ])->name('test.store');
+    Route::middleware('auth')->delete('/remove/{id}', [ TestController::class, 'remove' ])->name('test.remove');
+    Route::middleware('auth')->get('/', 'index')->name('test.index');
     Route::get('/dadata', 'dadata')->name('test.dadata');
     Route::get('/address', 'address')->name('test.address');
     Route::post('/info', 'info')->name('test.info');

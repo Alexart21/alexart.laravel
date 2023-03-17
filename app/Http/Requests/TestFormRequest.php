@@ -15,7 +15,7 @@ class TestFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth()->check();
     }
 
     /**
@@ -27,37 +27,39 @@ class TestFormRequest extends FormRequest
     {
         return [
             // регуляреа - только кириллица пробел и дефис
-            'name' => 'required|min:2|max:128|regex:/^[А-Яа-яё -]*$/ui',
+            /*'name' => 'required|min:2|max:128|regex:/^[А-Яа-яё -]*$/ui',
             'email' => 'email',
             'phone' => 'min:6|max:20',
-            'body' => 'required|min:2|max:10000',
+            'body' => 'required|min:2|max:10000',*/
+//            'photo' => 'file|image|mimes:jpg,jpeg,png|max:200',
+            'avatar' => 'file|image|mimes:jpg,jpeg,png|max:200',
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
+    /*protected function failedValidation(Validator $validator) {
         $response = response()
             ->json([ 'result' => false, 'errors' => $validator->errors()], 422);
 
         throw (new ValidationException($validator, $response))
             ->errorBag($this->errorBag);
-    }
+    }*/
 
     public function attributes()
     {
         return [
-            'name' => 'Имя',
+            /*'name' => 'Имя',
             'email' => 'Еmail',
             'phone' => 'Тел.',
-            'body' => 'Текст',
+            'body' => 'Текст',*/
         ];
     }
 
     public function messages()
     {
         return [
-            'name.min' => 'Слишком коротко! не меьше 2',
+            /*'name.min' => 'Слишком коротко! не меьше 2',
             'name.regex' => 'Только кириллица без цифр и спецсимволов!',
-            'body.min' => 'Слишком коротко! не меьше 2',
+            'body.min' => 'Слишком коротко! не меьше 2',*/
         ];
     }
 }

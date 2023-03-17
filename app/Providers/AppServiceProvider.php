@@ -36,11 +36,11 @@ class AppServiceProvider extends ServiceProvider
     {
 
         RateLimiter::for('formsLimit', function (Request $request) {
-            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip());
+            return Limit::perMinute(config('app.all_forms_rate_limit'))->by($request->ip());
         });
 
         RateLimiter::for('loginLimit', function (Request $request) {
-            return Limit::perMinute(env('All_FORMS_RATE_LIMIT', 10))->by($request->ip())->response(function () {
+            return Limit::perMinute(config('app.all_forms_rate_limit'))->by($request->ip())->response(function () {
                 throw new TooManyRequestsHttpException();
             });
         });

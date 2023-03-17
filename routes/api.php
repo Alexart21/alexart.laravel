@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
+//Route::post('/test', [ TestController::class, 'store' ])->name('test.store');
 // это эксперименты с сервисом DaData
 Route::post('/mail/info', [ PostsController::class, 'info' ])->name('post.info');
 Route::post('/zvonok/info', [ CallsController::class, 'info' ])->name('zvonok.info');

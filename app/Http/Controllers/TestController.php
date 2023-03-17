@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Http\Requests\TestFormRequest;
@@ -20,6 +22,8 @@ use MoveMoveIo\DaData\DaDataPhone;
 use App\Jobs\TestJob;
 use Iman\Streamer\VideoStreamer;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class TestController extends Controller
@@ -27,33 +31,60 @@ class TestController extends Controller
     // public ?int $x;
     public function index(Request $request)
     {
-        $ip = $request->ip();
+       /* $ip = $request->ip();
         $data = Location::get('188.162.54.238');
         var_dump($data->countryName);
-        die;
+        die;*/
         /*$str = '
         {"update_id":490036471,"message":{"message_id":918,"from":{"id":5118266266,"is_bot":false,"first_name":"Alexandr","username":"Mihalych211","language_code":"ru"},"chat":{"id":5118266266,"first_name":"Alexandr","username":"Mihalych211","type":"private"},"date":1678205326,"text":"ass"}}
         ';
         dd(json_decode($str));*/
-        $count = session('count');
-        dump($count);
-        $count = $count ? $count + 1 : 1;
-        session(['count' => $count]);
-        dump(session('count'));
-        $data =[];
-        $msg = 'msg ' . $count;
+
 //        die('here');
         // очереди
-       TestJob::dispatch($msg);
-        //
+//       TestJob::dispatch($msg);
+        // типа личный кабинет
+        if(Auth::user()){
+            $id =Auth::user()->id;
+            $photos =  Photo::where('user_id', $id)->get();
+        }else{
+            $photos = null;
+        }
 
-        return view('test.index', compact('data'));
+//        dd($photos);
+
+        return view('test.index', compact('photos'));
     }
 
     public function store(TestFormRequest $request)
     {
-        $request->validated();
-        return response()->json(['success' => true]);
+//        dd($request->file('avatar'));
+//        dd($request->avatar);
+
+        $photo = new Photo();
+        $id =Auth::user()->id;
+        $photo->user_id = $id;
+        $path = $request->file('avatar')->store('public/photos');
+        $link = str_replace('public', 'storage', $path);
+        $photo->path = $path;
+        $photo->link = $link;
+        $photo->save();
+        return redirect()->route('test.index');
+    }
+
+    public function remove($id)
+    {
+        $img = Photo::findOrFail($id);
+        $path = $img->path;
+        // файл
+        $deleteFile = Storage::delete($path);
+        // запись из базы
+        $deletedRows = $img->delete();
+        if($deleteFile && $deletedRows){
+            return redirect()->route('test.index');
+        }else{
+            die('Что то пошло не так...');
+        }
     }
 
     public function save(Request $request)
