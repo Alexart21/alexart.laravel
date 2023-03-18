@@ -14,24 +14,32 @@
         Текст.: <textarea name="body">{{ old('body') }}</textarea><br>
         @error('body')<div class="text-danger">{{ $message }}</div>@enderror
         <div id="body-err-index" class="index-err-msg text-danger"></div>--}}
+        --Title--: <input type="text" name="title" value="{{ old('title') }}" /><br>
+        @error('title')<div class="text-danger">{{ $message }}</div>@enderror
         <input type="file" name="avatar" value="{{ old('avatar') }}">
         @error('avatar')
         <div class="text-danger">{{ $message }}</div>@enderror
         <button>Send</button>
     </form>
     @if($photos)
-        @foreach($photos as $photo)
-            <p>{{ $photo->link }}</p>
-            <img src="{{ asset($photo->link) }}" alt=""><br>
-            <form method="post" action="{{ route('test.remove', [ $photo->id ]) }}">
-                @csrf
-                @method('DELETE')
-                <div>&nbsp;&nbsp;
-                    <button class="btn btn-danger">удалить
-                    </button>
+        <div style="display: flex">
+            @foreach($photos as $photo)
+                <div style="max-width: 300px">
+                    <img style="max-width: 300px" src="{{ asset($photo->link) }}" alt=""><br>
+                    @if($photo->title)
+                       <p>{{ $photo->title }}</p>
+                    @endif
+                    <form method="post" action="{{ route('test.remove', [ $photo->id ]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div>&nbsp;&nbsp;
+                            <button class="btn btn-danger">удалить
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        @endforeach
+            @endforeach
+        </div>
     @endif
     <script>
         /*let form = document.getElementById('test-form');

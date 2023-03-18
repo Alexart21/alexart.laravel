@@ -41,8 +41,9 @@ class TestController extends Controller
         dd(json_decode($str));*/
 
 //        die('here');
-        // очереди
-//       TestJob::dispatch($msg);
+        // очереди bи проверил новый бот
+//       TestJob::dispatch('test new telegram bot');
+//       die('test tg bot');
         // типа личный кабинет
         if(Auth::user()){
             $id =Auth::user()->id;
@@ -60,10 +61,12 @@ class TestController extends Controller
     {
 //        dd($request->file('avatar'));
 //        dd($request->avatar);
-
+        $data = $request->validated();
+//        dd($data);
         $photo = new Photo();
         $id =Auth::user()->id;
         $photo->user_id = $id;
+        $photo->title = $data['title'];
         $path = $request->file('avatar')->store('public/photos');
         $link = str_replace('public', 'storage', $path);
         $photo->path = $path;

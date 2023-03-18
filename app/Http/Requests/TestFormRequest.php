@@ -32,6 +32,7 @@ class TestFormRequest extends FormRequest
             'phone' => 'min:6|max:20',
             'body' => 'required|min:2|max:10000',*/
 //            'photo' => 'file|image|mimes:jpg,jpeg,png|max:200',
+                'title' => 'max:255',
             'avatar' => 'file|image|mimes:jpg,jpeg,png|max:200',
         ];
     }
