@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             return (new MailMessage)
                 ->subject('Подтвердите адрес электронной почты')
                 ->line('Пожалуйста, нажмите на кнопку ниже, чтобы подтвердить свой адрес электронной почты.')
-                ->action('Подтвердите адрес электронной почты', $url);
+                ->action('Подтвердить email', $url);
         });
     }
 }
