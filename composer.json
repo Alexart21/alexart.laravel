@@ -30,7 +30,7 @@
         "socialiteproviders/vkontakte": "^5.0",
         "socialiteproviders/yandex": "^4.1",
         "stevebauman/location": "^6.6",
-        "tymon/jwt-auth": " ^1.0.0-rc.2"
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

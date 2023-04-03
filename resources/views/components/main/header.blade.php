@@ -19,7 +19,7 @@
             <div class="right_outer">
                 <ul>
                     <li title="написать письмо">
-                        <a href="/#contacts" class="mail">mail@alexart21.ru</a>
+                        <a href="/#contacts" class="mail">iskander.m.211@gmail.com</a>
                     </li>
                     <li class="tel">
                         <span class="pre">тел.</span>
