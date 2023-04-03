@@ -11,7 +11,7 @@ use App\Http\Requests\IndexFormRequest;
 use MoveMoveIo\DaData\Facades\DaDataName;
 use MoveMoveIo\DaData\Enums\Gender;
 use MoveMoveIo\DaData\Enums\Parts;
-use App\Jobs\SenderEmai;
+use App\Jobs\SenderEmail;
 
 class PostsController extends AppFormsController
 {
@@ -37,7 +37,7 @@ class PostsController extends AppFormsController
         }*/
         // отправка письма с использованием очередей (вся обработка в app/Jobs/SenderEmai.php)
         // или в .env выставь QUEUE_CONNECTION=sync для синхронноой отправки
-        SenderEmai::dispatch($data);
+        SenderEmail::dispatch($data);
         if(Post::create($data)){
             return response()->json([
                 'success' => true,

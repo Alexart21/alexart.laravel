@@ -10,6 +10,7 @@ use App\Http\Requests\CallFormRequest;
 use MoveMoveIo\DaData\Enums\Gender;
 use MoveMoveIo\DaData\Enums\Parts;
 use MoveMoveIo\DaData\Facades\DaDataName;
+use App\Jobs\SenderCall;
 
 class CallsController extends AppFormsController
 {
@@ -21,48 +22,16 @@ class CallsController extends AppFormsController
     public function store(CallFormRequest $request)
     {
         $data = $request->validated();
-        // если не провалидировано то уходит {success:false, errors:....}
-        // это в методе failedValidation в файле app/Http/Requests/CallFormRequest.php
-        /*$score = $this->checkReCaptcha();
-        if (!$score || $score < 0.5) // не прошла recaptcha
-        {
-            return response()->json([
-                'success' => false,
-                'recaptcha' => false,
-                'score' => $score,
-            ]);
-        }*/
 
-        $db = Call::create($data) ? true : false;
-        $mail = $this->sendEmail($data);
-        if ($db && $mail) {
+        SenderCall::dispatch($data);
+        if (Call::create($data)) {
             return response()->json([
                 'success' => true,
             ]);
-        } else { // почемуто не записалось в базу или не отправилась почта
+        } else {
             return response()->json([
-                'success' => false,
-                'db' => $db,
-                'mail' => $mail,
-//                'score' => $score,
+                'success' => false
             ]);
-        }
-    }
-
-    private function sendEmail($data)
-    {
-        try {
-            $params = [// Эти параметры так же надо указать в файле app/Mail/Feedback.php.
-                'tel' => htmlspecialchars($data['tel']),
-                'body' => 'Просьба перезвонить',
-                'name' => htmlspecialchars($data['name']),
-                'email' => null,
-                'subject' => 'Просьба перезвонить',
-            ];
-            Mail::to(config('app.admin_email'))->send(new Feedback($params));
-            return true;
-        } catch (\Exception $e) {
-            dd($e->getMessage());
         }
     }
 

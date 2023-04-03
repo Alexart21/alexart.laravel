@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Feedback;
 use App\Models\Post;
 
-class SenderEmai implements ShouldQueue
+class SenderEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
