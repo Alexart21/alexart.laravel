@@ -2,6 +2,7 @@
     use Jenssegers\Date\Date;
 @endphp
 <x-layouts.admin title="">
+    {{ Breadcrumbs::render('post', $mail) }}
     <div><b>Имя: </b>
         <span>{{ $mail->name }}</span>
     </div>

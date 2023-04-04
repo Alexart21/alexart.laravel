@@ -9,6 +9,7 @@
             /*display: inline-block;*/
         }
     </style>
+    {{ Breadcrumbs::render('home') }}
     <div class="alert-block d-flex justify-content-end">
         @include('flash::message')
     </div>

@@ -5,6 +5,7 @@ use App\Enums\Post\Status as PostStatus;
 $h1 = $new ? 'Входящие сообщения - новые' : 'Входящие сообщения - все';
 @endphp
 <x-layouts.admin title="Входящие сообщения | страница {{ $mails->currentPage() }}">
+    {{ Breadcrumbs::render('posts') }}
     <div class="d-flex">
         <h1>{{ $h1 }}</h1>
         @if($trashed)

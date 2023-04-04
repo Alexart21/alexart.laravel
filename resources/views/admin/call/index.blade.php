@@ -6,6 +6,7 @@
 
 @endphp
 <x-layouts.admin title="Заказы обратных звонков | страница {{ $calls->currentPage() }}">
+    {{ Breadcrumbs::render('calls') }}
     <div class="d-flex"><h1>{{ $h1 }}</h1>
         @if($trashed)
             <div class="top-links">

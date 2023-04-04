@@ -132,3 +132,7 @@
     padding-bottom: 2em;
 }
 /* end contenteditable */
+
+.breadcrumb{
+    background: transparent !important;
+}
