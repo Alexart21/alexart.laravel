@@ -1,4 +1,5 @@
 <x-layouts.admin title="Режим contenteditable">
+    {{ Breadcrumbs::render('contenteditable', $data) }}
     <div class="c-main">
         <h3>Режим contenteditable страница : {{ $data->page }}</h3>
         Здесь доступно только содержимое страницы. Полное редактирование в <span class="h4"><a

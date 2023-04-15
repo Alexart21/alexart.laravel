@@ -2,6 +2,7 @@
     use Jenssegers\Date\Date;
 @endphp
 <x-layouts.admin title="Админка">
+    {{ Breadcrumbs::render('contents_trashed') }}
     <h1>Корзина</h1>
     <table class="table-bordered table-hover table-admin">
         <tr>

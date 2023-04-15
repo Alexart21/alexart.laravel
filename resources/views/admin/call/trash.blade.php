@@ -2,6 +2,7 @@
     use Jenssegers\Date\Date;
 @endphp
 <x-layouts.admin title="Админка">
+    {{ Breadcrumbs::render('calls_trashed') }}
     <h1>Корзина</h1>
     <div>
         <form action="{{ route('call.clear') }}" method="post" >

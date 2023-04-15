@@ -6,6 +6,7 @@
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 @endif
 <x-layouts.admin title="Админка">
+    {{ Breadcrumbs::render('content_edit', $page) }}
     <span class="h2">Страница {{ $page->page }}</span>&nbsp;&nbsp;
     <a class="h3" href="{{ route('content.index') }}">все страницы</a>
     <br>

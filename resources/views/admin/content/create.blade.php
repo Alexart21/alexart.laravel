@@ -6,6 +6,7 @@
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 @endif
 <x-layouts.admin title="Создать страницу">
+    {{ Breadcrumbs::render('content_create') }}
     <span class="h2">Создание новой страницы</span>&nbsp;&nbsp;<a class="h3" href="{{ route('content.index') }}">все страницы</a>
     <br>
     @if($visual)

@@ -2,6 +2,7 @@
     use Jenssegers\Date\Date;
 @endphp
 <x-layouts.admin title="Основные страницы | страница {{ $pages->currentPage() }}">
+    {{ Breadcrumbs::render('contents') }}
     <br>
     <div class="d-flex">
         <h1>Основные страницы</h1>&nbsp;

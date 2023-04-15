@@ -1,4 +1,5 @@
 <x-layouts.admin title="">
+    {{ Breadcrumbs::render('content_show', $page) }}
     <span class="h3">Страница {{ $page->page }}</span>&nbsp;&nbsp;
     <a class="h3" href="{{ route('content.index') }}">все страницы</a>
     <br>
