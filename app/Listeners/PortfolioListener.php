@@ -21,14 +21,14 @@ class PortfolioListener implements ShouldQueue
     public function handle(GetInPortfolioPage $event)
     {
         $chat_id = config('telegram.id');
-
-        $loc = Location::get($event->ip);
-
-        $message = 'Зашли на страницу портфолио сайта ' . config('app.url') . ' с ip адреса ' . $event->ip . ' Предположительная локация '
-            . '<b>' . $loc->countryName . ' - ' . $loc->regionName . ' - ' .$loc->cityName . '</b>';
         try {
+            $loc = Location::get($event->ip);
+
+            $message = 'Зашли на страницу портфолио сайта ' . config('app.url') . ' с ip адреса ' . $event->ip . ' Предположительная локация '
+                . '<b>' . $loc->countryName . ' - ' . $loc->regionName . ' - ' . $loc->cityName . '</b>';
+
             TG::sendMessage($chat_id, $message);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // на localhost ничего понятно не получиться определить локацию
 //            dd($e);
         }
     }
