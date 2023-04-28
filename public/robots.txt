@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 Host: s-solo.ru
-Sitemap: https://alexart.s-solo.ru/sitemap.xml
+Sitemap: https://laravel.s-solo.ru/sitemap.xml

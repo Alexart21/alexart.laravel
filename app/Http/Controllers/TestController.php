@@ -23,6 +23,7 @@ use App\Jobs\TestJob;
 use Iman\Streamer\VideoStreamer;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\BlaFormRequest;
 
 
 
@@ -168,5 +169,16 @@ class TestController extends Controller
     {
         $path = public_path('storage/files/_video.mp4');
         VideoStreamer::streamFile($path);
+    }
+
+    public function blaform()
+    {
+        return view('test.bla');
+    }
+
+    public function blastore(BlaFormRequest $request)
+    {
+        $data = $request->validated();
+        dump($data);
     }
 }

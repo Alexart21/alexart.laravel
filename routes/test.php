@@ -16,4 +16,6 @@ Route::prefix('test')->controller(TestController::class)->group(function (){
     Route::get('/download', 'download')->name('test.download');
     Route::get('/video', 'video')->name('test.video');
     Route::get('/videopage', 'videopage')->name('test.videopage');
+    Route::get('/blaform', 'blaform')->name('test.blaform');
+    Route::post('/blastore', 'blastore')->name('test.blastore');
 });
