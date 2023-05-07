@@ -1,17 +1,17 @@
 'use strict'
 // Окно чата/мессенджеров
 window.addEventListener('load', () => {
-    let msgBlock = document.getElementById('msg-block'),
-        msgContent = document.getElementById('msg-content'),
-        msgImg = document.querySelector('.msg-img'),
-        msgClosed = document.querySelector('.msg-closed');
+    let msgBlock = document.getElementById('msg-block');
+    const msgContent = document.getElementById('msg-content');
+    const msgImg = document.querySelector('.msg-img');
+    const msgClosed = document.querySelector('.msg-closed');
 
     const al = document.getElementById('container').clientWidth;
     msgBlock.style.right = (screen_w - al) / 2 + 'px'; //позиционируем в правый край родителя
 
     const showMsg = () => { // показ окна чата с анимацией
-        $('#msg-block').velocity('transition.bounceIn');
-        // msgBlock.style.display = 'block';
+        // $('#msg-block').velocity('transition.bounceIn');
+        msgBlock.style.display = 'block';
     };
     // Всплывающая подсказка над чатом
     const showTooltip = () => {
