@@ -74,9 +74,11 @@
             </div>
             <!--кнопка вверх-->
             <x-ui.scrollTop/>
-            <!-- блок мессенджеров -->
-            <x-ui.msgBlock/>
+{{--            <x-ui.msgBlock/>--}}
             <!-- конец блок мессенджеров -->
+            <!-- Telegramm чат -->
+            <x-ui.tgChat/>
+            <!-- конец Telegramm чат -->
         </div>
     </div>
     <!--noindex-->
@@ -94,6 +96,6 @@
 <script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
-<script src="{{ asset('js/msg-block.js') }}"></script>
+{{--<script src="{{ asset('js/msg-block.js') }}"></script>--}}
 </body>
 </html>

@@ -27,5 +27,17 @@
 <script src="{{ asset('js/datalist.js') }}"></script>
 <script src="{{ asset('js/bootstrap5.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
+<script>
+    // Telegramm
+    /*window.replainSettings = { id: '7a62a2d7-0ab8-4734-a7be-954f867b1e2a' };
+    (function(u){var s=document.createElement('script');s.async=true;s.src=u;
+        var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);
+    })('https://widget.replain.cc/dist/client.js');*/
+    // watsapp
+        window.replainSettings = { id: '2aa90b4a-ffde-496c-8086-b92ccf3fe949' };
+        (function(u){var s=document.createElement('script');s.async=true;s.src=u;
+        var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);
+    })('https://widget.replain.cc/dist/client.js');
+</script>
 </body>
 </html>

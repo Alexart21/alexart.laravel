@@ -2019,9 +2019,9 @@ mark {
 }
 
 /**/
-/*.grecaptcha-badge {
+.grecaptcha-badge {
     visibility: hidden;
-}*/
+}
 
 .logo{
     color: var(--logo-color);
