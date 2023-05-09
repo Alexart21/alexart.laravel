@@ -29,6 +29,6 @@ $time = date('H:i');
            target="_blank"><div class="viber-icon icon-large"></div> Viber</a>
         <a class="msg-btn watsap-bg" href="whatsapp://send?phone=79876680484"
            target="_blank"><div class="wats-icon icon-large"></div> Watsapp</a>
-        <a class="msg-btn tg-bg" href="https://telegram.me/iskander_m21" target="_blank"><div class="tg-icon icon-large"></div> Telegram</a>
+        <a class="msg-btn tg-bg" href="https://telegram.me/Mihalych211" target="_blank"><div class="tg-icon icon-large"></div> Telegram</a>
     </div>
 </div>
