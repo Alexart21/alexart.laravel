@@ -1,7 +1,3 @@
-<audio preload="auto">
-    <source src="{{ asset('audio/buben.mp3') }}" type="audio/mpeg">
-    <source src="{{ asset('audio/buben.ogg') }}" type="audio/ogg">
-</audio>
 <a id="tg-btn-outher" href="https://t.me/Mihalych211" target="_blank"><div class="tg-btn"></div></a>
 <script>
     window.addEventListener('load', () => {
@@ -21,6 +17,7 @@
                     var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);
                 })('https://widget.replain.cc/dist/client.js');
             }, 3000);
+
             window.addEventListener('scroll', () => {
                 // откроем через .. после скрола
                 setTimeout(() => {
@@ -29,14 +26,7 @@
                         // установить стартовое сообщение (Перебивает то что было в настройках)
                         // window.ReplainAPI('setStartMessage', 'Привет!!! 👋');
                         // звук
-                        let promise = document.querySelector('audio').play();
-                        if (promise !== undefined) {
-                            promise.then(_ => {
-                                console.log('play!');
-                            }).catch(err => {
-                                console.log(err.message);
-                            });
-                        }
+                        beep();
                     }
                 }, 3000);
             })
