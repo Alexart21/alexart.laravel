@@ -2,7 +2,7 @@
     <source src="{{ asset('audio/buben.mp3') }}" type="audio/mpeg">
     <source src="{{ asset('audio/buben.ogg') }}" type="audio/ogg">
 </audio>
-<a id="tg-btn-outher" href="https://telegram.me/Mihalych211" target="_blank"><div class="tg-btn"></div></a>
+<a id="tg-btn-outher" href="https://t.me/Mihalych211" target="_blank"><div class="tg-btn"></div></a>
 <script>
     window.addEventListener('load', () => {
         if (!('ontouchstart' in window || navigator.maxTouchPoints)){ // для десктопов
