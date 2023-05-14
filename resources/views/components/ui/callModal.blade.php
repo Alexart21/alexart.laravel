@@ -6,7 +6,7 @@
     <div class="modal-dialog=true" role="document">
 <div class="modal-content" style="opacity: 1; display: block; transform: scaleX(1) scaleY(1);">
     <div class="modal-header">
-        <h3>Укажите Ваш номер телефона и мы перезвоним Вам</h3>
+        <h3>Укажите Ваш номер телефона и мы свяжемся с Вами</h3>
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
@@ -23,6 +23,15 @@
                 <div class="form-group">
                     <input type="text" id="call-tel" class="form-control" name="tel">
                     <div id="tel-err-call" class="call-err-msg text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="mode">Предпочтительный способ связи:</label>
+                    <select name="mode">
+                        <option selected value="ph">по телефону</option>
+                        <option value="tg">через Telegramm</option>
+                        <option value="wt">через Watsapp</option>
+                    </select>
+                    <div id="mode-err-call" class="call-err-msg text-danger"></div>
                 </div>
                 <input type="hidden" id="callform-recaptcha" name="reCaptcha"/>
                 <div id="reCaptcha-err-call" class="call-err-msg text-danger"></div>

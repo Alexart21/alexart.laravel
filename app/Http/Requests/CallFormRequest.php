@@ -22,6 +22,7 @@ class CallFormRequest extends FormRequest
             // регуляреа - только кириллица пробел и дефис
             'name' => 'required|min:3|max:128|regex:/^[А-Яа-яё -]*$/ui',
             'tel' => 'required|min:6|max:20',
+            'mode' => 'required|in:ph,tg,wt',
         ];
     }
 
@@ -33,7 +34,8 @@ class CallFormRequest extends FormRequest
             'name.min' => '3 буквы хотя бы...',
             'name.regex' => 'Только кириллица без цифр и спецсимволов!',
             'tel.required' => 'Укажите номер',
-            'tel.min' => '6 цифр хотя бы...'
+            'tel.min' => '6 цифр хотя бы...',
+            'mode.in' => 'Ты чё, хацкер типа?'
         ];
     }
 

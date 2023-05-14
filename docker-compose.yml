@@ -4,7 +4,7 @@ networks:
         driver: bridge
 services:
     nginx:
-        image: nginx:1.19.10
+        image: nginx:stable
         container_name: nginx
         # маршрутизируем порты
         ports:
