@@ -33,6 +33,8 @@ class OauthController
             // это аналогично этому $finduser = User::find($_user->user_id)
             $finduser = $_user->user;
             Auth::login($finduser);
+            // в сессию пишем что бы можно было знать через кого юзер зашел
+            session(['oauth_service' => $service]);
 //            return redirect()->intended('dashboard');
             return redirect()->intended('/');
         } else { // впервые
@@ -85,6 +87,8 @@ class OauthController
                 ]);
                 DB::commit();
                 Auth::login($newUser);
+                // в сессию пишем что бы можно было знать через кого юзер зашел
+                session(['oauth_service' => $service]);
 //                return redirect()->intended('dashboard');
                 return redirect()->intended('/');
             } catch (Exception $e) {
@@ -110,6 +114,8 @@ class OauthController
                         $oauth->save();
                         DB::commit();
                         Auth::login($oldUser);
+                        // в сессию пишем что бы можно было знать через кого юзер зашел
+                        session(['oauth_service' => $service]);
                         return redirect()->intended('/');
                     } catch (Exception $e) {
                         DB::rollBack();
