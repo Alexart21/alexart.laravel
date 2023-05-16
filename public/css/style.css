@@ -2352,9 +2352,9 @@ abbr{
     display: inline-block;
 }
 
-.user-block .external-link path{
+/*.user-block .external-link path{
     fill: #777;
-}
+}*/
 
 .username{
     display: inline-block;

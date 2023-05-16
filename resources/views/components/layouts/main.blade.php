@@ -29,10 +29,9 @@
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
-    'resources/css/animate.min.css',
+//    'resources/css/animate.min.css',
     'resources/css/style.css',
     ])
-    <script src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 <body>
 @auth()
     @if(!auth()->user()->email_verified_at)
@@ -75,10 +74,6 @@
             <!--кнопка вверх-->
             <x-ui.scrollTop/>
 {{--            <x-ui.msgBlock/>--}}
-            <!-- конец блок мессенджеров -->
-            <!-- Telegramm чат -->
-            <x-ui.tgChat/>
-            <!-- конец Telegramm чат -->
         </div>
     </div>
     <!--noindex-->
@@ -88,14 +83,26 @@
 </div>
 @vite([
 'resources/js/app.js',
-'resources/js/velocity.min.js',
-'resources/js/velocity.ui.min.js',
-'resources/js/wow.min.js',
+//'resources/js/velocity.min.js',
+//'resources/js/velocity.ui.min.js',
+//'resources/js/wow.min.js',
 ])
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
+<script defer src="{{ asset('js/jquery.min.js') }}"></script>
+<script defer src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script defer src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
+<script defer src="{{ asset('js/scripts.js') }}"></script>
+<script defer src="{{ asset('js/velocity.min.js') }}"></script>
+<script defer src="{{ asset('js/velocity.ui.min.js') }}"></script>
+
+<script async src="{{ asset('js/wow.min.js') }}"></script>
+<script async src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
 {{--<script src="{{ asset('js/msg-block.js') }}"></script>--}}
+<link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
+<!-- Telegramm чат -->
+<x-ui.tgChat/>
+<!-- конец Telegramm чат -->
+<!-- YaMetrica -->
+<x-metrica.YaMetrica/>
+<!-- конец YaMetrica -->
 </body>
 </html>

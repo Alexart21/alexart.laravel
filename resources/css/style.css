@@ -2136,13 +2136,13 @@ abbr{
     width: 20px;
     height: 40px;
     line-height: 40px;
-    color: #666;
+    /*color: #666;*/
     display: inline-block;
 }
 
-.user-block .external-link path{
+/*.user-block .external-link path{
     fill: #777;
-}
+}*/
 
 .username{
     display: inline-block;

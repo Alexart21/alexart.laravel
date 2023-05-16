@@ -53,6 +53,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+        // отсебятина удаляем в сессии что зашли через oauth
+        if(session('oauth_service')){
+            $request->session()->forget('oauth_service');
+        }
 
         return redirect('/');
     }

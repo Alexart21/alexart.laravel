@@ -114,8 +114,6 @@ class OauthController
                         $oauth->save();
                         DB::commit();
                         Auth::login($oldUser);
-                        // в сессию пишем что бы можно было знать через кого юзер зашел
-                        session(['oauth_service' => $service]);
                         return redirect()->intended('/');
                     } catch (Exception $e) {
                         DB::rollBack();
