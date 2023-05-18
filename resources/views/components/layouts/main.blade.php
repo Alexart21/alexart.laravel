@@ -88,19 +88,30 @@
 <script defer src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script defer src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
 <script defer src="{{ asset('js/scripts.js') }}"></script>
-<link id="anim-css" rel="stylesheet" media="print" href="{{ asset('css/animate.min.css') }}">
+{{--<link class="lazy" rel="stylesheet" media="bla" href="{{ asset('css/animate.min.css') }}">--}}
 {{-- Отложенная загрузка скриптов и css --}}
 <script>
-    function loadScript(src, async = true,  callback) {
+    function loadScript(src, asyncMode = false,  callback) {
         let script = document.createElement('script');
+        if(asyncMode === 'async'){
+            script.async = true;
+        } else if (asyncMode === 'defer'){
+            script.defer = true;
+        }
         script.src = src;
-        script.async = async;
         document.body.appendChild(script);
         if (callback){
             script.onload = ()=> {
                 callback();
             }
         }
+    }
+    function loadCss(src){
+        let link = document.createElement( "link" );
+        link.rel = "stylesheet";
+        link.href = src;
+        document.body.appendChild(link);
+        console.log('css');
     }
     let event_status = false; // Статус события (ещё не произошло)
     window.addEventListener("load", function() {
@@ -109,16 +120,18 @@
                 // start
                 if(!event_status) {
                     console.log("отложенная загрузка js css");
-                    loadScript('/js/wow.min.js', true, ()=>{(function ($) {
+                    loadScript('/js/wow.min.js', 'async', ()=>{(function ($) {
                         new WOW().init();
                     })(jQuery);});
-                    loadScript('/js/velocity.min.js', false);
-                    loadScript('/js/velocity.ui.min.js', false);
-                    loadScript('/js/jquery.toaster.js');
+                    // здесь зависимые скрипты по загрузке первого коллбэк на загрузку второго
+                    loadScript('/js/velocity.min.js', 'async', () => {
+                        loadScript('/js/velocity.ui.min.js');
+                    });
+                    loadScript('/js/jquery.toaster.js', 'async');
                     //css
-                    document.getElementById('anim-css').media = 'all';
+                    loadCss('/css/animate.min.css');
                     //recapTcha
-                    loadScript("https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC");
+                    loadScript("https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", 'async');
                     // Telegram chat
                     if (!('ontouchstart' in window || navigator.maxTouchPoints)) { // для десктопов
                         console.log('desktop');
@@ -146,8 +159,6 @@
                                     }, 3000)
                                 }
                             })('https://widget.replain.cc/dist/client.js');
-                            //
-
                         }, 3000);
                     }else { // для мобил просто кнопка с ссылкой
                         console.log('mobile');
