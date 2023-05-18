@@ -60,7 +60,7 @@
             <x-main.topMenu/>
             <div id="block">
                 <!-- начало левый блок -->
-                <x-main.leftBlock/>
+{{--                <x-main.leftBlock/>--}}
                 <!-- конец левый блок -->
                 <!-- начало основной контент -->
                 <div class="inc-out">
@@ -83,26 +83,98 @@
 </div>
 @vite([
 'resources/js/app.js',
-//'resources/js/velocity.min.js',
-//'resources/js/velocity.ui.min.js',
-//'resources/js/wow.min.js',
 ])
 <script defer src="{{ asset('js/jquery.min.js') }}"></script>
 <script defer src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script defer src="{{ asset('js/jquery.maskedinput.min.js')  }}"></script>
 <script defer src="{{ asset('js/scripts.js') }}"></script>
-<script defer src="{{ asset('js/velocity.min.js') }}"></script>
-<script defer src="{{ asset('js/velocity.ui.min.js') }}"></script>
+<link id="anim-css" rel="stylesheet" media="print" href="{{ asset('css/animate.min.css') }}">
+{{-- Отложенная загрузка скриптов и css --}}
+<script>
+    function loadScript(src, async = true,  callback) {
+        let script = document.createElement('script');
+        script.src = src;
+        script.async = async;
+        document.body.appendChild(script);
+        if (callback){
+            script.onload = ()=> {
+                callback();
+            }
+        }
+    }
+    let event_status = false; // Статус события (ещё не произошло)
+    window.addEventListener("load", function() {
+        ["mouseover", "click", "scroll"].forEach(function(event) {
+            window.addEventListener(event, function() {
+                // start
+                if(!event_status) {
+                    console.log("отложенная загрузка js css");
+                    loadScript('/js/wow.min.js', true, ()=>{(function ($) {
+                        new WOW().init();
+                    })(jQuery);});
+                    loadScript('/js/velocity.min.js', false);
+                    loadScript('/js/velocity.ui.min.js', false);
+                    loadScript('/js/jquery.toaster.js');
+                    //css
+                    document.getElementById('anim-css').media = 'all';
+                    //recapTcha
+                    loadScript("https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC");
+                    // Telegram chat
+                    if (!('ontouchstart' in window || navigator.maxTouchPoints)) { // для десктопов
+                        console.log('desktop');
+                        setTimeout(() => {
+                            window.replainSettings = {
+                                id: '7a62a2d7-0ab8-4734-a7be-954f867b1e2a',
+                                onClientOpenedChat: () => {
+                                    // клиент открыл чат или открылся по таймеру
+                                    // куку на 1 час
+                                    // в течении часа не будет всплывашек
+                                    document.cookie = 'chat_open=1;max-age=3600';
+                                },
+                            };
+                            (function(u){var s=document.createElement('script');s.async=true;s.src=u;
+                                var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);
+                                s.onload = () => {
+                                    setTimeout(() => {
+                                        if(!readCookie('chat_open')){
+                                            window.ReplainAPI('open');
+                                            // установить стартовое сообщение (Перебивает то что было в настройках)
+                                            // window.ReplainAPI('setStartMessage', 'Привет!!! 👋');
+                                            // звук
+                                            beep();
+                                        }
+                                    }, 3000)
+                                }
+                            })('https://widget.replain.cc/dist/client.js');
+                            //
 
-<script async src="{{ asset('js/wow.min.js') }}"></script>
-<script async src="https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC"></script>
-{{--<script src="{{ asset('js/msg-block.js') }}"></script>--}}
-<link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-<!-- Telegramm чат -->
-<x-ui.tgChat/>
-<!-- конец Telegramm чат -->
-<!-- YaMetrica -->
-<x-metrica.YaMetrica/>
-<!-- конец YaMetrica -->
+                        }, 3000);
+                    }else { // для мобил просто кнопка с ссылкой
+                        console.log('mobile');
+                        document.getElementById('tg-btn-outher').style.display = 'block';
+                    }
+                    // Ya Metrica
+                    setTimeout(() => {
+                        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                            m[i].l=1*new Date();
+                            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+                        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+                        ym(93590799, "init", {
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true
+                        });
+                    }, 4000)
+                    event_status = true; // Статус события (произошло)
+                }
+            }, {
+                once: true
+            });
+            //end
+        });
+    });
+</script>
+{{-- конец Отложенная загрузка скриптов и css --}}
 </body>
 </html>

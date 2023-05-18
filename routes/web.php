@@ -15,6 +15,9 @@ Route::get('/', [ ContentController::class, 'index' ])->name('content.index');
 // Всякие эксперименты
 require __DIR__ . '/test.php';
 
+// страницы оптимизации сайтов
+require __DIR__ . '/seo.php';
+
 // конструктор чехлов
 Route::get('/designer', [ DesignerController::class, 'index' ])->name('designer.index');
 Route::post('/constructor', [ DesignerController::class, 'store' ])->name('designer.store');

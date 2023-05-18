@@ -35,7 +35,10 @@
                 </div>
                 <input type="hidden" id="callform-recaptcha" name="reCaptcha"/>
                 <div id="reCaptcha-err-call" class="call-err-msg text-danger"></div>
+                <input type="hidden" name="subject" value="call" />
+                <div id="subject-err-call" class="call-err-msg text-danger"></div>
                 <div class="form-group">
+                    <div class="form-loader"></div>
                     <button id="callSubmit" type="submit" class="btn success-button">жду звонка!</button>
                 </div>
             </form>
@@ -45,6 +48,20 @@
 </div>
 </div>
 <script>
+    // functions
+    function startFormLoader(form) {
+        let loader = form.querySelector('.form-loader');
+        let btn = form.querySelector('button');
+        loader.style.display = 'inline-block';
+        btn.disabled = true;
+    }
+
+    function stopFormLoader(form) {
+        let loader = form.querySelector('.form-loader');
+        let btn = form.querySelector('button');
+        loader.style.display = 'none';
+        btn.disabled = false;
+    }
     // DADAta
     let callInp = document.getElementById('callInp');
     let callNames = document.getElementById('callNames');
@@ -62,7 +79,7 @@
 
     callForm.onsubmit = (e) => {
         e.preventDefault();
-        startLoader();
+        startFormLoader(callForm);
         clearErrMsgs('call-err-msg');
         try { // обертка в try/catch не обязательна. Это лишь что бы при локальной работе не было ошибок с reCaptcha
             grecaptcha.ready(function () {
@@ -81,7 +98,7 @@
                             body: formData
                         })
                         .finally(() => {
-                            stopLoader();
+                            stopFormLoader(callForm);
                         });
                         let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
                         let result;
@@ -100,33 +117,43 @@
                                     }
                                 }
                             } else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
-                                // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                                let rateLimit = {{ $rateLimit }};
-                                showServerError(msgBlock, response.status, response.statusText, rateLimit);
+                                $.toaster({
+                                    priority: 'danger',
+                                    title: `${response.status} ${response.statusText}`,
+                                    message: ''
+                                });
+                                setTimeout(() => {
+                                    callForm.reset();
+                                }, 2000);
                                 console.log(response);
                             }
                             return;
                         } else { // статус 200
                             result = await response.json();
                             if (result.success) { // успешно
-                                console.log('form submitted');
-                                showSuccess(msgBlock, callForm);
+                                $.toaster({
+                                    priority: 'success',
+                                    title: 'Спасибо, заявка принята!',
+                                    message: '',
+                                });
+                                beep();
+                                setTimeout(() => {
+                                    callForm.reset();
+                                    $('#callback').modal('hide');
+                                }, 2000);
                             } else { // фиг знает че за ошибка
-                                if (!result.recaptcha) {
-                                    console.log('recaptcha error');
-                                } else if (!result.db) {
-                                    showDbError(msgBlock);
-                                    console.log('db error');
-                                } else if (!result.mail) {
-                                    console.log('email send error')
-                                }
+                                $.toaster({
+                                    priority: 'danger',
+                                    title: 'Ошибка сервера!',
+                                    message: ''
+                                });
                                 console.log(response);
                             }
                         }
                     });
             });
         } catch (error) {
-            stopLoader();
+            stopFormLoader(callForm)
             console.log(error);
         }
     }

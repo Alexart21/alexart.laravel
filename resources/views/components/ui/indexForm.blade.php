@@ -53,6 +53,7 @@
     <input type="hidden" id="rc" name="reCaptcha"/>
     <div id="reCaptcha-err-index" class="index-err-msg text-danger"></div>
     <div class="form-group">
+        <div class="form-loader"></div>
         <button type="submit" class="btn success-button animated bounceInDown wow" data-wow-delay="0.1s">Отправить
         </button>
     </div>
@@ -85,7 +86,8 @@
     indexForm.onsubmit = (e) => {
         e.preventDefault();
         clearErrMsgs('index-err-msg');
-        startLoader();
+        // ф-ия описана в компоненте seoForm.blade.php
+        startFormLoader(indexForm);
         try { // обертка в try/catch не обязательна. Это лишь что бы при локальной работе не было ошибок с reCaptcha
             grecaptcha.ready(function () {
                 // сам скрипт с google подключается в щаблоне resources/views/components/layouts/main.blade.php
@@ -103,9 +105,9 @@
                             body: formData
                         })
                             .finally(() => {
-                                stopLoader();
+                                // ф-ия описана в компоненте seoForm.blade.php
+                                stopFormLoader(indexForm);
                             });
-                        let msgBlock = document.getElementById('modal-msg'); // сюда в модалке выводим сообщенмя успех/ошибка
                         let result;
                         if (!response.ok) {
                             console.log(response);
@@ -122,33 +124,37 @@
                                     }
                                 }
                             } else { // при ошибках 500 или других придет html страница ошибки а не json. Оповещаем и останавливаем
-                                // переменная $rateLimit установлена в шаблоне resources/views/components/layouts/main.blade.php
-                                let rateLimit = {{ $rateLimit }};
-                                showServerError(msgBlock, response.status, response.statusText, rateLimit);
+                                $.toaster({
+                                    priority: 'danger',
+                                    title: `${response.status} ${response.statusText}`,
+                                    message: ''
+                                });
                                 console.log(response);
                             }
                             return;
                         } else { // статус 200
                             result = await response.json();
                             if (result.success) { // успешно
-                                console.log('form submitted');
-                                showSuccess(msgBlock, indexForm);
+                                $.toaster({
+                                    priority: 'success',
+                                    title: 'Спасибо, заявка принята!',
+                                    message: '',
+                                });
+                                beep();
                             } else { // фиг знает че за ошибка
-                                if (!result.recaptcha) {
-                                    console.log('recaptcha error');
-                                } else if (!result.db) {
-                                    showDbError(msgBlock);
-                                    console.log('db error');
-                                } else if (!result.mail) {
-                                    console.log('email send error')
-                                }
+                                $.toaster({
+                                    priority: 'danger',
+                                    title: 'Ошибка сервера!',
+                                    message: ''
+                                });
                                 console.log(response);
                             }
                         }
                     });
             });
         } catch (error) {
-            stopLoader();
+            // ф-ия описана в компоненте seoForm.blade.php
+            stopFormLoader(indexForm);
             console.log(error);
         }
     }

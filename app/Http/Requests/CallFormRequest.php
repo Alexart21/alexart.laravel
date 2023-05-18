@@ -23,6 +23,7 @@ class CallFormRequest extends FormRequest
             'name' => 'required|min:3|max:128|regex:/^[А-Яа-яё -]*$/ui',
             'tel' => 'required|min:6|max:20',
             'mode' => 'required|in:ph,tg,wt',
+            'subject' =>'required|in:seo,call'
         ];
     }
 
@@ -35,7 +36,8 @@ class CallFormRequest extends FormRequest
             'name.regex' => 'Только кириллица без цифр и спецсимволов!',
             'tel.required' => 'Укажите номер',
             'tel.min' => '6 цифр хотя бы...',
-            'mode.in' => 'Ты чё, хацкер типа?'
+            'mode.in' => 'Ты чё, хацкер типа?',
+            'subject.in' => 'Ты чё, хацкер типа?'
         ];
     }
 

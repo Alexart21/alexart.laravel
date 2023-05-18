@@ -13,7 +13,7 @@ window.onresize = function () {
 };
 
 /*Мобильное левое меню*/
-function mobLeft() {
+/*function mobLeft() {
     const menuBtn = document.querySelector('.mob-menu-button'); //кнопка
     const menu = document.querySelector('.mob-menu-list'); // выезжающий блок
     menuBtn.addEventListener('click', function () {
@@ -32,19 +32,8 @@ function mobLeft() {
                 menuBtn.classList.toggle('btn-pos');
             }
         }
-        ;
     });
-    ////////
-    /*const c = mobLink.length;
-    // чтоб меню закрывалось при клике на любую ссылку
-    for (let i = 0; i < c; i++) {
-        mobLink[i].addEventListener('click', function () {
-            menu.classList.toggle('menu-animate');
-            menuBtn.classList.toggle('btn-pos');
-            menuCol.classList.toggle('open');
-        });
-    }*/
-}
+}*/
 
 /* кнопка наверх */
 const scr = document.getElementById('scroller');
@@ -143,6 +132,7 @@ window.onload = () => {
     // console.log('here');
     $("#tel").mask('+7 (999)-999-99-99');
     $("#call-tel").mask("+7(999) 999-99-99");
+    $("#seo-tel").mask("+7(999) 999-99-99");
     // модалка с оповещением что выслано письмо
     /*const mailInfo = document.querySelector('#success-modal');
     if (mailInfo) {
@@ -154,12 +144,6 @@ window.onload = () => {
     // анимация в шапке
     const shtorka = document.querySelector('.shtorka');
     shtorka.classList.add('shtorka-animate');
-
-    mobLeft(); // мобильное меню
-    //
-    (function ($) {
-        new WOW().init();
-    })(jQuery);
 };
 /* конец обертка onload */
 function showOverlay() {

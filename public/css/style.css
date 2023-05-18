@@ -1,11 +1,13 @@
+/*@import "./import/msg-block.css";*/
+
 :root {
     --max-container-width: 1600px;
     /**/
     --logo-color: #e61b05;
     --btn-color: #FD9638;
-    --viber-color: #774E98;
-    --watsapp-color: #12940A;
-    --tg-color: #52ADDE;
+    /*--viber-color: #774E98;*/
+    /*--watsapp-color: #12940A;*/
+    /*--tg-color: #52ADDE;*/
 }
 
 /* Анкорные метки с учетом шапки */
@@ -421,7 +423,7 @@ header {
 #right .tel a, #right .mail {
     /*font-family: Tahoma, Geneva, sans-serif;*/
     /*font-family: corpid;*/
-    font-size: 18px;
+    font-size: 17px;
     /*letter-spacing: 1.5px !important;*/
     /*font-weight: bold;*/
     /*color: #193232;*/
@@ -488,7 +490,7 @@ header {
 #inc {
     position: relative;
     background-color: #fff !important;
-    margin: 1em 1em 1em 250px;
+    margin: 1em;
     text-indent: 0.5em;
     padding: 0.5em;
     word-wrap: break-word;
@@ -876,9 +878,6 @@ ul.highlightTextIn li a:before {
 }
 
 @media all and (max-width: 930px), all and (max-device-width: 930px) {
-    #msg-block{
-        width: auto;
-    }
     /* мобильное меню вкл. при этой ширине */
     #center div {
         left: 15px;
@@ -964,34 +963,7 @@ ul.highlightTextIn li a:before {
         font-size: 12px;
         text-shadow: none;
     }
-    /* виджет мессенджеров */
-    #msg-block{
-        width: 80% !important;
-        max-width: 500px;
-    }
 
-    #msg-content > div.msg-text{
-        font-size: 180% !important;
-    }
-
-    .msg-closed-text{
-        display: block;
-        /*left: 180px;*/
-        font-size: 140% !important;
-        margin-top: -60px !important;
-    }
-
-    .tooltip-inner{
-        font-size: 180% !important;
-    }
-
-    .msg-btn{
-        letter-spacing: 2px;
-    }
-
-    .viber-bg{
-        /*margin-top: -30px !important;*/
-    }
 }
 
 @media all and (max-width: 671px), all and (max-device-width: 671px) {
@@ -2040,191 +2012,7 @@ mark {
     background-color: rgba(255, 255, 153, .6);
 }
 
-/* блок с иконками мессенджеров*/
-#msg-block {
-    display: none;
-    position: fixed;
-    z-index: 100000;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 50px;
-    border: 1px solid #222;
-    /*background: rgba(150, 150, 150, .4);*/
-    background: #f4fcff;
-    /*background: url('/img/wats-bg.gif');*/
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    box-shadow: 0 0 40px #87ffdb, 0 0 5px var(--btn-color) inset;
-}
 
-.msg-opened{
-    height: 370px !important;
-}
-
-.msg-text {
-    width: 80%;
-    margin: 50px auto 0 auto;
-    background: #fff;
-    border: 0px solid transparent;
-    border-radius: 5px;
-    box-shadow: 0 0 20px #555;
-}
-
-#msg-content {
-    margin-top: -20px;
-}
-
-.msg-closed {
-    overflow: hidden;
-    position: relative;
-    display: block;
-    font-size: 26px;
-    color: #222;
-    margin-top: 24px;
-    cursor: pointer;
-    background: inherit;
-    /*height: 40px;*/
-    /*line-height: 40px;*/
-}
-
-.msg-closed-text{
-    position: absolute;
-    left: 130px
-}
-
-.msg-closed i {
-    font-size: 34px;
-    /*color: lime !important;*/
-}
-
-.msg-img {
-    position: absolute;
-    top: -35px;
-    right: 0;
-}
-
-.msg-btn {
-    display: block;
-    padding: 5px;
-    text-align: center;
-    background: #fff;
-    border: 0px solid transparent;
-    border-radius: 10px;
-    text-decoration: none !important;
-    font-size: 30px;
-    color: #fff;
-    width: 80%;
-    min-width: 160px;
-    margin: 0 auto 10px auto;
-}
-
-.viber-bg {
-    color: var(--viber-color);
-    border: 2px solid var(--viber-color);
-    border-radius: 6px;
-}
-
-.watsap-bg {
-    color: var(--watsapp-color);
-    border: 2px solid var(--watsapp-color);
-    border-radius: 6px;
-}
-
-.tg-bg {
-    color: var(--tg-color);
-    border: 2px solid var(--tg-color);
-    border-radius: 6px;
-}
-
-.viber {
-    color: var(--viber-color);
-}
-
-.viber-icon{
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3c?xml version='1.0' ?%3e%3csvg id='Icons' style='enable-background:new 0 0 32 32;' version='1.1' viewBox='0 0 32 32' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cstyle type='text/css'%3e .st0%7bfill:none;stroke:%23000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;%7d .st1%7bfill:none;stroke:%23000000;stroke-width:2;%7d .st2%7bfill:none;stroke:%23000000;stroke-width:2;stroke-miterlimit:10;%7d %3c/style%3e%3cg id='Page-1_3_'%3e%3cg id='Whatsapp_1_' transform='translate(1.000000, 1.000000)'%3e%3cpath class='st0' d='M20.7,19.1c0.3-0.9,0.3-1.6,0.2-1.8c-0.1-0.2-0.3-0.2-0.7-0.4c-0.4-0.2-2.2-1.1-2.5-1.2 c-0.3-0.1-0.7-0.1-0.9,0.3c-0.4,0.5-0.7,1-1,1.3c-0.2,0.2-0.6,0.3-0.9,0.1c-0.4-0.2-1.6-0.6-3-1.8c-1.1-1-1.8-2.2-2.1-2.6 c-0.2-0.4,0-0.6,0.2-0.8c0.2-0.2,0.4-0.4,0.6-0.6c0.2-0.2,0.3-0.3,0.4-0.6c0.1-0.2,0-0.5-0.1-0.7c-0.1-0.2-0.8-2-1.1-2.7 C9.6,7.1,9.4,7.1,9,7.1C8.9,7,8.7,7,8.6,7c-0.5,0-1,0.1-1.3,0.5C6.9,7.9,6,8.8,6,10.6c0,1.8,1.3,3.6,1.5,3.8 c0.2,0.2,2.6,4,6.3,5.6c2.9,1.2,3.8,1.1,4.4,1C19.2,20.7,20.4,20,20.7,19.1L20.7,19.1z' id='Stroke-28_1_'/%3e%3c/g%3e%3c/g%3e%3cpath class='st0' d='M16,1C7.7,1,1,2.9,1,14c0,7.2,2.8,10.5,7,12v4.4c0,0.6,0.7,0.9,1.2,0.5l3.9-3.9C14,27,15,27,16,27 c8.3,0,15-1.9,15-13S24.3,1,16,1z'/%3e%3cpath class='st0' d='M15.5,11.2c1.3,0,2.3,1,2.3,2.3' id='_Path_2'/%3e%3cpath class='st0' d='M15.5,5c4.7,0,8.5,3.8,8.5,8.5' id='_Path_3'/%3e%3cpath class='st0' d='M15.5,8.1c3,0,5.4,2.4,5.4,5.4' id='_Path_4'/%3e%3c/svg%3e");
-}
-
-.icon-large{
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-}
-
-.wats {
-    color: var(--watsapp-color);
-}
-
-.wats-icon {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cstyle%3e .cls-1 %7b fill: %231c852d;%7d .cls-2 %7b fill: %23269f2e;%7d .cls-3 %7b fill: none; stroke: %23fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 3px;%7d .cls-4 %7b fill: %23fff;%7d %3c/style%3e%3c/defs%3e%3ctitle/%3e%3cpath class='cls-1' d='M92,48v.13A44,44,0,1,1,47.87,4H48c1.06,0,2.11,0,3.16.12a42.89,42.89,0,0,1,5.12.67,43.39,43.39,0,0,1,8.1,2.37A44.13,44.13,0,0,1,88.79,31.47a43.22,43.22,0,0,1,2.43,8.24h0a44,44,0,0,1,.67,5.17C92,45.92,92,47,92,48Z'/%3e%3cpath class='cls-2' d='M91,44.5v.12A39.53,39.53,0,1,1,51.38,5h.12c1,0,1.89,0,2.84.11a38.38,38.38,0,0,1,4.59.6,39.33,39.33,0,0,1,5.45,1.45A44.13,44.13,0,0,1,88.79,31.47a38.33,38.33,0,0,1,1.51,5.59h0a39.22,39.22,0,0,1,.6,4.64C91,42.63,91,43.57,91,44.5Z'/%3e%3cpath class='cls-3' d='M74.66,21.93a36.47,36.47,0,0,1,3,3.52'/%3e%3cpath class='cls-3' d='M58,12a38.11,38.11,0,0,1,11.78,5.76'/%3e%3cg%3e%3cpath class='cls-4' d='M46.36,27.74A19.86,19.86,0,0,0,31.37,58L27.84,68.35l10.8-3.41a19.89,19.89,0,1,0,7.72-37.2Zm2.8,35.94A16,16,0,0,1,40,61.42a1,1,0,0,0-.82-.09l-6.21,2,2-6a1,1,0,0,0-.13-.87,16.15,16.15,0,1,1,14.3,7.14Z'/%3e%3cpath class='cls-4' d='M54.07,50.26l4,2.09c.41.2.69.35.41,1.45s-.35,1.84-1.44,2.52a6.18,6.18,0,0,1-2.13,1c-.55.1-1.11.56-3.56-.36a19.08,19.08,0,0,1-9-6.19c-3.53-4.15-4.59-7.33-3.61-9.86a7.06,7.06,0,0,1,1.17-2,2.47,2.47,0,0,1,1.83-.92c.76-.12,1.5-.57,2.2,1.44s1.13,3,1.26,3.28a1.29,1.29,0,0,1-.4,1.55,12.33,12.33,0,0,0-1.1,1.19.89.89,0,0,0,0,1.1,15,15,0,0,0,3.38,4.15,19.35,19.35,0,0,0,3.17,1.87c.36.16.6.4,1.26-.28s1-1.2,1.41-1.64S53.65,50,54.07,50.26Z'/%3e%3c/g%3e%3c/svg%3e");
-}
-
-.tg {
-    color: var(--tg-color);
-}
-
-.tg-icon {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3c?xml version='1.0' ?%3e%3csvg style='enable-background:new 0 0 512 512;' version='1.1' viewBox='0 0 512 512' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cg id='_x33_35-telegram'%3e%3cg%3e%3cg%3e%3cpath d='M484.689,98.231l-69.417,327.37c-5.237,23.105-18.895,28.854-38.304,17.972L271.2,365.631 l-51.034,49.086c-5.646,5.647-10.371,10.372-21.256,10.372l7.598-107.722L402.539,140.23c8.523-7.598-1.848-11.809-13.247-4.21 L146.95,288.614L42.619,255.96c-22.694-7.086-23.104-22.695,4.723-33.579L455.423,65.166 C474.316,58.081,490.85,69.375,484.689,98.231z' style='fill:%2320A0E1;'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg id='Layer_1'/%3e%3c/svg%3e");
-}
-
-.icon-item{
-    margin: 5px;
-    font-size: 30px;
-    width: 30px;
-    height: 30px;
-}
-
-.msg-icons-block{
-    display: inline-flex;
-    margin-bottom: -5px;
-}
-
-.check-all{
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' id='mdi-check-all' viewBox='0 0 24 24'%3e%3cpath d='M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z' /%3e%3c/svg%3e");
-}
-
-.msg-btn:hover, .msg-btn:visited {
-    box-shadow: 4px 4px 10px #999;
-}
-
-.msg-btn i {
-    font-size: 26px;
-}
-
-#msg-block > button {
-    /*display: none;*/
-    position: absolute;
-    top: 10px;
-    right: 24px;
-}
-
-#msg-block hr {
-    border-bottom: 1px dashed #222;
-}
-
-/* всплывающая подсказка над чатом */
-.tooltip{
-    z-index: 100001 !important;
-}
-
-.tooltip-inner{
-    font-size: 18px;
-    color: #222;
-    font-weight: bold;
-    letter-spacing: 1px;
-    background-color: #fff !important;
-    border: 1px solid #222;
-    box-shadow: 0 0 8px inset var(--logo-color);
-}
 
 .arrow::before{
     border-top-color: #222 !important;
@@ -2348,7 +2136,7 @@ abbr{
     width: 20px;
     height: 40px;
     line-height: 40px;
-    color: #666;
+    /*color: #666;*/
     display: inline-block;
 }
 
@@ -2438,4 +2226,20 @@ abbr{
     width: 50px;
     height: 50px;
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" id="mdi-react" viewBox="0 0 24 24"><path d="M12,10.11C13.03,10.11 13.87,10.95 13.87,12C13.87,13 13.03,13.85 12,13.85C10.97,13.85 10.13,13 10.13,12C10.13,10.95 10.97,10.11 12,10.11M7.37,20C8,20.38 9.38,19.8 10.97,18.3C10.45,17.71 9.94,17.07 9.46,16.4C8.64,16.32 7.83,16.2 7.06,16.04C6.55,18.18 6.74,19.65 7.37,20M8.08,14.26L7.79,13.75C7.68,14.04 7.57,14.33 7.5,14.61C7.77,14.67 8.07,14.72 8.38,14.77C8.28,14.6 8.18,14.43 8.08,14.26M14.62,13.5L15.43,12L14.62,10.5C14.32,9.97 14,9.5 13.71,9.03C13.17,9 12.6,9 12,9C11.4,9 10.83,9 10.29,9.03C10,9.5 9.68,9.97 9.38,10.5L8.57,12L9.38,13.5C9.68,14.03 10,14.5 10.29,14.97C10.83,15 11.4,15 12,15C12.6,15 13.17,15 13.71,14.97C14,14.5 14.32,14.03 14.62,13.5M12,6.78C11.81,7 11.61,7.23 11.41,7.5C11.61,7.5 11.8,7.5 12,7.5C12.2,7.5 12.39,7.5 12.59,7.5C12.39,7.23 12.19,7 12,6.78M12,17.22C12.19,17 12.39,16.77 12.59,16.5C12.39,16.5 12.2,16.5 12,16.5C11.8,16.5 11.61,16.5 11.41,16.5C11.61,16.77 11.81,17 12,17.22M16.62,4C16,3.62 14.62,4.2 13.03,5.7C13.55,6.29 14.06,6.93 14.54,7.6C15.36,7.68 16.17,7.8 16.94,7.96C17.45,5.82 17.26,4.35 16.62,4M15.92,9.74L16.21,10.25C16.32,9.96 16.43,9.67 16.5,9.39C16.23,9.33 15.93,9.28 15.62,9.23C15.72,9.4 15.82,9.57 15.92,9.74M17.37,2.69C18.84,3.53 19,5.74 18.38,8.32C20.92,9.07 22.75,10.31 22.75,12C22.75,13.69 20.92,14.93 18.38,15.68C19,18.26 18.84,20.47 17.37,21.31C15.91,22.15 13.92,21.19 12,19.36C10.08,21.19 8.09,22.15 6.62,21.31C5.16,20.47 5,18.26 5.62,15.68C3.08,14.93 1.25,13.69 1.25,12C1.25,10.31 3.08,9.07 5.62,8.32C5,5.74 5.16,3.53 6.62,2.69C8.09,1.85 10.08,2.81 12,4.64C13.92,2.81 15.91,1.85 17.37,2.69M17.08,12C17.42,12.75 17.72,13.5 17.97,14.26C20.07,13.63 21.25,12.73 21.25,12C21.25,11.27 20.07,10.37 17.97,9.74C17.72,10.5 17.42,11.25 17.08,12M6.92,12C6.58,11.25 6.28,10.5 6.03,9.74C3.93,10.37 2.75,11.27 2.75,12C2.75,12.73 3.93,13.63 6.03,14.26C6.28,13.5 6.58,12.75 6.92,12M15.92,14.26C15.82,14.43 15.72,14.6 15.62,14.77C15.93,14.72 16.23,14.67 16.5,14.61C16.43,14.33 16.32,14.04 16.21,13.75L15.92,14.26M13.03,18.3C14.62,19.8 16,20.38 16.62,20C17.26,19.65 17.45,18.18 16.94,16.04C16.17,16.2 15.36,16.32 14.54,16.4C14.06,17.07 13.55,17.71 13.03,18.3M8.08,9.74C8.18,9.57 8.28,9.4 8.38,9.23C8.07,9.28 7.77,9.33 7.5,9.39C7.57,9.67 7.68,9.96 7.79,10.25L8.08,9.74M10.97,5.7C9.38,4.2 8,3.62 7.37,4C6.74,4.35 6.55,5.82 7.06,7.96C7.83,7.8 8.64,7.68 9.46,7.6C9.94,6.93 10.45,6.29 10.97,5.7Z" /></svg>');
+}
+/**/
+#tg-btn-outher{
+    display: none;
+    position: fixed;
+    z-index: 10000000000;
+    right: 3em;
+    /*bottom: 200px;*/
+    bottom: 3em;
+}
+.tg-btn {
+    width: 3em;
+    height: 3em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3c?xml version='1.0' ?%3e%3csvg style='enable-background:new 0 0 512 512;' version='1.1' viewBox='0 0 512 512' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cg id='_x33_35-telegram'%3e%3cg%3e%3cg%3e%3cpath d='M484.689,98.231l-69.417,327.37c-5.237,23.105-18.895,28.854-38.304,17.972L271.2,365.631 l-51.034,49.086c-5.646,5.647-10.371,10.372-21.256,10.372l7.598-107.722L402.539,140.23c8.523-7.598-1.848-11.809-13.247-4.21 L146.95,288.614L42.619,255.96c-22.694-7.086-23.104-22.695,4.723-33.579L455.423,65.166 C474.316,58.081,490.85,69.375,484.689,98.231z' style='fill:%2320A0E1;'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg id='Layer_1'/%3e%3c/svg%3e");
 }
