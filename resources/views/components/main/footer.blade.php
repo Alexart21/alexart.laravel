@@ -55,7 +55,7 @@
         <div class="d-flex justify-content-center user-block">
             &nbsp;
             <div><a href="/user/profile" title="личный кабинет">
-                    <img src="{{ $avatar }}" alt="" class="avatar rounded-circle img-thumbnail">
+                    <img loading="lazy" src="{{ $avatar }}" alt="" class="avatar rounded-circle img-thumbnail">
                 </a>
             </div>
             &nbsp;&nbsp;<div class="username"><a href="/user/profile" title="личный кабинет"

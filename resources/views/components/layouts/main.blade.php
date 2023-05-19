@@ -29,9 +29,11 @@
     @vite([
     'resources/css/app.css',
     'resources/css/bootstrap.min.css',
+//    'resources/css/cssused.css',
 //    'resources/css/animate.min.css',
     'resources/css/style.css',
     ])
+{{--    <link rel="stylesheet" href="{{ asset('css/style.css') }}">--}}
 <body>
 @auth()
     @if(!auth()->user()->email_verified_at)
@@ -91,20 +93,16 @@
 {{--<link class="lazy" rel="stylesheet" media="bla" href="{{ asset('css/animate.min.css') }}">--}}
 {{-- Отложенная загрузка скриптов и css --}}
 <script>
-    function loadScript(src, asyncMode = false,  callback) {
+    function loadScript(src, callback) {
         let script = document.createElement('script');
-        if(asyncMode === 'async'){
-            script.async = true;
-        } else if (asyncMode === 'defer'){
-            script.defer = true;
-        }
         script.src = src;
-        document.body.appendChild(script);
-        if (callback){
-            script.onload = ()=> {
+        if (callback && typeof callback === 'function'){
+            script.onload = () => {
                 callback();
             }
         }
+        script.onerror = () => {console.log(`Не удалось загрузить скрипт ${src}`)}
+        document.head.append(script);
     }
     function loadCss(src){
         let link = document.createElement( "link" );
@@ -120,18 +118,18 @@
                 // start
                 if(!event_status) {
                     console.log("отложенная загрузка js css");
-                    loadScript('/js/wow.min.js', 'async', ()=>{(function ($) {
+                    loadScript('/js/wow.min.js', ()=>{(function ($) {
                         new WOW().init();
                     })(jQuery);});
                     // здесь зависимые скрипты по загрузке первого коллбэк на загрузку второго
-                    loadScript('/js/velocity.min.js', 'async', () => {
+                    loadScript('/js/velocity.min.js', () => {
                         loadScript('/js/velocity.ui.min.js');
                     });
-                    loadScript('/js/jquery.toaster.js', 'async');
+                    loadScript('/js/jquery.toaster.js');
                     //css
                     loadCss('/css/animate.min.css');
                     //recapTcha
-                    loadScript("https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", 'async');
+                    loadScript("https://www.google.com/recaptcha/api.js?render=6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC");
                     // Telegram chat
                     if (!('ontouchstart' in window || navigator.maxTouchPoints)) { // для десктопов
                         console.log('desktop');
